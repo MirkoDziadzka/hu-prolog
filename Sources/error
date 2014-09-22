@@ -1,0 +1,28 @@
+:- ensure(append / 3).
+
+'[]'('[]').
+'.'(X.Y,X,Y).
+
+gethostname :-
+	system( [hostname,'>',tempfile] ),
+	system( [cp, tmp1 ,tempfile] ),
+	host := [],
+	seeing(Old),
+	see( tempfile ),
+	repeat,
+		get(X),
+		( X == -1
+		;
+		  L := host,
+		  append( L, [X], L1 ),
+		  host := L1,
+		  fail
+		),
+	!,
+	see(Old),
+	XL := host,
+	name( H, XL ),
+	host := `H.
+
+%:- gethostname.
+

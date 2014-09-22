@@ -1,0 +1,399 @@
+==================== arith.c ====================
+31c31
+< #define OPTIMIZE        1
+---
+> #define OPTIMIZE        0
+51a52,53
+> extern int check_is_on;
+> 
+318a321,323
+>     out(2,"[eval");
+> 
+>     out(2,"(1");  check0();out(2,")");
+321a327
+> 	out(2,"(2");  check0();out(2,")");
+326a333
+> 	out(2,"(3");  check0();out(2,")");
+340a348
+> 	out(2,"(4");  check0();out(2,")");
+343a352
+>         out(2,"(5");  check0();out(2,")");
+353c362
+<                 return;
+---
+>                 goto end;
+356a366
+>         out(2,"(6");  check0();out(2,")");
+357a368
+>         out(2,"(7");  check0();out(2,")");
+360a372,375
+> 
+>   end:;
+>       check0();
+>       out(2,"]\n");
+368a384,386
+>     TERM TT;
+> 
+> 
+394c412,417
+<     return mk2sons(name(CP),son(CP),GOTOT,new_calls);
+---
+>     check0();
+>     out(2,"+++");
+>     TT =  mk2sons(name(CP),son(CP),GOTOT,new_calls);
+>     check0();
+>     out(2,"]");
+>     return TT;
+519a543,546
+>     boolean Result;
+> 
+>     static int counter = 0;
+>     ++counter;
+520a548,549
+>     out(2,"[enter DODASS:");out(2,itoa(counter));
+> 
+522c551,556
+<         return UNI(A0,A1);
+---
+>     {
+>         Result =  UNI(A0,A1);
+> 	goto end;
+>     }
+> 
+>     out(2,"(1") ; check0() ; out(2,")");
+527a562
+>     out(2,"(2") ; check0() ; out(2,")");
+534a570
+>     out(2,"(3") ; check0() ; out(2,")");
+538a575,589
+> 	    else if(name(T) == UNBOUNDT)
+> 	    {
+> 		/* fehlerhafte Optimierung - geht nur bei ground 
+> 		   Das Problem besteht darin, dass Aufrufe der Form
+> 
+> 		   $dass(A,B), wo A UND B Variablen enthalten
+> 
+> 		   IMMER falsch realisiert werden.
+> 		*/
+> 
+> 		name(T) = SKELT;
+> 		offset(T) = 0;
+> 		if(nvars(CL) == 0)
+> 		    setnvars(CL,1);
+> 	    }
+543a595
+>     out(2,"(5") ; check0() ; out(2,")");
+548c600,601
+< 	    return true;
+---
+> 	    Result = true;
+> 	    goto end;
+549a603
+>     out(2,"(7") ; check0() ; out(2,")");
+560c614,619
+<     return true;
+---
+>     Result = true;
+>     out(2,"(8") ; check0() ; out(2,")");
+>   end:;
+>     out(2,"(9") ; check0() ; out(2,")");
+>     out(2,"]\n");
+>     return Result;
+==================== atoms.c ====================
+==================== charcl.c ====================
+==================== curses.c ====================
+==================== datab.c ====================
+244a245,248
+>     static int counter = 0;
+>     counter ++;
+> 
+> 
+386d389
+<     A=name(head(CL)); 
+387a391
+>     A=name(head(CL)); 
+440c444
+<     if((system(A) && !aSYSMODE) || class(A)!=NORMP) 
+---
+>     if (system(A)) 
+442,443d445
+<     if( A == REPEAT_0 )
+< 	return;
+485c487
+<         if((system(A) && !aSYSMODE) || class(A)!=NORMP) 
+---
+>         if(system(A))
+517c519
+<     if((system(A) && !aSYSMODE) || class(A)!=NORMP) 
+---
+>     if(system(A) || class(A) != NORMP)
+519,520d520
+<     if( A == REPEAT_0 )
+< 	return;
+==================== eval.c ====================
+==================== exec.c ====================
+19a20
+> extern int check_is_on;
+26c27
+< #define INDEXING 1
+---
+> #define INDEXING 0
+66a68,94
+> 
+>     {
+> 	TERM oldBE;
+> 	ENV oldE;
+> 	static int counter = 0;
+> 
+> 	++counter;
+> 
+> 	oldBE = BE;
+> 	oldE = E;
+> 
+> 	E=CALLENV;
+> 	BE = base(E);
+> 
+> 	if (check_is_on)
+> 	{
+> 	    WRITEOUT(CALLP);
+> 	    out(1,"((");out(1,itoa(counter));check0();out(1,"))\n");
+> 	    /* ws("\n"); */
+> 	}
+> 
+> 	if(check_is_on) { out(2,"[(QUICKC)"); check0() ; out(2,"]\n"); }
+> 	
+> 	BE = oldBE;
+> 	E = oldE;
+> 
+>     }
+69a98
+> 	if(check_is_on) { out(2,"[(NORMP)"); check0() ; out(2,"]\n"); }
+125a155
+> 	if(check_is_on) { out(2,"[(CUTP)"); check0() ; out(2,"]\n"); }
+142a173,176
+> 
+> 
+> 	if(check_is_on) { out(2,"[(ARITHP)"); check0() ; out(2,"]\n"); }
+> 
+143a178
+> 
+149a185
+> 	if(check_is_on) { out(2,"[(EVALP)"); check0() ; out(2,"]\n"); }
+157a194
+> 	if(check_is_on) { out(2,"[(VARP)"); check0() ; out(2,"]\n"); }
+250a288
+>     if(check_is_on) { out(2,"[(PROCQ)"); check0() ; out(2,"]\n"); }
+334a373
+> 	if(check_is_on) { out(2,"[(checkunify1)"); check0() ; out(2,"]\n"); }
+335a375,384
+> 	if(check_is_on) { out(2,"[(checkunify2)"); check0() ; out(2,"]\n"); }
+> 	    if(check_is_on)
+> 	    {
+> 		out(2,"ARITY = ") ; out(2,itoa(ARITY)) ; 
+> 		out(2,"\nCALLP = ") ; out(2, itoa(CALLP - MIN_TERM));
+> 		out(2,"\nCALLENV = ") ; out(2, itoa(CALLENV - MIN_ENV));
+> 		out(2,"\nhead(CP) = ") ; out(2, itoa(head(CP) - MIN_TERM));
+> 		out(2,"\nENVP = ") ; out(2, itoa(ENVP - MIN_ENV));
+> 		out(2,"\n");
+> 	    }
+338a388
+> 	if(check_is_on) { out(2,"[(checkunify3)"); check0() ; out(2,"]\n"); }
+354a405,406
+>     if(check_is_on) { out(2,"[(UNIFIED)"); check0() ; out(2,"]\n"); }
+> 
+370a423
+>     if(check_is_on) { out(2,"[(RETURNQ)"); check0() ; out(2,"]\n"); }
+385a439
+>     if(check_is_on) { out(2,"[(FAILQ)"); check0() ; out(2,"]\n"); }
+==================== help.c ====================
+==================== io.c ====================
+==================== mem_as.c ====================
+==================== mem_et.c ====================
+==================== mem_t1.c ====================
+==================== mem_t2.c ====================
+==================== memory.c ====================
+==================== misc.c ====================
+==================== mkatoms.c ====================
+==================== mkheader.c ====================
+==================== mkmagic.c ====================
+==================== mkversion.c ====================
+==================== mylib.c ====================
+==================== prolog.c ====================
+286a287,288
+>     extern int check_is_on;
+>     out(2,"(TOPLEVEL starts") ; check0() ; out(2,")");
+==================== qexec.c ====================
+==================== quni.c ====================
+==================== read.c ====================
+==================== sys.c ====================
+==================== termio.c ====================
+==================== termios.c ====================
+==================== tty.c ====================
+==================== types.c ====================
+319a320,321
+> 
+> 
+323a326
+>     check0();
+345a349,351
+>     /* @@@@@@@@@@@@@@@@@@@@@@ */
+>     static int counter = 0;
+>     ++counter;
+350a357,377
+> 
+>     if(!is_heap_term(T))
+>     {
+> 	out(2,"freeblockerror");
+> 	out(2,itoa(counter));
+> 	out(2,"/");
+> 	out(2,itoa(T - MIN_TERM));
+> 	abort();
+>     }
+> 
+>     /*
+>     {
+> 	int i;
+> 	TERM TT;
+> 	for(TT = T , i = 0 ; i < N ; ++i , TT = br(TT))
+> 	{
+> 	    name(TT) = NIL_ATOM;
+> 	    son(TT) = NIL_TERM;
+> 	}
+>     }
+>     */
+419a447,448
+> 
+> 
+464a494
+> 
+582a613
+>     {
+583a615
+>     }
+1036a1069,1169
+> int check_is_on = 0;
+> int check_heaplist()
+> {
+>     int i;
+>     TERM T;
+>     out(2,"[");
+>     for(i = 0 ; i <= MAXARITY ; ++i)
+>     {
+> 	if(check_is_on)
+> 	{ out(2,"\n((") ; out(2,itoa(i));out(2,")");}
+> 	T = freelist[i];
+> 	while(T != NIL_TERM)
+> 	{
+> 	    if(check_is_on)
+> 	    { out(2,"("); out(2, itoa(T - MIN_TERM)) ; out(2,")");}
+> 	    T = son(T);
+> 	}
+>     }
+>     out(2,"]\n");
+> }
+> 
+> boolean check_for_heap_term(T)
+>    TERM T;
+> {
+>     int ar,i;
+> 
+>     if(T == NIL_TERM)
+> 	return true;
+> 
+>     if(!is_heap_term(T))
+>     {
+> 	return false;
+>     }
+>     if(norm_atom(name(T)))
+>     {
+>       for(i = 0 , ar = arity(name(T)) , T = son(T) ; i < ar ; ++i , T = br(T))
+>       {
+> 	  if(check_for_heap_term(T) == false)
+> 	      return false;
+>       }
+>     }
+>     else if(name(T) == VART || name(T) == UNBOUNDT)
+> 	return false;
+>     return true;
+> }
+> 
+> int check0()
+> {
+>     int i;
+>     TERM T;
+>     ATOM A;
+>     static int counter = 0;
+> 
+>     if(check_is_on == 0)
+> 	return;
+>     /* check freelist */
+> 
+>     ++counter;
+>     for(i = 0 ; i <= MAXARITY ; ++i)
+>     {
+> 	T = freelist[i];
+> 	while(T != NIL_TERM)
+> 	{
+> 	    if(!is_heap_term(T))
+> 	    {
+> 		out(2,"---ERROR---");
+> 		abort();
+> 	    }
+> 	    T = son(T);
+> 	}
+>     }
+> 
+>     for(A = GetAtom(NIL_ATOM) ; A != NIL_ATOM ; A = GetAtom(A))
+>     {
+> 	CLAUSE CL;
+> 
+> 	if(norm_atom(A) && clause(A) != NIL_CLAUSE)
+> 	{
+> 	    if(system(A))
+> 		continue;
+> 	    for(CL = clause(A) ; CL != NIL_CLAUSE ; CL = nextcl(CL))
+> 	    {
+> 		if(check_for_heap_term(head(CL)) == false ||
+> 		check_for_heap_term(body(CL)) == false)
+> 		{
+> 		    out(2,"bad-clause(");
+> 		    out(2,tempstring(atomstring(A)));
+> 		    out(2," / ");
+> 		    out(2,itoa(arity(A)));
+> 		    out(2,")\n");
+> 		    abort();
+> 
+> 		}
+> 
+> 	    }
+> 	}
+>     }
+>     if((counter % 100) == 0)
+> 	out(1,".");
+> 
+> }
+==================== uni.c ====================
+==================== user.c ====================
+==================== win.c ====================
+==================== write.c ====================
+370a371
+>     /* @@@@@@@@@@@ 
+372a374
+>     */
+==================== charcl.h ====================
+==================== config.h ====================
+46c46
+< #define HIGHER_ORDER	1
+---
+> #define HIGHER_ORDER	0
+108a109,110
+> 
+> #	define QUICK_BUT_DIRTY 0
+==================== emu-termios.h ====================
+==================== extern.h ====================
+==================== files.h ====================
+==================== help.h ====================
+==================== memory.h ====================
+==================== misc.h ====================
+==================== types.h ====================
+==================== window.h ====================

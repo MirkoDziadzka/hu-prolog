@@ -1,0 +1,6 @@
+
+map( _ , [], [] ).
+map( Relation, [Head | Tail] , [RHead | RTail]) :-
+    Relation(Head,RHead),
+    map( Relation , Tail, RTail).
+

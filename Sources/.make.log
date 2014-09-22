@@ -1,0 +1,7 @@
+	rm -f *.o core prolog 
+	rm -f lint.out *.ln *.lint *.tmp
+	rm -f mkheader change_head header.txt
+	rm -f mkversion mkatoms mkmagic
+	rm -f version.c atoms.h paths.h MAGIC cflags.log
+	rm -f OLD.TAR hu-prolog.tar
+	rm -f prolog.shar*

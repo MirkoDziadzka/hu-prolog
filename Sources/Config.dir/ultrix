@@ -1,0 +1,52 @@
+### Configuration for a generic HU-Prolog
+
+### SYSTEM should be BSD or SYSV
+SYSTEM=BSD
+
+### the name of the Bourne-Shell
+SHELL=/bin/sh
+
+### TERMIO should be 'termio' or 'termios'
+### termios is the POSIX version
+TERMINAL=termios
+
+### the C-Compiler
+CC=gcc -ansi
+
+### C-Flags
+CFLAGS=-O
+
+### Libraries (mathlib and termcap/termlib/curses expected)
+LIBS=-lm -ltermlib
+
+### where HU-PROLOG should be installed
+BINDIR=/usr/local/bin
+
+### where the libaries should go
+LIBDIR=/usr/local/lib
+
+### where the M#manual should go
+MANDIR=/usr/local/man/man1
+
+### the name of the executable
+HU_PROLOG=prolog
+
+### the name of the online help libary
+PROLOG_HELP=prolog.hlp
+
+### the name of the manual
+PROLOG_MAN=prolog.1
+
+### How to format the manual pages
+MANROFF=groff -man -Tascii
+
+### the name of *this* Makefile
+MAKEFILE=Makefile
+
+STDPLGRC=\"$(LIBDIR)/huprolog/prologrc\"
+STDHELP=\"$(LIBDIR)/$(PROLOG_HELP)\"
+
+INSTALL=cp
+INSTALL_EXEC=$(INSTALL)
+INSTALL_DATA=$(INSTALL)
+

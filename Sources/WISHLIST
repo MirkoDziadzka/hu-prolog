@@ -1,0 +1,15 @@
+- $dass/2 auch mit zwei nicht-gound-termen aufruefen koennen
+- save/1 auch unter MSDOS selbststartend
+- Anschluss an X
+- ordentliches Modulkonzept
+- Dokumentation/Online Help
+  Kurzbeschreibung fuer jedes Praedikat hart einbrennen
+- IO Objektorientiert
+- Datentyp STRING
+- Prolog bezueglich char <==> unsigned char sauber machen.
+  Alle Zugriffe auf CHARCLASS sauber
+- ancestors stuerzt manchmal ab ???
+- CATCH_ERROR wieder als Funktion mit den
+  Argumenten int CATCH_ERROR( void * () );
+- termios emulation in eigene Files
+- IO auf curses umstellen

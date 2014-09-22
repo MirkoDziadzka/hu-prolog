@@ -1,0 +1,274 @@
+#2.29# Thu Mar 16 13:28:59 MET 1995
+
+- Fehler in ltoa rausgenommen. Jetzt wird unsigned long anstelle
+  von long verwendet, dadruch kann auch minint ausgegeben werden.
+
+- $getpid/1 in user.c ergaenzt.
+
+- gotoxy erweitert. beim windowsystem kann man jetzt die aktuelle
+  Cursorposition abfragen. 
+
+
+#2.28# Tue Sep 7 20:54:37 MET DST 1993
+
+- Fehler:
+	?- t := a.
+	?- t := b.
+	?- t(X).
+	X=X
+  in DODASS() behoben. Ein name(A1) wird mit copyatom in den
+  Heap kopiert.
+
+#2.27# Fri Jun 4 23:32:04 GMT 1993
+
+- #define POSIX zusaetzlich zu SYSV und BSD eingefuehrt. 
+  Zur Bestimmung von HZ wird jetzt sysconf() benutzt.
+
+- Die Benutzung der Environmentvariable HUPROLOG ist
+  zur Compile-Zeit mit USE_HUPROLOG_ENV_VAR steuerbar.
+  Standardwert ist 1
+
+#2.26# Thu May 6 16:09:21 MESZ 1993
+
+- writeq/display quotet '.' bei der Ausgabe.
+
+#2.25# Wed Feb 3 11:26:23 MEZ 1993
+
+- Wenn eine Datei mit #! beginnt, so wird von READIN die
+  erste Zeile ignoriert.
+
+#2.24# Thu Nov 12 20:01:50 MEZ 1992
+
+- Fehler in arith.c / DODASS behoben
+  Dieser Fehler fuehrte zu einer inkonsistenten
+  Datanbasis (UNBOUNDT im HEAP), wenn $dass/2 sowohl im 
+  ersten als auch im zweiten Argument freie Variablen enthaelt.
+
+  BEMERKUNG: Die Benutzung von $dass/2 (resp. :=/2) fuehrt
+  weiterhin zu unerwarteten Resultaten, wenn nicht eines der
+  Argumente ein ground-term ist.
+
+  In diesem Fall wird eine Warnung generiert.
+
+#2.23# Tue Oct 20 21:09:15 MEZ 1992
+
+- Compileroption NEW_WINDOWS und Funktion DOWINDOWS/io.c
+  eingef"uhrt. Damit l"a"st sich das Windowsystem auch "uber
+  das Pr"adikat $$window/0 initialisieren.
+  Mu"s noch ausf"uhrlich getestet werden.
+
+- Fehler in ABORT behoben. Dort wurde ABORT_WRITE evt. mit
+  einem Term aus einem nicht aktuellen Environment aufgerufen.
+
+- ocheck/1 in occur_check/1 umbenannt.
+
+- Beim Starten des Systems wird die Environmentvariable
+  HUPROLOG vor den eigentlichen Kommandozeilenoptionen
+  interpretiert.
+  Beispiel:
+	setenv HUPROLOG "-L logfile -s /dev/null"
+
+#2.22# Wed Mar 18 20:47:41 MET 1992
+
+- Fehler in write.c/TRACE behoben. Wenn das Trace-file nicht
+  eroeffnet werden konnte, stuerzte das System ab :(
+
+- $macro/2 eigefuehrt. Jeder gelesene Term wird rekursiv
+  gegen die ersten Argumente der Klausel $macro/2 unifiziert.
+  Wenn die Unifizierung erfolgreich war, so wird er durch
+  das zweite Argument von $macro/2 ersetzt.
+      $macro(A+B,add(A,B)).
+      $macro(X is Y , X := Y).
+      $macro(quit,halt).
+
+-Fehler bei der Behandlung von Zeichen > 127 behoben.
+ (Konvertierung auf (unsigned char) in atoms/LISTREP)
+
+#2.21# Wed Feb 19 11:46:06 MET 1992
+
+- Bei __TURBOC__ Pruefung auf richtiges Speichermodell
+  reingebaut.
+- access() auch fuer nicht UNIX-Systeme benutzt
+- Fehler in spy(Name / Arity) behoben.
+- lint it up
+- CPP-Option NO_TRACE, Damit werden keine Trace-Aufrufe generiert, 
+  und das ganze wird etwas schneller.
+- write.c(TRACE) modifiziert. Jetzt werden auch gebundene
+  Variablen mitgespyt. Zahlen auch.
+
+#2.20# Sat Feb 08 16:30:54 MET 1992
+
+- Ich habe aus ``win.c '' das File ``tty.c'' abgespalten.
+- Dieses enthaelt die Funktionen t_init() und t_exit().
+- _(a) geht jetzt auch.
+- Fehler im Zusammenhang mit HIGHER_ORDER entfernt.
+  INDEXING musste korrigiert werden.
+  Danach: nrev nur noch halb so schnell :-((
+  Also, alles umgestrickt, Jetzt gibt es Klasse VARCP
+  (statt NORMP). Eigentlich hatte ich ja ein Bit im ATOM
+  nehmen wollen, aber es war keins mehr da.
+  Resultat: 5070 statt 5180 LIPS :-((
+  Damit kann man Leben, wenn man Higher_Order will :-)
+
+#2.19# Thu Jan 23 17:11:38 MET 1992
+
+- Macro HIGHER_ORDER eingefuehrt. Bei Definition auf 1
+  wird Code generiert, der gewisse ``higher order''
+  Moeglichkeiten erlaubt. (Bitte nicht zu ernst nehmen)
+  Moeglich ist:
+		... , X(a), ...
+  geworden. Dies wird intern nach 
+      var_call(X,a)
+  umgesetzt. Es muss noch ``=../2'' modifiziert werden.
+  (evt. auch ``functor/3'')
+
+#2.18# Sat Jan 18 15:44:46 MET 1992
+
+- Neues Online Help eingebaut. Die Texte sind noch nicht
+  ganz up-to-date.
+
+#2.17# Mon Nov 25 18:39:58 MET 1991
+
+- Altes Help wieder eingebaut. Die Helptexte sind zwar
+  hoffnugslos veraltert, aber wenn die Nutzer es wuenschen ...
+  Diese Option wird durch HELP=1 in config.h geschaltet.
+- Speziell fuer NILS das Praedikat $error_string/2 in
+  user.c aufgenommen. Dafuer auch io.c geaendert.
+- ABORT(CALLE) in (q)exec.c durch Sprung nach ON_ERROR
+  ersetzt. Damit kann dieser Fehler nun auch abgefangen
+  werden.
+
+#2.16# Fri Nov 15 20:50:13 MET 1991
+
+- in ``sys.c'' im MS-DOS Fall ``true'' und ``false''
+  entfernt.
+- Interrupt wirkt jetzt auch waehrend eines consult/1.
+
+#2.15# Sun Nov 03 18:19:38 MET 1991
+
+- in user.c $linenumber/1 und isatty/1 implementiert
+- Durch ensure/3 oder im .prologrc definierte Pradikate
+  werden bei listing/{0,1} uebergangen.
+  (wird evt. noch geaendert)
+- system/1 setzt bei angeschalteten Windows der Terminalmode
+  zurueck.
+- Wenn STDPLGRC beim compilieren definiert ist, so wird
+  dieses File noch vor .prologrc eingelesen
+- current_predicate/1 reagiert jetzt richtig auf system() und
+  (BT)EVALP- Praedikate.
+
+#2.14# Mon Sep 16 15:49:05 MET 1991
+
+- warn/1 wurde stark erweitert. Damit koennen jetzt Warnungen
+  selektiv geschaltet werden.
+  Als Argument sind zulaessig: 
+      - on/0 - Alle Warnungen an
+      - off/0 - Alle Warnungen aus
+      - Eine Liste der Atome op/0, retract/0, consult/0, 
+	listing/0, spy/0 und read/0. Damit werden die von
+	den zugehoerigen Praedikaten erzeugten Warnungen
+	angeschaltet. Alle nicht in der List angegebenen
+	Warnungen werden abgeschaltet.
+      - Eine Variable. Als Resultat wird diese Variable
+	mit der Liste aller zur Zeit aktiven WARNINGS
+	unifiziert.
+  Die Warnung "unknown relation ... failed" in EXECUTE() 
+  ist nicht schaltbar, da sie mit unknown/1 abfangbar ist.
+- || ist jetzt regulaerer Name fuer ein Atom (fuer Phi)
+
+#2.13# Tue Sep 10 15:46:38 MET 1991
+
+- CATCH_ERROR() fuehrte zu Fehlern, da es als Funktion vereinbart war.
+  Definition als Makro beseitigte die Probleme.
+  SAVE_ERROR() und RESTORE_ERROR() eingefuehrt.
+- Praeprozessorkonstante EXTENDED_ASCII eigefuehrt. Damit ist
+  der 8-Bit ASCII-Code zulaessig.
+- Praedikat abort/2 eigefuehrt. Argumente wie bei error/2.
+  Sinnvoll in eigener Error-Behandlung, um den Fehler doch noch
+  auszuloesen.
+
+#2.12# Fri Sep  6 00:30:21 MET 1991
+
+- In Windowdefinitionen ist als Parameter im 6 Argument
+  paging/0 zugelassen. 
+  Das Window realisiert dann ein Paging, kein Scrolling. 
+  Damit entfaellt das "press any key to continue" in ABORT().
+  (Errorwindow auf Paging hat denselben Effekt)
+- in io.c: void START_WARNING(void) und 
+	   void END_WARNING(void) zur Kapselung der
+  Ausgabe von Warnings. Diese werden auf stdwarn/0 ausgegeben.
+  stdwarn/0 ist standardmaessig auf stdout/0 gelegt. --
+  auch wenn stdout/0 umdefiniert wird.
+
+#2.11# Mon Sep 2 18:31:41 MET 1991
+
+- Fehler in DOCONSULT() behoben. Im Feherfall
+  ( ERROR() waehrend READIN() ) wird jetzt der
+  CHOICEPOINT wieder restauriert.
+- CATCH_ERROR() als Kapselung fuer setjmp()
+
+#2.10# Fri Aug 30 19:37:50 MET 1991
+
+- Datentyp String eingefuehrt,
+ wird durch STRINGS_AS_INT_LISTS == 0 generiert.
+ "": string  und @ : (int * string) => string
+ muss noch bereinigt werden.
+
+#2.9# Wed Aug 14 19:50:30 MET 1991
+
+- Kleinere Aenderungen fuer MSDOS
+- Fehler in (atoms.c) HIDE behoben
+
+#2.8# Thu Aug 8 13:47:59 MET 1991
+
+- ``MAGIC'' eingefuehrt
+
+#2.7# Tue Aug 6 18:15:48 MET 1991
+
+- Version 1.3(7) nach 2.7 umbenannt, keine Konfusion mit altem  
+  Prolog mehr.
+
+-retractall/1 als NORMP definiert und in datab.c aufgenommen.
+
+#1.3(7)# Tue Aug  6 15:14:31 MET 1991
+
+-``Makefile'' und ``mkversion.c'' auf RELEASE & PATCHLEVEL
+  geaendert
+-Datentyp ``file'' geaendert. Dabei Fehler in DOSEEK behoben.
+ (Auswirkung bei seek(_,end))
+
+#1.3(6)# Mon Jul 22 17:46:14 MET 1991
+
+-bei restore/1 vor dem Aufruf von exec(2) der Bildschirmmodus
+ rueckgesetzt.
+
+#1.3(5)# Sat Jul 13 22:41:23 MET 1991
+
+-w_scr_refresh() ueberarbeitet
+- nrev - Benchmark auf 100 Elementige Listen umgestellt
+-save/1 erzeugt jetzt ein File im Bourne Shell Format, welches
+ "prolog -r $0 $@ ; exit $?" enthaelt
+
+#1.3(4)# Fri Jul 12 22:24:33 MET 1991
+
+-Wenn MSDOS == 1 wird CLK_TCK statt HZ genutzt
+-win.c von <sgtty.h> auf <termio.h> umgstellt
+-$lines/1 und $columns/1 eingefuehrt, Groesse des benutzten
+ Bildschirms.
+-Fehler in Open_File entfernt (IO-Buffer ruecksetzen)
+
+#1.3(3)# Tue Jul  2 14:53:19 MET 1991
+
+-Fehler in DOCONSULT entfernt (CHOICEPOINT zuruecksetezen)
+
+#1.3(2)# Sat Jun 29 21:48:31 MET 1991
+
+- Makro PROTOTYPE(Definition , Arguments) eingefuehrt
+- systems.h nach config.h umbenannt
+- Die Environmentvariablen HZ, LINES und COLUMNS werden,
+  wenn vorhanden, benutzt
+- cls(), gotoxy() und Windows nutzen die termcap(3)-Funktionen
+- (Heap liegt jetzt unten !)
+  Dafuer musste der Termspeicher bereinigt werden.
+
+#1.3(1)# HU-Prolog Public Domain Version 1.3

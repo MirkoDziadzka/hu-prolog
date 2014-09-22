@@ -1,0 +1,132 @@
+
+
+
+prolog(1)                                               prolog(1)
+
+
+NNAAMMEE
+       prolog - Ein Prolog Interpreter (was sonst ?)
+
+SSYYNNOOPPSSIISS
+       pprroolloogg [--xxoowwvv] [--ss iinniitt] [--llLL lloogg]] [--rr ccoorree]] [ffiillee]...
+
+BBEESSCCHHRREEIIBBUUNNGG
+       _p_r_o_l_o_g  ist  der  portable Prolog Interpreter HU-Prolog in
+       der Version  2.025  vom  Maerz  1993.  Fuer  weitergehende
+       Informationen ueber HU-Prolog benutze man bitte das Online
+       Hilfssystem. Dieses erreicht  man  vom  Prolog  Top  Level
+       Prompt mit Hilfe des Praedikates _h_e_l_p_/_0_.
+
+       HU-Prolog kennt folgende Kommandozeilenargumente:
+
+              --ll ffiilleennaammee
+                     setzt  den  Namen des ``Logfiles'' auf ffiillee--
+                     nnaammee
+
+              --LL ffiilleennaammee
+                     setzt den Namen des ``Logfiles''  auf  ffiillee--
+                     nnaammee und setzt das Log-Flag auf _o_n
+
+              --oo     schaltet den Occur Check an
+
+              --rr ffiilleennaammee
+                     laedt  einen mit _s_a_v_e_/_1 erstellten Speicher-
+                     abzug. Alle anderen Optionen werden  ignori-
+                     ert.
+
+              --ss ffiilleennaammee
+                     setzt den Namen des ``Lokalen System-Files''
+                     auf ffiilleennaammee..  Normalerweise wird  _._p_r_o_l_o_g_r_c
+                     oder _~_/_._p_r_o_l_o_g_r_c verwendet.
+
+              --SS ffiilleennaammee
+                     Analog zu --ss - verhindert aber das Laden des
+                     Globalen Systemfiles
+
+              --vv     unterdrueckt bestimmte Standardausgaben  des
+                     Systems   (Copyright,   Prompt,   ...)   und
+                     erlaubt damit die Benutzung von HU-Prolog in
+                     Pipes.
+
+              --ww     setzt das ``Warn-Flag'' auf _o_n
+
+              --xx     initialisiert   das  Window-System  von  HU-
+                     Prolog.
+
+              ffiilleennaammee
+                     jedes weitere  Argument  wird  als  Filename
+                     interpretiert und mit _c_o_n_s_u_l_t_/_1 geladen.
+
+
+
+
+
+                                                                1
+
+
+
+
+
+prolog(1)                                               prolog(1)
+
+
+EENNVVIIRROONNMMEENNTT
+       HU-Prolog wertet folgende Environmentvariablen aus:
+
+       TTEERRMM   -  wird zur Bestimmung der Terminaltypes verwendet.
+
+       HHOOMMEE   - das Heimatverzeichnis des Nutzers. Hier wird  die
+              Datei   _._p_r_o_l_o_g_r_c   gesucht,   wenn  sie  nicht  im
+              aktuellen Verzeichnis gefunden wird.
+
+       HHUUPPRROOLLOOGG
+              Hier koennen Kommandozeilenargumente  standardmaes-
+              sig gesetzt werden.  Diese werden vor allen anderen
+              ausgewertet.
+
+       HHUUPP__HHEELLPPLLIIBB
+              Wenn diese Variable gesetzt ist,  wird  ihr  Inhalt
+              als Name des Online Help Files interpretiert.
+
+FFIILLEESS
+       _/_u_s_r_/_l_o_c_a_l_/_b_i_n_/_p_r_o_l_o_g - der Prolog Interpreter
+       _/_u_s_r_/_l_o_c_a_l_/_l_i_b_/_p_r_o_l_o_g_._h_l_p   -   die  Datenbasis  fuer  das
+       Online-Help System von HU-Prolog
+       _/_u_s_r_/_l_o_c_a_l_/_l_i_b_/_h_u_p_r_o_l_o_g_/_p_r_o_l_o_g_r_c - Globales System-File  -
+       wird beim Starten des Systems geladen
+       _._p_r_o_l_o_g_r_c  bzw.   _~_/_._p_r_o_l_o_g_r_c - Lokales System-File - wird
+       beim Starten des Systems geladen
+
+BBUUGGSS
+       HU-Prolog hat keine BUGS :-)
+
+AAUUTTHHOORR
+       HU-Prolog wurde an der Humboldt-Universitaet zu Berlin  in
+       den  Jahren 1997-89 von Christian Horn, Mirko Dziadzka und
+       Matthias Horn entwickelt.
+       1990 wurde fast das gesammte  System  von  Mirko  Dziadzka
+       (dziadzka@informatik.hu-berlin.de)  neu  implementiert und
+       seitdem staendig gewartet und weiterentwickelt.
+
+       _A_n_s_c_h_r_i_f_t_:
+              Mirko Dziadzka
+              Humboldt-Universitaet zu Berlin
+              Fachbereich Informatik
+              Institut fuer Softwaretechnik
+
+       _e_m_a_i_l_: dziadzka@informatik.hu-berlin.de
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                2
+
+

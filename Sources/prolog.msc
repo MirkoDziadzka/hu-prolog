@@ -1,0 +1,86 @@
+#######################################################################
+#######################################################################
+##                                                                   ##
+##  HU-Prolog         Public Domain Version       Release 1.3        ##
+##                                                                   ##
+##  (C)opyright       Christian Horn, Mirko Dziadzka, Matthias Horn  ##
+##                                                                   ##
+##                                                                   ##
+##  HU-Prolog 1.3 can be copied, modified and distributed freely     ##
+##  for any non-commercial purposes under the conditions that all    ##
+##  files include this header and that the copyright notice          ##
+##  "(C)opyright by Christian Horn, Mirko Dziadzka, Matthias Horn"   ##
+##  will be displayed, when HU-Prolog is called.                     ##
+##                                                                   ##
+#######################################################################
+#######################################################################
+## For a quick version of HU-Prolog set `QUICK_BUT_DIRTY'in
+## `systems.h'to 1 and uncomment the following line
+#Q=q
+
+CFLAGS= /J /Oalt /W2 /AM /Aw /FPa /DMSC
+OCFLAGS= /J /Oalt /Gs /W2 /AM /Aw /FPa /DMSC
+HEADERS=atoms.h charcl.h extern.h files.h memory.h misc.h systems.h \
+        types.h window.h
+OBJECTS= arith.obj atoms.obj charcl.obj datab.obj eval.obj $(Q)exec.obj io.obj\
+	memory.obj misc.obj prolog.obj read.obj sys.obj types.obj $(Q)uni.obj\
+	user.obj version.obj win.obj write.obj
+
+arith.obj :	arith.c $(HEADERS)
+	cl /c $(CFLAGS) arith.c
+
+atoms.obj :	atoms.c $(HEADERS)
+	cl /c $(CFLAGS) atoms.c
+
+charcl.obj : charcl.c $(HEADERS)
+	cl /c $(CFLAGS) charcl.c
+
+datab.obj :	datab.c $(HEADERS)
+	cl /c $(CFLAGS) datab.c
+
+eval.obj :	eval.c $(HEADERS)
+	cl /c $(CFLAGS) eval.c
+
+$(Q)exec.obj :	$(Q)exec.c $(HEADERS)
+	cl /c $(OCFLAGS) $(Q)exec.c
+
+io.obj :	io.c $(HEADERS)
+	cl /c $(CFLAGS) io.c
+
+memory.obj :	memory.c $(HEADERS) mem_as.c mem_et.c mem_t1.c mem_t2.c
+	cl /c $(CFLAGS) memory.c
+
+misc.obj :	misc.c $(HEADERS)
+	cl /c $(CFLAGS) misc.c
+
+prolog.obj :	prolog.c $(HEADERS)
+	cl /c $(CFLAGS) prolog.c
+
+read.obj :	read.c $(HEADERS)
+	cl /c $(CFLAGS) read.c
+
+sys.obj :	sys.c $(HEADERS)
+	cl /c $(CFLAGS) sys.c
+
+types.obj :	types.c $(HEADERS)
+	cl /c $(OCFLAGS) types.c
+
+$(Q)uni.obj :	$(Q)uni.c $(HEADERS)
+	cl /c $(OCFLAGS) $(Q)uni.c
+
+user.obj :	user.c $(HEADERS)
+	cl /c $(CFLAGS) user.c
+
+version.obj :	version.c $(HEADERS)
+	cl /c $(CFLAGS) version.c
+
+win.obj :	win.c $(HEADERS)
+	cl /c $(CFLAGS) win.c
+
+write.obj :	write.c $(HEADERS)
+	cl /c $(CFLAGS) write.c
+
+prolog.exe :  $(OBJECTS)
+	link /E /M /F /PAC @$(Q)link.msc 
+	exemod prolog.exe /stack 3c00
+

@@ -1,0 +1,359 @@
+/**********************************************************************
+***********************************************************************
+**                                                                   **
+**  HU-Prolog         Public Domain Version       Release  2.029     **
+**                                                                   **
+**  Author(s): 87-89  Christian Horn, Mirko Dziadzka, Matthias Horn  **
+**             90-93  Mirko Dziadzka                                 **
+**                    Fachhoschule Furtwangen, Allgemeine Informatik **
+**                    email: dziadzka@ai-lab.fh-furtwangen.de        **
+**                                                                   **
+**  HU-Prolog 2.029 can be copied, modified and distributed freely   **
+**  for any non-commercial purposes under the conditions that all    **
+**  files include this header and that the message                   **
+**  "HU-Prolog public domain version" and the names of the authors   **
+**  will be displayed, when HU-Prolog is called.                     **
+**                                                                   **
+***********************************************************************
+**********************************************************************/
+
+
+#ifndef __ATOMS_H_INCLUDED__
+#define __ATOMS_H_INCLUDED__ 1
+
+#atom UNBOUNDT                               
+#atom VART                     
+#atom SKELT                    
+#atom INTT                       
+#atom GOTOT
+
+#atom FUNCNAME                
+/* regular atom */
+
+#if REALARITH
+#atom REALT                       
+#endif
+#if LONGARITH
+#atom LONGT                        
+#endif
+
+#atom NORMATOM                   
+
+/* I/O */
+#atom SEE_1                          
+#atom SEEING_1                    
+#atom SEEN_0                         
+#atom TELL_1                          
+#atom TELLING_1                     
+#atom TOLD_0                            
+#atom OPEN_1                             
+#atom CLOSE_1                            
+#atom SEEK_2                               
+
+#atom WRITE_1                              
+#atom WRITEQ_1                             
+#atom DISPLAY_1                           
+#atom GET0_1                      
+#atom UNGET_0                     
+#atom READ_0                        
+#atom READ_1                        
+#atom READ_2
+#atom GET_1                           
+#atom PUT_1                            
+#atom EOLN_0                           
+#atom EOF_0                              
+#atom NL_0                                 
+#atom TAB_1                                
+#atom SKIP_1                               
+#atom CLS_0                                  
+#atom GOTOXY_2                             
+#atom ASK_1                               
+
+#atom TTYGET_1                             
+#atom TTYGET0_1                          
+#atom TTYPUT_1                           
+#atom TTYREAD_1                        
+#atom TTYWRITE_1                   
+#atom TTYSKIP_1                      
+#atom TTYCLS_0                         
+#atom TTYGOTOXY_2                    
+#atom TTYNL_0                             
+#atom TTYTAB_1                            
+#atom TTYASK_1                             
+
+#atom T_LINES_1
+#atom T_COLUMNS_1
+#atom FNAME_2                               
+#atom FASSIGN_2                          
+#atom aWINDOW_0
+#atom ddINIT_W_0
+#atom WGET0_1
+
+#if WINDOWS
+#atom WINDOW_6                           
+#atom BLINK_0                
+#atom REVERSE_0              
+#atom BOLD_0                 
+#atom UNDER_0                
+#atom PAGING_0
+#endif
+
+
+/* flags */
+
+#if !NO_TRACE
+#atom TRACE_1                               
+#atom TRACE_0                              
+#atom NOTRACE_0                         
+#atom SPY_0                                
+#atom SPY_1                                
+#atom NOSPY_1                                
+#endif
+#atom ECHO_1                            
+#atom WARN_1                           
+#atom DEBUG_1                        
+#atom LOG_1                           
+#atom OCHECK_1                  
+#atom FILEE_1                   
+#atom SYSMODE_1
+#atom UUNIFY_1
+
+#atom ATOM_1                                 
+#atom INTEGER_1                          
+#atom NUMBER_1                           
+#atom ATOMIC_1                          
+#atom VAR_1                            
+#atom NONVAR_1                     
+#atom INVAR_1                      
+#atom GROUND_1                   
+#atom LIST_1
+#atom COMPOUND_1
+#atom STRING_1
+#atom CURATOM_1                      
+#atom CUROP_3                         
+#atom CURPRED_1
+#atom FUNCTOR_3                
+#atom ARG_3                       
+#atom NAME_2                    
+#atom UNIV_2                  
+
+#atom ASSERT_1                            
+#atom ASSERTA_1                         
+#atom ASSERTZ_1                        
+#atom RETRACT_1                   
+#atom RETRACT_0                   
+#atom RETALL_1                    
+#atom ABOL_1                    
+#atom ABOL_2                     
+#atom CLAUSE_2                  
+#atom CONSULT_1                 
+#atom CONSULT_0
+#atom RECONSULT_1              
+#atom LISTING_1                        
+#atom LISTING_0                         
+
+#atom OP_3                     
+#atom OP_0                     
+#atom CALL_1                  
+#atom CUT_0                     
+#atom dCUT_0
+#atom FAIL_0                    
+#atom TRUE_0                     
+#atom REPEAT_0                  
+#atom END_0                         
+#atom HALT_0                        
+#atom EXIT_1                         
+#atom ABORT_0                        
+#atom ABORT_2                        
+#atom RESTART_0                     
+#atom STATS_0                          
+#atom MAIN_0                             
+
+#if SAVE
+#atom SAVE_1                              
+#atom RESTORE_1
+#endif
+
+#atom IS_2                                  
+#atom ASSIGN_2                           
+#atom ASSIGN_0		/* for warn( ':=' ) */                          
+#atom LT_2                    
+#atom LE_2                     
+#atom GT_2                      
+#atom GE_2                       
+#atom EQ_2                        
+#atom NE_2                         
+#atom PLUS_2                          
+#atom MINUS_1                         
+#atom MINUS_2                          
+#atom TIMES_2                           
+#atom DIVIDE_2                          
+#atom MOD_2                                 
+
+#atom NIL_0                            
+#atom CONS_2                           
+#atom CURLY_0                      
+#atom CURLY_1                          
+#atom ARROW_2                           
+#atom ARROW_1                            
+#atom QUESTION_1                       
+#atom SEMI_2                  
+#atom COMMA_2                 
+#atom IMPL_2                    
+#atom NOT_1                       
+#atom NOT1_1                      
+#atom ISEQ_2                       
+#atom ISNEQ_2                      
+#atom EQUAL_2                       
+#atom NOEQUAL_2                    
+
+#atom TOP_0                             
+#atom LOGIN_0
+#atom LOGOUT_0
+#atom PROMPT_0
+#atom INTERRUPT_0                  
+#atom ERROR_2                           
+#atom UNKNOWN_1                         
+
+#atom STDIN_0                   
+#atom STDOUT_0                  
+#atom STDERR_0                   
+#atom STDWRN_0                   
+#if HELP
+#atom STDHELP_0
+#endif
+#atom STDTRACE_0
+#atom ON_0                            
+#atom OFF_0                           
+#atom ALL_0                            
+#atom USER_0                           
+#atom NULL_0
+#atom FX_0                                
+#atom FY_0                                 
+#atom XF_0                                  
+#atom YF_0                                   
+#atom XFX_0                        
+#atom XFY_0                         
+#atom YFX_0                          
+#atom CALL_0                         
+#atom PROVED_0                      
+#atom REDO_0                           
+#atom FAILED_0                        
+
+#atom DICT_1                               
+#atom SDICT_1                            
+#atom SYS_1                               
+
+/* arithmetic functions */
+#atom MAXINT_0                       
+#atom MININT_0                        
+#atom MAXAR_0
+#atom MAXDEP_0
+#atom LSHIFT_2                        
+#atom RSHIFT_2                         
+#atom BITAND_2                          
+#atom BITOR_2                             
+#atom BITNEG_1               
+#atom AND_2                      
+#atom OR_2                         
+#atom NEG_1                        
+#atom ENTIER_1                   
+#atom IDIV_2                        
+#atom ALT_2                           
+#atom ALE_2                            
+#atom AGT_2                             
+#atom AGE_2                              
+#atom AEQ_2                               
+#atom ANE_2                                
+#atom QUOTE_1                           
+#atom EVAL_1                              
+
+#if REALARITH
+#atom E_0                               
+#atom PI_0                              
+#atom REAL_1                             
+#atom EXP_1                                
+#atom LN_1                                   
+#atom LOG10_1               
+#atom SQRT_1                  
+#atom SIN_1                     
+#atom COS_1                      
+#atom TAN_1                       
+#atom ASIN_1                      
+#atom ACOS_1                       
+#atom ATAN_1                        
+#atom FLOOR_1                       
+#atom CEIL_1                          
+#atom POWER_2                         
+#endif 
+
+
+#atom EVALUATE_2                       
+#atom REDUCE_2                          
+#atom DASSIGN_2                       
+#atom ACOMP_1                          
+
+#atom ANCESTORS_1                     
+#atom PRIVATE_1              
+#atom HIDE_1                 
+#atom ENSURE_3                  
+#atom NL_2                                 
+#atom VERSION_0                        
+
+#atom ARGC_1
+#atom ARGV_2
+#atom OPSYS_1
+#atom TIMER_1                            
+
+#atom SYSTEM_1               
+#atom GETENV_2                   
+#atom PUTENV_2
+#atom TIME_3                                 
+#atom DATE_3                                
+#atom WEEKDAY_1                         
+
+#if HELP
+#atom HELP_0
+#atom HELP_1
+#endif
+
+#if DBASE3
+#atom OPENDBF_2             
+#atom CLOSEDBF_1            
+#atom READDBF_3             
+#atom WRITEDBF_3            
+#atom SEEKDBF_2             
+#atom ERASEDBF_2            
+#atom CREATEDBF_2
+#endif
+
+#atom GC_MARKER
+
+#atom MACRO_2
+
+#if ! STRINGS_AS_INT_LISTS 
+#atom STRING_CONS
+#atom STRING_NIL
+#endif
+#if STRINGS_AS_INT_LISTS
+#define STRING_CONS	CONS_2
+#define STRING_NIL	NIL_0
+#endif
+
+#if HIGHER_ORDER
+#atom VAR_CALL
+#endif
+
+#atom DCG_2
+
+#if USER_UNIFY
+#atom UNIFY_2
+#atom SCAN_2
+#endif
+
+#atom LAST_ATOM      
+
+
+#endif
+
+/* end of file */

@@ -1,0 +1,39 @@
+/**********************************************************************
+***********************************************************************
+**                                                                   **
+**  HU-Prolog         Public Domain Version       Release 1.2        **
+**                                                                   **
+**  (C)opyright       Christian Horn, Mirko Dziadzka, Matthias Horn  **
+**                    Humboldt-University Berlin                     **
+**                                                                   **
+**                                                                   **
+**  HU-Prolog 1.2 can be copied, modified and distributed freely     **
+**  for any non-commercial purposes under the conditions that all    **
+**  files include this header and that the copyright notice          **
+**  "(C)opyright by Christian Horn, Mirko Dziadzka, Matthias Horn    **
+**  (Humboldt-University Berlin)" will be displayed, when HU-Prolog  **
+**  is called.                                                       **
+**                                                                   **
+***********************************************************************
+**********************************************************************/
+
+
+/*
+** simple window definitions for 25x80 terminals
+*/
+
+:- window,
+    assign(stdtrace,window(1,17,80,7,' Trace ',[])),
+    assign(stderr ,window(10,10,60,10,' Error ',[paging])),
+    assign(stdwin, window(1,2,80,14,' HU-Prolog ',[])),
+    assign(stdwarn, window(2,18,78,6,' Warnings ',[paging])),
+    assign(stdhelp, window(2,2,78,22,' HELP ',[])),
+    assign(stdin, stdwin),
+    assign(stdout,stdwin)
+  ;true.
+
+end.
+
+
+/* end of file */
+

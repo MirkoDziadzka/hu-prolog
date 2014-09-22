@@ -1,0 +1,310 @@
+/**********************************************************************
+***********************************************************************
+**                                                                   **
+**  HU-Prolog         Public Domain Version       Release  2.029     **
+**                                                                   **
+**  Author(s): 87-89  Christian Horn, Mirko Dziadzka, Matthias Horn  **
+**             90-95  Mirko Dziadzka                                 **
+**                    Fachhoschule Furtwangen, Allgemeine Informatik **
+**                    email: dziadzka@ai-lab.fh-furtwangen.de        **
+**                                                                   **
+**  HU-Prolog 2.029 can be copied, modified and distributed freely   **
+**  for any non-commercial purposes under the conditions that all    **
+**  files include this header and that the message                   **
+**  "HU-Prolog public domain version" and the names of the authors   **
+**  will be displayed, when HU-Prolog is called.                     **
+**                                                                   **
+***********************************************************************
+**********************************************************************/
+
+#if LONGARITH
+{ LONGT       , "$LONG"     , NORMP   , NONO , LONGSIZE       },
+#endif
+#if REALARITH 
+{ REALT       , "$REAL"     , NORMP   , NONO , REALSIZE       },
+#endif
+{ READ_0      , "read"      , NORMP   , NONO , 0              },
+{ READ_1      , "read"      , EVALP   , NONO , 1    |sysflag  },
+{ READ_2      , "read"      , EVALP   , NONO , 2    |sysflag  },
+{ WRITE_1     , "write"     , EVALP   , NONO , 1    |sysflag  },
+{ WRITEQ_1    , "writeq"    , EVALP   , NONO , 1    |sysflag  },
+{ DISPLAY_1   , "display"   , EVALP   , NONO , 1    |sysflag  },
+{ GET0_1      , "get0"      , EVALP   , NONO , 1    |sysflag  },
+{ UNGET_0     , "unget"     , EVALP   , NONO , 0    |sysflag  },
+{ GET_1       , "get"       , EVALP   , NONO , 1    |sysflag  },
+{ SKIP_1      , "skip"      , EVALP   , NONO , 1    |sysflag  },
+{ ASK_1       , "ask"       , EVALP   , NONO , 1    |sysflag  },
+{ PUT_1       , "put"       , EVALP   , NONO , 1    |sysflag  },
+{ CLS_0       , "cls"       , EVALP   , NONO , 0    |sysflag  },
+{ GOTOXY_2    , "gotoxy"    , EVALP   , NONO , 2    |sysflag  },
+{ EOLN_0      , "eoln"      , EVALP   , NONO , 0    |sysflag  },
+{ EOF_0       , "eof"       , EVALP   , NONO , 0    |sysflag  },
+{ NL_0        , "nl"        , EVALP   , NONO , 0    |sysflag  },
+{ TAB_1       , "tab"       , EVALP   , NONO , 1    |sysflag  },
+{ FILEE_1     , "fileerrors", EVALP   , NONO , 1    |sysflag  },
+{ SEE_1       , "see"       , EVALP   , NONO , 1    |sysflag  },
+{ SEEING_1    , "seeing"    , EVALP   , NONO , 1    |sysflag  },
+{ SEEN_0      , "seen"      , EVALP   , NONO , 0    |sysflag  },
+{ TELL_1      , "tell"      , EVALP   , NONO , 1    |sysflag  },
+{ TELLING_1   , "telling"   , EVALP   , NONO , 1    |sysflag  },
+{ TOLD_0      , "told"      , EVALP   , NONO , 0    |sysflag  },
+{ OPEN_1      , "open"      , EVALP   , NONO , 1    |sysflag  },
+{ CLOSE_1     , "close"     , EVALP   , NONO , 1    |sysflag  },
+{ SEEK_2      , "seek"      , EVALP   , NONO , 2    |sysflag  },
+
+{ TTYGET_1    , "ttyget"    , EVALP   , NONO , 1    |sysflag  },
+{ TTYPUT_1    , "ttyput"    , EVALP   , NONO , 1    |sysflag  },
+{ TTYGET0_1   , "ttyget0"   , EVALP   , NONO , 1    |sysflag  },
+{ TTYREAD_1   , "ttyread"   , EVALP   , NONO , 1    |sysflag  },
+{ TTYWRITE_1  , "ttywrite"  , EVALP   , NONO , 1    |sysflag  },
+{ TTYSKIP_1   , "ttyskip"   , EVALP   , NONO , 1    |sysflag  },
+{ TTYCLS_0    , "ttycls"    , EVALP   , NONO , 0    |sysflag  },
+{ TTYGOTOXY_2 , "ttygotoxy" , EVALP   , NONO , 2    |sysflag  },
+{ TTYTAB_1    , "ttytab"    , EVALP   , NONO , 1    |sysflag  },
+{ TTYASK_1    , "ttyask"    , EVALP   , NONO , 1    |sysflag  },
+{ TTYNL_0     , "ttynl"     , EVALP   , NONO , 0    |sysflag  },
+
+{ T_LINES_1   , "$lines"    , EVALP   , NONO , 1    |sysflag  },
+{ T_COLUMNS_1 , "$columns"  , EVALP   , NONO , 1    |sysflag  },
+
+{ FNAME_2     , "$file"     , NORMP  , NONO , 2     |sysflag  },
+{ FASSIGN_2   , "assign"    , EVALP  , NONO , 2     |sysflag  },
+{ aWINDOW_0   , "window"    , EVALP  , NONO , 0     |sysflag  },
+{ ddINIT_W_0  , "$$window"  , EVALP  , NONO , 0     |sysflag  },
+{ WGET0_1     , "wget0"     , EVALP  , NONO , 1     |sysflag  },
+
+#if WINDOWS
+{ WINDOW_6    , "window"    , NORMP  , NONO , 6               },
+{ PAGING_0    , "paging"    , NORMP  , NONO , 0               },
+#endif
+
+
+#if !NO_TRACE
+{ TRACE_0     , "trace"     , EVALP   , NONO , 0    |sysflag  },
+{ TRACE_1     , "trace"     , EVALP   , NONO , 1    |sysflag  },
+{ NOTRACE_0   , "notrace"   , EVALP   , NONO , 0    |sysflag  },
+{ SPY_0       , "spy"       , NORMP   , NONO , 0              },
+{ SPY_1       , "spy"       , EVALP   , NONO , 1    |sysflag  },
+{ NOSPY_1     , "nospy"     , EVALP   , NONO , 1    |sysflag  },
+#endif
+{ ECHO_1      , "echo"      , EVALP   , NONO , 1    |sysflag  },
+{ WARN_1      , "warn"      , EVALP   , NONO , 1    |sysflag  },
+{ DEBUG_1     , "$debug"    , EVALP   , NONO , 1    |sysflag  },
+{ UUNIFY_1    , "user_unify", EVALP   , NONO , 1    |sysflag  },
+{ LOG_1       , "log"       , EVALP   , NONO , 1    |sysflag  },
+{ OCHECK_1    , "occur_check", EVALP   , NONO , 1    |sysflag  },
+{ SYSMODE_1   , "sysmode"   , EVALP   , NONO , 1    |sysflag  },
+
+{ ATOM_1      , "atom"      , EVALP   , NONO , 1    |sysflag  },
+{ CURATOM_1   , "current_atom",BTEVALP, NONO , 1    |sysflag  },
+{ CUROP_3     , "current_op", BTEVALP , NONO , 3    |sysflag  },
+{ CURPRED_1   , "current_predicate",BTEVALP,NONO,1    |sysflag  },
+{ INTEGER_1   , "integer"   , EVALP   , NONO , 1    |sysflag  },
+{ NUMBER_1    , "number"    , EVALP   , NONO , 1    |sysflag  },
+{ ATOMIC_1    , "atomic"    , EVALP   , NONO , 1    |sysflag  },
+{ LIST_1      , "list"      , EVALP   , NONO , 1    |sysflag  },
+{ COMPOUND_1  , "compound"  , EVALP   , NONO , 1    |sysflag  },
+{ STRING_1    , "string"    , EVALP   , NONO , 1    |sysflag  },
+{ VAR_1       , "var"       , EVALP   , NONO , 1    |sysflag  },
+{ NONVAR_1    , "nonvar"    , EVALP   , NONO , 1    |sysflag  },
+{ INVAR_1     , "invar"     , EVALP   , NONO , 1    |sysflag  },
+{ GROUND_1    , "ground"    , EVALP   , NONO , 1    |sysflag  },
+{ FUNCTOR_3   , "functor"   , EVALP   , NONO , 3    |sysflag  },
+{ ARG_3       , "arg"       , EVALP   , NONO , 3    |sysflag  },
+{ NAME_2      , "name"      , EVALP   , NONO , 2    |sysflag  },
+{ UNIV_2      , "=.."       , EVALP   , XFXO , 700  |sysflag  },
+
+{ ASSERT_1    , "assert"    , EVALP   , NONO , 1    |sysflag  },
+{ ASSERTA_1   , "asserta"   , EVALP   , NONO , 1    |sysflag  },
+{ ASSERTZ_1   , "assertz"   , EVALP   , NONO , 1    |sysflag  },
+{ RETRACT_1   , "retract"   , BTEVALP , NONO , 1    |sysflag  },
+{ RETRACT_0   , "retract"   , NORMP   , NONO , 0              },
+/* retractall  sollte von Hand implementiert werden */
+{ RETALL_1    , "retractall", NORMP   , NONO , 1    |sysflag  },
+{ ABOL_1      , "abolish"   , EVALP   , NONO , 1    |sysflag  },
+{ ABOL_2      , "abolish"   , EVALP   , NONO , 2    |sysflag  },
+{ CLAUSE_2    , "clause"    , BTEVALP , NONO , 2    |sysflag  },
+{ CONSULT_1   , "consult"   , EVALP   , NONO , 1    |sysflag  },
+{ CONSULT_0   , "consult"   , NORMP   , NONO , 0              },
+{ RECONSULT_1 , "reconsult" , EVALP   , NONO , 1    |sysflag  },
+{ LISTING_0   , "listing"   , EVALP   , NONO , 0    |sysflag  },
+{ LISTING_1   , "listing"   , EVALP   , NONO , 1    |sysflag  },
+
+{ CUT_0       , "!"         , CUTP    , NONO , 0    |sysflag  },
+{ dCUT_0      , "$!"        , CUTP    , NONO , 0    |sysflag  },
+{ FAIL_0      , "fail"      , NORMP   , NONO , 0    |sysflag  },
+{ TRUE_0      , "true"      , NORMP   , NONO , 0    |sysflag  },
+{ REPEAT_0    , "repeat"    , NORMP   , NONO , 0    |sysflag  },
+{ END_0       , "end"       , EVALP   , NONO , 0    |sysflag  },
+{ HALT_0      , "halt"      , EVALP   , NONO , 0    |sysflag  },
+{ EXIT_1      , "exit"      , EVALP   , NONO , 1    |sysflag  },
+{ ABORT_0     , "abort"     , EVALP   , NONO , 0    |sysflag  },
+{ ABORT_2     , "abort"     , EVALP   , NONO , 2    |sysflag  },
+{ RESTART_0   , "restart"   , EVALP   , NONO , 0    |sysflag  },
+{ CALL_1      , "call"      , NORMP   , NONO , 1    |sysflag  },
+{ MAIN_0      , "$main"     , NORMP   , NONO , 0              },
+
+#if SAVE
+{ SAVE_1      , "save"      , EVALP   , NONO , 1    |sysflag  },
+{ RESTORE_1   , "restore"   , EVALP   , NONO , 1    |sysflag  },
+#endif
+
+{ IS_2        , "is"        , EVALP   , XFXO , 700  |sysflag  },
+{ ASSIGN_2    , ":="        , NORMP   , XFYO , 700  |sysflag  },
+{ ASSIGN_0    , ":="        , NORMP   , NONO , 0  	      },	
+{ LT_2        , "<"         , NORMP   , XFXO , 700  |sysflag  },
+{ LE_2        , "=<"        , NORMP   , XFXO , 700  |sysflag  },
+{ GT_2        , ">"         , NORMP   , XFXO , 700  |sysflag  },
+{ GE_2        , ">="        , NORMP   , XFXO , 700  |sysflag  },
+{ EQ_2        , "=:="       , NORMP   , XFXO , 700  |sysflag  },
+{ NE_2        , "=\\="      , NORMP   , XFXO , 700  |sysflag  },
+{ PLUS_2      , "+"         , NORMP   , YFXO , 500            },
+{ MINUS_2     , "-"         , NORMP   , YFXO , 500            },
+{ TIMES_2     , "*"         , NORMP   , YFXO , 400            },
+{ DIVIDE_2    , "/"         , NORMP   , YFXO , 400            },
+{ MOD_2       , "mod"       , NORMP   , YFXO , 400            },
+{ MINUS_1     , "-"         , NORMP   , FYO  , 300            },
+
+{ NIL_0       , "[]"        , NORMP   , NONO , 0    |sysflag  },
+{ CONS_2      , "."         , NORMP   , XFYO , 300  |sysflag  },
+{ CURLY_0     , "{}"        , NORMP   , NONO , 0    |sysflag  },
+{ CURLY_1     , "{}"        , NORMP   , NONO , 1    |sysflag  },
+{ ARROW_2     , ":-"        , EVALP   , XFXO , 1200 |sysflag  },
+{ ARROW_1     , ":-"        , NORMP   , FXO  , 1200 |sysflag  },
+{ QUESTION_1  , "?-"        , NORMP   , FXO  , 1200 |sysflag  },
+{ SEMI_2      , ";"         , NORMP   , XFYO , 1100 |sysflag  },
+{ IMPL_2      , "->"        , NORMP   , XFYO , 1050 |sysflag  },
+{ COMMA_2     , ","         , NORMP   , XFYO , 1000 |sysflag  },
+{ NOT_1       , "not"       , NORMP   , FYO  , 800  |sysflag  },
+{ NOT1_1      , "\\+"       , NORMP   , FYO  , 800  |sysflag  },
+{ ISEQ_2      , "="         , NORMP   , XFXO , 700  |sysflag  },
+{ ISNEQ_2     , "\\="       , NORMP   , XFXO , 700  |sysflag  },
+{ EQUAL_2     , "=="        , EVALP   , XFXO , 700  |sysflag  },
+{ NOEQUAL_2   , "\\=="      , EVALP   , XFXO , 700  |sysflag  },
+{ TOP_0       , "toplevel"  , NORMP   , NONO , 0              },
+{ LOGIN_0     , "login"     , NORMP   , NONO , 0              },
+{ LOGOUT_0    , "logout"    , NORMP   , NONO , 0              },
+{ PROMPT_0    , "prompt"    , NORMP   , NONO , 0              },
+{ INTERRUPT_0 , "interrupt" , NORMP   , NONO , 0              },
+{ ERROR_2     , "error"     , NORMP   , NONO , 2              },
+{ UNKNOWN_1   , "unknown"   , NORMP   , NONO , 1              },
+
+{ STDIN_0     , "stdin"     , NORMP   , NONO , 0              },
+{ STDOUT_0    , "stdout"    , NORMP   , NONO , 0              },
+{ STDERR_0    , "stderr"    , NORMP   , NONO , 0              },
+{ STDWRN_0    , "stdwarn"   , NORMP   , NONO , 0              },
+{ STDTRACE_0  , "stdtrace"  , NORMP   , NONO , 0              },
+#if HELP
+{ STDHELP_0   , "stdhelp"   , NORMP   , NONO , 0              },
+#endif
+{ ON_0        , "on"        , NORMP   , NONO , 0              },
+{ OFF_0       , "off"       , NORMP   , NONO , 0              },
+{ ALL_0       , "all"       , NORMP   , NONO , 0              },
+{ USER_0      , "user"      , NORMP   , NONO , 0              },
+{ NULL_0      , "null"      , NORMP   , NONO , 0              },
+{ FX_0        , "fx"        , NORMP   , NONO , 0              },
+{ FY_0        , "fy"        , NORMP   , NONO , 0              },
+{ XF_0        , "xf"        , NORMP   , NONO , 0              },
+{ YF_0        , "yf"        , NORMP   , NONO , 0              },
+{ XFX_0       , "xfx"       , NORMP   , NONO , 0              },
+{ XFY_0       , "xfy"       , NORMP   , NONO , 0              },
+{ YFX_0       , "yfx"       , NORMP   , NONO , 0              },
+{ CALL_0      , "call"      , NORMP   , NONO , 0              },
+{ PROVED_0    , "proved"    , NORMP   , NONO , 0              },
+{ REDO_0      , "redo"      , NORMP   , NONO , 0              },
+{ FAILED_0    , "failed"    , NORMP   , NONO , 0              },
+
+{ STATS_0     , "stats"     , EVALP   , NONO , 0    |sysflag  },
+{ OP_3        , "op"        , EVALP   , NONO , 3    |sysflag  },
+{ OP_0        , "op"        , NORMP   , NONO , 0              },
+{ DICT_1      , "dict"      , EVALP   , NONO , 1    |sysflag  },
+{ SDICT_1     , "sdict"     , EVALP   , NONO , 1    |sysflag  },
+{ SYS_1       , "sys"       , EVALP   , NONO , 1    |sysflag  },
+
+{ EVALUATE_2  , "$evaluate" , ARITHP  , NONO , 2    |sysflag  },
+{ DASSIGN_2   , "$dass"     , EVALP   , NONO , 2    |sysflag  },
+{ REDUCE_2    , "$reduce"   , EVALP   , NONO , 2    |sysflag  },
+{ ACOMP_1     , "$acomp"    , EVALP   , NONO , 1    |sysflag  },
+
+{ MAXINT_0    , "maxint"    , NORMP   , NONO , 0               },
+{ MININT_0    , "minint"    , NORMP   , NONO , 0               },
+{ MAXAR_0     , "maxarity"  , NORMP   , NONO , 0               },
+{ MAXDEP_0    , "maxdepth"  , NORMP   , NONO , 0               },
+#if REALARITH
+{ E_0         , "e"         , NORMP   , NONO , 0              },
+{ PI_0        , "pi"        , NORMP   , NONO , 0              },
+{ REAL_1      , "real"      , EVALP   , NONO , 1              },
+{ EXP_1       , "exp"       , NORMP   , NONO , 1              },
+{ LN_1        , "ln"        , NORMP   , NONO , 1              },
+{ LOG10_1     , "log10"     , NORMP   , NONO , 1              },
+{ SQRT_1      , "sqrt"      , NORMP   , NONO , 1              },
+{ SIN_1       , "sin"       , NORMP   , NONO , 1              },
+{ COS_1       , "cos"       , NORMP   , NONO , 1              },
+{ TAN_1       , "tan"       , NORMP   , NONO , 1              },
+{ ASIN_1      , "asin"      , NORMP   , NONO , 1              },
+{ ACOS_1      , "acos"      , NORMP   , NONO , 1              },
+{ ATAN_1      , "atan"      , NORMP   , NONO , 1              },
+{ FLOOR_1     , "floor"     , NORMP   , NONO , 1              },
+{ CEIL_1      , "ceil"      , NORMP   , NONO , 1              },
+{ POWER_2     , "**"        , NORMP   , XFYO , 350            },
+{ ENTIER_1    , "entier"    , NORMP   , NONO , 1              },
+#endif
+{ LSHIFT_2    , "<<"        , NORMP   , XFYO , 600            },
+{ RSHIFT_2    , ">>"        , NORMP   , XFYO , 600            },
+{ BITAND_2    , "&"         , NORMP   , XFYO , 650            },
+{ BITOR_2     , "\\"        , NORMP   , XFYO , 650            },
+{ AND_2       , "&&"        , NORMP   , XFYO , 650            },
+{ OR_2        , "\\\\"      , NORMP   , XFYO , 650            },
+{ NEG_1       , "/"         , NORMP   , FYO  , 300            },
+{ BITNEG_1    , "~"         , NORMP   , FYO , 300              },
+{ IDIV_2      , "//"        , NORMP   , YFXO , 400            },
+{ ALT_2       , "@<"        , EVALP   , XFXO , 700  |sysflag  },
+{ ALE_2       , "@=<"       , EVALP   , XFXO , 700  |sysflag  },
+{ AGT_2       , "@>"        , EVALP   , XFXO , 700  |sysflag  },
+{ AGE_2       , "@>="       , EVALP   , XFXO , 700  |sysflag  },
+{ AEQ_2       , "@="        , EVALP   , XFXO , 700  |sysflag  },
+{ ANE_2       , "@\\="      , EVALP   , XFXO , 700  |sysflag  },
+{ EVAL_1      , "eval"      , NORMP   , NONO , 1              },
+{ QUOTE_1     , "`"         , NORMP   , FYO  , 650            },
+{ NL_2        , "\n"        , NORMP   , XFYO , 999            },
+{ VERSION_0   , "version"   , EVALP   , NONO , 0   |sysflag   },
+{ PRIVATE_1   , "private"   , EVALP   , NONO , 1   |sysflag   },
+{ HIDE_1      , "hide"      , EVALP   , NONO , 1   |sysflag   },
+{ ENSURE_3    , "ensure"    , EVALP   , NONO , 3   | sysflag  },
+{ ANCESTORS_1 , "ancestors" , EVALP   , NONO , 1   | sysflag  },
+
+{ TIMER_1     , "timer"     , EVALP   , NONO , 1    |sysflag  },
+{ ARGC_1      , "argc"      , EVALP   , NONO , 1    |sysflag  },
+{ ARGV_2      , "argv"      , EVALP   , NONO , 2    |sysflag  },
+
+{ TIME_3      , "time"      , EVALP   , NONO , 3    |sysflag  },
+{ DATE_3      , "date"      , EVALP   , NONO , 3    |sysflag  },
+{ WEEKDAY_1   , "weekday"   , EVALP   , NONO , 1    |sysflag  },
+{ GETENV_2    , "getenv"    , EVALP   , NONO , 2   | sysflag  },
+{ PUTENV_2    , "putenv"    , EVALP   , NONO , 2    |sysflag  },
+{ SYSTEM_1    , "system"    , EVALP   , NONO , 1    |sysflag  },
+#if HELP
+{ HELP_0      , "help"      , EVALP   , NONO , 0    |sysflag  },
+{ HELP_1      , "help"      , EVALP   , NONO , 1    |sysflag  },
+#endif
+
+{ GC_MARKER   , "__gc__"    , NORMP   , NONO , 0              },
+{ MACRO_2     , "$macro"    , NORMP   , NONO , 2              },
+
+#if ! STRINGS_AS_INT_LISTS
+{ STRING_CONS,  "@"         , NORMP   , XFYO , 300  | sysflag },
+{ STRING_NIL,   "\"\""      , NORMP   , NONO , 0              },
+#endif
+
+#if HIGHER_ORDER
+{ VAR_CALL, "var_call"      , NORMP  , NONO  , 0   | sysflag },
+#endif
+
+{ DCG_2,    "-->"           , NORMP  , XFXO   , 1200         },
+
+#if USER_UNIFY
+{ UNIFY_2,  "unify"         , NORMP  , NONO   , 2            },
+{ SCAN_2,  "scan_and_unify_external_languages" , NORMP  , NONO   , 2            },
+#endif
+
+/* end of file */

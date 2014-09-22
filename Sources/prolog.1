@@ -1,0 +1,127 @@
+.\" HU-Prolog 2.022 Manual
+.\" (C) 1993 Mirko Dziadzka (dziadzka@informatik.hu-berlin.de)
+.\" Mon Aug 31 23:11:57 MEZ 1992
+.TH prolog 1 
+.SH NAME
+prolog \- Ein Prolog Interpreter (was sonst ?)
+.SH SYNOPSIS
+.B prolog
+.RB [ \(mixowv ]
+.RB [ \(mis\ init ]
+.RB [ \(milL\ log]
+.RB [ \(mir\ core]
+.RB [ file ]...
+.SH BESCHREIBUNG
+.I prolog
+ist der portable Prolog Interpreter HU-Prolog in der Version 2.025
+vom Maerz 1993. Fuer weitergehende Informationen ueber HU-Prolog
+benutze man bitte das Online Hilfssystem. Dieses erreicht man vom
+Prolog Top Level Prompt mit Hilfe des Praedikates
+.I help/0.
+.PP
+HU-Prolog kennt folgende Kommandozeilenargumente:
+.RS
+.TP
+.B \(mil filename 
+setzt den Namen des ``Logfiles'' auf 
+.B filename
+.TP
+.B \(miL filename
+setzt den Namen des ``Logfiles'' auf 
+.B filename 
+und setzt das Log-Flag auf 
+.I on
+.TP
+.B \(mio
+schaltet den Occur Check an
+.TP
+.B \(mir filename 
+laedt einen mit
+.I save/1
+erstellten Speicherabzug. Alle anderen Optionen werden ignoriert.
+.TP
+.B \(mis filename
+setzt den Namen des ``Lokalen System-Files'' auf
+.B filename.
+Normalerweise wird
+.I .prologrc
+oder
+.I ~/.prologrc
+verwendet.
+.TP
+.B \(miS filename
+Analog zu 
+.B \(mis
+\- verhindert aber das Laden des Globalen Systemfiles
+.TP
+.B \(miv
+unterdrueckt bestimmte Standardausgaben des Systems (Copyright, Prompt, ...)
+und erlaubt damit die Benutzung von HU-Prolog in Pipes.
+.TP
+.B \(miw
+setzt das ``Warn-Flag'' auf
+.I on
+.TP
+.B \(mix
+initialisiert das Window-System von HU-Prolog.
+.TP
+.B filename
+jedes weitere Argument wird als Filename interpretiert und mit 
+.I consult/1 
+geladen.
+.RE
+.SH ENVIRONMENT
+HU-Prolog wertet folgende Environmentvariablen aus:
+.TP
+.B TERM
+\- wird zur Bestimmung der Terminaltypes verwendet.
+.TP
+.B HOME
+\- das Heimatverzeichnis des Nutzers. Hier wird die Datei
+.I .prologrc
+gesucht, wenn sie nicht im aktuellen Verzeichnis gefunden wird.
+.TP
+.B HUPROLOG
+Hier koennen Kommandozeilenargumente standardmaessig gesetzt werden.
+Diese werden vor allen anderen ausgewertet.
+.TP
+.B HUP_HELPLIB
+Wenn diese Variable gesetzt ist, wird ihr Inhalt als Name des 
+Online Help Files interpretiert. 
+.SH FILES
+.I /usr/local/bin/prolog
+\- der Prolog Interpreter
+.br
+.I /usr/local/lib/prolog.hlp
+\- die Datenbasis fuer das Online-Help System von HU-Prolog
+.br
+.I /usr/local/lib/huprolog/prologrc
+\- Globales System-File \- wird beim Starten des Systems geladen
+.br
+.I .prologrc
+bzw. 
+.I ~/.prologrc
+\- Lokales System-File \- wird beim Starten des Systems geladen
+.SH BUGS
+HU-Prolog hat keine BUGS :-)
+.SH AUTHOR
+HU-Prolog wurde an der Humboldt-Universitaet zu Berlin 
+in den Jahren 1987-89 von Christian Horn, Mirko Dziadzka und Matthias Horn
+entwickelt. 
+.br
+1990 wurde fast das gesammte System von Mirko Dziadzka 
+(dziadzka@informatik.hu-berlin.de) neu implementiert und seitdem
+staendig gewartet und weiterentwickelt.
+.TP
+.I Anschrift:
+Mirko Dziadzka
+.br
+Humboldt-Universitaet zu Berlin
+.br
+Fachbereich Informatik
+.br
+Institut fuer Softwaretechnik
+.TP
+.I email: 
+dziadzka@informatik.hu-berlin.de
+

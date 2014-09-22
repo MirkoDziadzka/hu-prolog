@@ -1,0 +1,43 @@
+### Configuration for a Posix Environment
+
+### SYSTEM should be POSIX, BSD or SYSV
+SYSTEM=POSIX
+
+### the name of the Bourne-Shell
+SHELL=/bin/sh
+
+### TERMIO should be 'termio' or 'termios'
+### termios is the POSIX version
+TERMINAL=termios
+
+### the C-Compiler
+CC=gcc -ansi
+
+### C-Flags
+CFLAGS=-O -D_POSIX_SOURCE
+
+### Libraries (mathlib and termcap/termlib/curses expected)
+LIBS=-lm -lcurses
+
+### where HU-PROLOG should be installed
+BINDIR=/usr/local/bin
+
+### where the libaries should go
+LIBDIR=/usr/local/lib
+
+### the name of the executable
+HU_PROLOG=huprolog
+
+### the name of the online help libary
+PROLOG_HELP=prolog.hlp
+
+### the name of *this* Makefile
+MAKEFILE=Makefile
+
+STDPLGRC=\"$(LIBDIR)/huprolog/prologrc\"
+STDHELP=\"$(LIBDIR)/$(PROLOG_HELP)\"
+
+INSTALL=cp
+INSTALL_EXEC=$(INSTALL)
+INSTALL_DATA=$(INSTALL)
+

@@ -1,0 +1,62 @@
+/**********************************************************************
+***********************************************************************
+**                                                                   **
+**  HU-Prolog         Public Domain Version       Release  2.029     **
+**                                                                   **
+**  Author(s): 87-89  Christian Horn, Mirko Dziadzka, Matthias Horn  **
+**             90-93  Mirko Dziadzka                                 **
+**                    Fachhoschule Furtwangen, Allgemeine Informatik **
+**                    email: dziadzka@ai-lab.fh-furtwangen.de        **
+**                                                                   **
+**  HU-Prolog 2.029 can be copied, modified and distributed freely   **
+**  for any non-commercial purposes under the conditions that all    **
+**  files include this header and that the message                   **
+**  "HU-Prolog public domain version" and the names of the authors   **
+**  will be displayed, when HU-Prolog is called.                     **
+**                                                                   **
+***********************************************************************
+**********************************************************************/
+
+append([],X,X).
+append([H|X],Y,[H|Z]):-
+    append(X,Y,Z).
+
+nrev([],[]).
+nrev([X|Y],Z):-
+    nrev(Y,T),
+    append(T,[X],Z).
+
+genlist(I,[I|L]):-
+    I>0,
+    Y is I- 1,
+    genlist(Y,L).
+genlist(0,[]).
+
+gen(N) :- 
+    genlist(N,X),asserta(numlist(X)),
+    len := N,
+    li := (N+1) * (N+2) // 2.
+
+%
+% Listenlaenge N  --> (N+1)*(N+2) / 2 Logische Inferenzen
+%
+test:-
+	numlist(X), timer(0), u(X), timer(T),
+	LIPS:=(li * 100 ) // T, a:=a+LIPS, n:=n+1, S:=a//n,
+	write('Time: '),write(T),write('   LIPS:'),write(LIPS),write('    S='),write(S),nl,!.
+
+exec(X):-nrev(X,_),!,fail.
+u(X):-exec(X) ; true.
+
+run:-repeat,test,fail.
+
+:- a:=0, n:=0.
+:- gen(2000).
+:- write('\nStandard Benchmark Test'),
+   write('\nnrev/2 ueber eine '), LEN := len, write(LEN),
+   write('elementige Liste\n').
+:- test.
+:- test.
+:- test.
+
+

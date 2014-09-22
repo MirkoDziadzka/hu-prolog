@@ -1,0 +1,12 @@
+:- ensure(c2p / 2).
+
+
+scan_and_unify_external_languages(E_Lang , T) :-
+    c2p(E_Lang , Prolog),
+    retractall(( unify(E_Lang , T) :- scan_and_unify_external_languages(E_Lang , T))),
+    assert((unify(E_Lang , Prolog) :- !)),
+    !,
+    Prolog = T.
+
+
+

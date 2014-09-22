@@ -1,0 +1,31 @@
+#!/usr/local/bin/prolog -v
+
+:- private([writef0]).
+
+writef(N,Expr) :-
+    E := Expr,
+    writef0(N,E).
+
+writef0(N,E) :-
+    E < ( 10 ** (N-1)),
+    tab(1),
+    N1 is N -1,
+    !,
+    writef0(N1,E).
+writef0(_,E) :-
+    write(E).
+
+:- hide([writef0]).
+
+:- a := 32.
+
+:- repeat,
+      X := a , 
+      a := a +1 ,
+      put(X),tab(2),
+      (a mod 16  =:= 1 , nl, writef(2,a // 16), put(": "), fail ; true),
+      a =:= 256,
+      nl.
+
+:- halt.
+

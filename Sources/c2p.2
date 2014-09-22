@@ -1,0 +1,6 @@
+
+c2p('int fac([[]]) { if([[]]) return [[]]; else return [[]] ; }'(X,Y,Z,T),
+    funcdef(int,fac,[X],block(if(Y , return(Z) , return(T))))).
+c2p('fac([[]])'(X) , func_call(fac,[X])).
+
+

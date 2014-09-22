@@ -1,0 +1,24 @@
+HU-Prolog (Public Domain Version)  Release 2.027 (last change: 20.07.93 21:17)
+Author(s): 87-89  Christian Horn, Mirko Dziadzka, Matthias Horn
+           90-93  Mirko Dziadzka (dziadzka@informatik.hu-berlin.de)
+%
+% Fuer alle Fan's von HU-Prolog. Wenn Ihr das Laden dieses Files
+% verhindern wollt, so solltet Ihr die -S - Option benutzen.
+%
+
+:- ['/usr/local/lib/huprolog/windef'].
+
+:-window,
+    Lines := $lines,
+    Columns := $columns,
+    V := 2.0/3,
+    Yt := entier(Lines*V+1), YtLen := entier(Lines*(1-V)-1),
+    YsLen := Lines - YtLen -3 ,
+    assign(stdtrace,window(1,Yt,Columns,YtLen,' trace ',[])),
+    XeCol := Columns // 2,
+    assign(stderr ,window(XeCol,Yt+1,XeCol,YtLen,' Error ',[])),
+    assign(stdwarn ,window(2,Yt+1,XeCol - 2,YtLen,' Warnings ',[])),
+    assign(stdwin, window(1,2,Columns,YsLen,' HU-Prolog ',[])),
+    assign(stdin, stdwin),
+    assign(stdout,stdwin) 
+  ;true.
