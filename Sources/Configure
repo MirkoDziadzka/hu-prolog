@@ -96,6 +96,9 @@ HELPDIR=../Help
 PATCHES=../Patches
 O=o
 
+PATH := .:$(PATH)
+
+
 END_OF_TEXT
 
 ##

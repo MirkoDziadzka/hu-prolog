@@ -42,7 +42,7 @@ char *header[] = {
 NULL
 };
 
-void main()
+int main()
 {
     char **s;
 

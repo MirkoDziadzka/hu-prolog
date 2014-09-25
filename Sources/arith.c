@@ -417,10 +417,12 @@ LOCAL void iseval(t,ap,Depth)
     isreal(ap)= isreal(&at1)= isreal(&at2)= false;
 #endif
     if(!norm_atom(a=name(t))) 
+    {
         if(assign(ap,t)) 
             return;
         else 
             ERROR(STDFUNCARGE);
+    }
     test("evaluate: ",t);
     switch(arity(a))
     {
