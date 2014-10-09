@@ -1,0 +1,3 @@
+REVIEWBOARD_URL = "http://review.bithalde.de/"
+REPOSITORY = "hu-prolog"
+BRANCH = "master"
