@@ -34,7 +34,7 @@
 #define GLOBAL  /* global */
 #define REGISTER
 
-#ifdef __GNUC__
+#if 0
 # define VOLATILE	volatile
 #else
 # define VOLATILE	/* volatile */
