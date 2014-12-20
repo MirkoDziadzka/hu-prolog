@@ -21,7 +21,7 @@
 extern long time();
 extern void exit();
 
-void main()
+int main()
 {
     printf("%ld\n",(long)time(NULL));
     exit(0);
