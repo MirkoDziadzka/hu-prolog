@@ -18,8 +18,8 @@
 **********************************************************************/
 char *version =
 "HU-Prolog (Public Domain Version)  Release 2.029\
- (last change: 20.12.2014 22:24)\n";
+ (last change: 13.04.2019 16:22)\n";
 
-long MAGIC_NUMBER = 1419110671;
+long MAGIC_NUMBER = 1555165322;
 
 /* end of file */

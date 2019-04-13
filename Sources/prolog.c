@@ -18,6 +18,7 @@
 **********************************************************************/
 
 #include <signal.h>
+#include <string.h>
 
 #include "config.h"
 #include "types.h"
@@ -27,6 +28,9 @@
 #include "extern.h"
 
 #include "paths.h"
+
+
+extern void add_string_to_argv(int *argc, char ***argv, char * envargs);
 
 /* Variable declarations */
 

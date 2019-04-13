@@ -11,10 +11,10 @@ SHELL=/bin/sh
 TERMINAL=termios
 
 ### the C-Compiler
-CC=gcc -ansi
+CC=gcc -std=c11 -Wall -Wpedantic -Werror 
 
 ### C-Flags
-CFLAGS=-O -D_POSIX_SOURCE
+CFLAGS=-O2 -D_POSIX_SOURCE
 
 ### Libraries (mathlib and termcap/termlib/curses expected)
 LIBS=-lm -lcurses

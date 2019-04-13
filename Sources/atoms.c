@@ -17,11 +17,13 @@
 ***********************************************************************
 **********************************************************************/
 
+#include <string.h>
 
 #include "config.h"
 #include "types.h"
 #include "atoms.h"
 #include "extern.h"
+
 
 
 /****************************************************************
@@ -260,6 +262,7 @@ GLOBAL ATOM LOOKATOM(A,ar,create)
             (OAA >= AA && (ar > OAA || ar < AA))));
         /* not found */
         if(heap)
+	{
             if(create)
             {
                 A= heapatom();
@@ -279,7 +282,10 @@ GLOBAL ATOM LOOKATOM(A,ar,create)
                 return A;
             }
             else 
+	    {
                 return NIL_ATOM;
+	    }
+	}
     }
     return LOOKUP(tempstring(atomstring(ORG_A)),ar,heap,create);
 }

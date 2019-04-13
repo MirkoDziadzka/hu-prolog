@@ -17,8 +17,10 @@
 ***********************************************************************
 **********************************************************************/
 
-#define debug(X)	out(2,"[");out(2,__FILE__);out(2,":");out(2,itoa(__LINE__));out(2,"  ");out(2,X);out(2,"]");
+// #define debug(X)	out(2,"[");out(2,__FILE__);out(2,":");out(2,itoa(__LINE__));out(2,"  ");out(2,X);out(2,"]");
 #define debug(X)	/**/
+
+#include <string.h>
 
 #include "config.h"
 #include "types.h"

@@ -18,6 +18,8 @@
 **********************************************************************/
 
 
+#include <string.h>
+
 #include "config.h"
 #include "types.h"
 #include "atoms.h"
@@ -237,9 +239,9 @@ TERM  f;
 GLOBAL string ftoa(d)
     double d;
 {
-    register string cp;
-    register r;
-    register int expo ;
+    string cp;
+    int r;
+    int expo ;
 
     cp = numbuffer;
     if (d != 0.0 && d == 2.0*d)
@@ -583,7 +585,7 @@ GLOBAL void ERROR_MESS(N)
 GLOBAL void ABORT(N)
     ERRORTYPE N;
 {
-    static abort_counter = 0;
+    static int  abort_counter = 0;
     if(N != NOERROR)
     {
         if(abort_counter++  >  2 ||
@@ -1064,7 +1066,7 @@ LOCAL TERM node(A)
 GLOBAL void Init_Io()
 {
     file i;
-    static first_time = 1;
+    static int first_time = 1;
     if(!first_time) 
     { 
         EOF(inputfile) = false; 

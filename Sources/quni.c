@@ -272,7 +272,6 @@ GLOBAL boolean UNIFY(N,Term2,Term1,B2,B1,Depth)
 	else if(!UNIFY(arity(A),son(T1),son(T2), B1,B2,Depth-1))
             goto fail;
 
-    next:;
         next_br(Term1); next_br(Term2);continue;
     }
     return true;

@@ -43,6 +43,8 @@ extern int  w_gets(/* WIN w ; char *buf ; int maxlen */);
 extern void w_cls(/* WIN w */);
 extern void w_gotoxy(/* WIN w ; int xpos,ypos */);
 extern void w_scr_refresh();
+extern int w_get_x_pos( int w );
+extern int w_get_y_pos( int w );
 extern void w_exit();
 extern int t_rc();
 extern void Init_Windows();

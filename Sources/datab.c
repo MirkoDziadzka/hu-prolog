@@ -107,12 +107,12 @@ GLOBAL CLAUSE NewClause(Head,Body,user_unify)
 { 
     ATOM A;
     CLAUSE CL;
-    int ar;
 
     Init_Skeleton();
     deref(Head);
     A=copyatom(name(Head));
 #if USER_UNIFY
+    int ar;
     if( user_unify && USER_UNIFY_FLAG && ( A != UNIFY_2 ) && (ar = arity(A)) )
     {
         TERM NewHead, T ;
@@ -357,7 +357,9 @@ LOCAL boolean active_clause(CL)
 
     EE = NIL_ENV;
     while((EE = get_env(EE)) != NIL_ENV)
+    {
         if(call(EE) != NIL_TERM && func_atom(A=name(call(EE))))
+	{
             if((class(A)==NORMP || var_call(A)) && 
 		(rule(EE) == CL))
             { 
@@ -400,6 +402,8 @@ LOCAL boolean active_clause(CL)
                 */
                 bct(EE) = nextcl(CL);
             }
+	}
+    }
     return result;
 }
 
@@ -590,7 +594,7 @@ GLOBAL boolean DOCONSULT(FILENAME,reconsult,library)
     ATOM A,FILEATOM;
     ATOM LASTA = NIL_ATOM;
     CLAUSE LASTCL;
-    ENV EP,CUR_ENV;
+    ENV EP,CUR_ENV = 0;
     TERM oldinfile;
     CLAUSE CX,CL;
     boolean res = true;
@@ -1084,12 +1088,4 @@ GLOBAL void Init_Datab()
 }
 
 
-void Check()
-{
-    CLAUSE Cl;
-    ATOM A;
-    TERM T;
-
-
-}
 /* end of file */

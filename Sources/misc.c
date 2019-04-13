@@ -100,7 +100,9 @@ GLOBAL boolean islist(T, char_list, no_deref)
 {
     card counter = 0;
     if(!no_deref)
+    {
 	deref(T);
+    }
     if(char_list)
     {
 	register TERM TT;
@@ -108,13 +110,19 @@ GLOBAL boolean islist(T, char_list, no_deref)
 	{
 	    TT= son(T);
 	    if(!no_deref)
+	    {
 		deref(TT);
-	    if(name(TT) != INTT) return false;
-	    if(ival(TT) < 32 || ival(TT) > 127) return false;
+	    }
+	    if(name(TT) != INTT)  {return false; }
+	    if(ival(TT) < 32 || ival(TT) > 127) { return false; }
 	    if(!no_deref)
+	    {
 		T = arg2(T);
+	    }
 	    else
+	    {
 		T = br(son(T));
+	    }
 	    if(++counter >= N_OF_TERMS) return false; /* zyklic term */
 	}
 	return (name(T) == STRING_NIL);

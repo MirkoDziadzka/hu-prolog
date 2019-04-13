@@ -20,17 +20,9 @@
 
 #include <stdio.h>
 #include <ctype.h>
-#ifdef BSD
-#include <strings.h>
-#else
+#include <stdlib.h>
 #include <string.h>
-#endif
 
-extern void exit();
-#ifndef __STDC__
-/* extern int strlen(); */
-#endif
-extern int strncmp();
 
 #define MAXL 512        /* bufferlength */
 #define DIST  20        

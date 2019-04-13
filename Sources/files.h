@@ -96,11 +96,11 @@ typedef file_type *file;
 #define STDHELP        (&file_tab[4])
 #endif
 
-#define NOFILE          (&file_tab[-1])
-#define ERRFILE         (&file_tab[-2])
+#define NOFILE          (&file_tab[MAXFILES-1])
+#define ERRFILE         (&file_tab[MAXFILES-2])
 
 #define FIRSTFILE	(&file_tab[0])
-#define LASTFILE	(&file_tab[MAXFILES-1])
+#define LASTFILE	(&file_tab[MAXFILES-3])
 
 #define NORMFT           1
 #define WINDOWFT         2

@@ -107,7 +107,9 @@ LOCAL void WRITETERM (Y, P, DEPTH)
         return; 
     }
     if(!LISTFLAG || name(Y) == VART) 
+    {
         deref(Y);
+    }
     switch (A=name(Y))
     {
     case GOTOT:

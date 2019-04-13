@@ -18,10 +18,16 @@
 **********************************************************************/
 
 
+#include <stdlib.h>
+
 #include "config.h"
 
 extern char * getenv();
 extern int DEBUGFLAG;
+
+extern const char * itoa(int i);
+extern void out(int f,const char *s);
+
 
 
 /*GLOBAL*/ int get_num_env_val( var )
@@ -169,60 +175,6 @@ int call_system(command)
 #define NULL      ((char *)0)
 #endif
 
-extern char **environ;
-extern int  strncmp();
-
-static char *new_env[ENVSIZE+1];
-static char  new_char[CHARSIZE];
-
-
-char *setenv(env_string)
-register char env_string[];
-{
-    register char *s;
-    register char *first_free; /* first free character */
-    register char *last_free;  /* last free character */
-    register int i=0;
-    int l1;                    /* position of '=' in env_string */
-    char **envp=environ;       /* temporary env-pointer */
-
-    for(l1=0,s=env_string;*s;++s)
-        if(*s == '='){
-            l1 = s-env_string;
-            break;
-        }
-    if(!*s) return NULL;
-
-    first_free = new_char;
-    last_free  = new_char + CHARSIZE -1;
-    while((s = *envp) != (char *)0)
-    {
-        if(strncmp(s,env_string,l1) != 0)
-        {
-            new_env[i++]  = first_free;
-            while(first_free < last_free && (*first_free++ = *s++) != '\0');
-            if(first_free >= last_free || i >= ENVSIZE)
-            { 
-                new_env[--i] = NULL; 
-                return NULL;
-            }
-        }
-        ++envp;
-    }
-    s=env_string;
-    new_env[i++] = first_free;
-    while(first_free < last_free && (*first_free++ = *s++) != '\0');
-    if(first_free >= last_free || i >= ENVSIZE)
-    { 
-        new_env[--i] = NULL; 
-        return NULL;
-    }
-
-    new_env[i] = NULL;
-    environ = new_env;
-    return new_env[i-1];
-}
-
 /*
 ** terminal
 */
@@ -235,7 +187,7 @@ extern int tgetent();
 extern int tgetnum();
 extern char *tgetstr();
 extern char *tgoto();
-extern tputs();
+extern int tputs();
 #endif
 
 #ifndef NULL

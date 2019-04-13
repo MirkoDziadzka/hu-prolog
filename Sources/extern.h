@@ -55,17 +55,18 @@ PROTOTYPE(int execlp,(char *, char *, ...));
 PROTOTYPE(void exit,(int));
 PROTOTYPE(char *getenv,(char *));
 
+/*
 PROTOTYPE(char *strcpy,(char *,char*));
 PROTOTYPE(char *strncpy,(char *,char*, int));
 PROTOTYPE(int  strcmp,(char *,char*));
-/*
-PROTOTYPE(int qsort, (void *,int,int, (int)* ));
-*/
-
 #ifndef __GNUC__
 PROTOTYPE(char *memcpy,(char *, char *, int));
 PROTOTYPE(int  strlen,(char *));
 #endif
+*/
+/*
+PROTOTYPE(int qsort, (void *,int,int, (int)* ));
+*/
 
 
 /*

@@ -560,21 +560,25 @@ LOCAL boolean DOCURATOM( curr_pred )
     Trail_Top = mark_trail_stack();
     Term_Top = mark_term_stack();
 
-    /* unsauber programmiert, geht aber nicht besser */
-    /* evtl. if(BCT != ..) A = name(BCT);            */
-    /*        BCT = mkatom(A)                        */
-    while((BCT=(TERM)(A=GetAtom((ATOM)BCT))) != (TERM)NIL_ATOM)
-    {
+    if(BCT == NIL_TERM) {
+	A = NIL_ATOM;
+    } else {
+	A = name(BCT);
+    }
+    while((A = GetAtom(A)) != NIL_ATOM) {
         if(curr_pred && class(A) != EVALP && class(A) != BTEVALP &&
 	  (class(A) != NORMP || clause(A) == NIL_CLAUSE ))
 	    continue;
         T=mkfunc(DIVIDE_2,
                  mk2sons(LOOKATOM(A,0,true),NIL_TERM,INTT,arity(A)));
-        if(UNI(T,A0))
-            return true;
+	if(UNI(T,A0)) {
+	    BCT = mkatom(A);
+	    return true;
+	}
 
         rel_term_stack(Term_Top);
         rel_trail_stack(Trail_Top);
+	BCT = NIL_TERM;
     }
     return false;
 }
@@ -591,7 +595,12 @@ LOCAL boolean DOCUROP()
     Term_Top = mark_term_stack();
 
     /* siehe DOCURATOM */
-    while((BCT=(TERM)(A=GetAtom((ATOM)BCT))) != (TERM)NIL_ATOM)
+    if(BCT == NIL_TERM) {
+	A = NIL_ATOM;
+    } else {
+	A = name(BCT);
+    }
+    while((A = GetAtom(A)) != NIL_ATOM) 
     {
         switch(oclass(A))
         {
@@ -606,8 +615,12 @@ LOCAL boolean DOCUROP()
         }
         if(UNI(A0,mkint(oprec(A))) && UNI(A1,mkatom(P))   &&
                 UNI(A2,mkatom(LOOKATOM(A,0,true))))
+	{
+	    BCT = mkatom(A);
             return true; 
+	}
 
+	BCT = NIL_TERM;
         rel_term_stack(Term_Top);
         rel_trail_stack(Trail_Top);
     }
