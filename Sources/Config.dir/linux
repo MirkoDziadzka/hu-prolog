@@ -14,8 +14,8 @@ TERMINAL=termios
 CC=gcc -ansi
 
 ### C-Flags
-CFLAGS=-O -DLATIN1 -m32
-LDFLAGS=-m32
+CFLAGS=-O2 -DLATIN1
+LDFLAGS=
 
 ### Libraries (mathlib and termcap/termlib/curses expected)
 LIBS=-lm -ltermcap
