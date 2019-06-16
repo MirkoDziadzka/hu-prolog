@@ -128,8 +128,8 @@ DEFINES=atoms.def
 HEADERS=atoms.h extern.h files.h memory.h help.h\
 	config.h types.h window.h misc.h charcl.h
 
-OBJ =   arith.$(O) atoms.$(O) datab.$(O) eval.$(O) io.$(O)\
-	memory.$(O) misc.$(O) prolog.$(O) read.$(O) sys.$(O)\
+OBJ =   prolog.$(O) arith.$(O) atoms.$(O) datab.$(O) eval.$(O) io.$(O)\
+	memory.$(O) misc.$(O) read.$(O) sys.$(O)\
 	user.$(O) win.$(O) write.$(O) charcl.$(O) help.$(O)\
 	$(TERMINAL).$(O) $(Q)exec.$(O) $(Q)uni.$(O) types.$(O) mylib.$(O)
 
