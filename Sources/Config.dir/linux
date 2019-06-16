@@ -11,7 +11,7 @@ SHELL=/bin/sh
 TERMINAL=termios
 
 ### the C-Compiler
-CC=gcc -ansi
+CC=gcc -std=c11
 
 ### C-Flags
 CFLAGS=-O2 -DLATIN1
