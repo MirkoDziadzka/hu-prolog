@@ -29,9 +29,7 @@
 GLOBAL ENV CHOICEPOINT = NIL_ENV;
 GLOBAL TERM BCT = NIL_TERM;
 
-GLOBAL boolean EXECUTE (CALLP, CALLENV)
-    register TERM CALLP;
-    ENV CALLENV;
+GLOBAL boolean EXECUTE(register TERM CALLP, ENV CALLENV)
 {
     register ATOM A;
     register ENV ENVP;
@@ -238,7 +236,7 @@ ON_ERROR:
         TERM T;
         if(clause(ERROR_2) == NIL_CLAUSE)
             ABORT(ERRORFLAG);
-        T = mk2sons(UNBOUNDT,NIL_TERM,INTT,ERRORFLAG);
+        T = mk2sons(UNBOUNDT,NIL_TERM,INTT,(TERM)ERRORFLAG);
         (void)UNIFY(1,CALLP,T,base(CALLENV),NIL_TERM,MAXDEPTH);
         if(name(br(CALLP)) != NIL_ATOM)
             CALLP=mk2sons(ERROR_2,T, GOTOT,br(CALLP));

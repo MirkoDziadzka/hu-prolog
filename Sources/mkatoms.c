@@ -20,17 +20,12 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 #ifdef BSD
 #include <strings.h>
 #else
 #include <string.h>
 #endif
-
-extern void exit();
-#ifndef __STDC__
-/* extern int strlen(); */
-#endif
-extern int strncmp();
 
 #define MAXL 512        /* bufferlength */
 #define DIST  20        
@@ -40,9 +35,7 @@ int counter = 0;
 
 char linebuffer[MAXL];
 
-int main(argc,argv)
-    int argc;
-    char *argv[];
+int main(int argc, char *argv[])
 {
     register char *strptr;
     register int i;

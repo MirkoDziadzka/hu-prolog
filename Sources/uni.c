@@ -24,8 +24,7 @@
 #include "extern.h"
 
 #ifndef DEREF_
-GLOBAL TERM DEREF_(T,B)
-    TERM T,B;
+GLOBAL TERM DEREF_(TERM T, TERM B)
 {
     if(name(T) == SKELT)
         T = n_brother(B,offset(T));
@@ -36,18 +35,14 @@ GLOBAL TERM DEREF_(T,B)
 #endif
 
 #ifndef INTRES
-GLOBAL boolean INTRES (X, I)
-    TERM X;
-    int I;
+GLOBAL boolean INTRES(TERM X, int I)
 {
     return UNI(X,mkint(I));
 }
 #endif
 
 #if LONGARITH
-GLOBAL boolean LONGRES(T,L)
-    TERM T;
-    LONG L;
+GLOBAL boolean LONGRES(TERM T, LONG L)
 {
     if(minint<=L && L<=maxint)
         return INTRES(T,(int)L);
@@ -57,11 +52,7 @@ GLOBAL boolean LONGRES(T,L)
 #endif
 
 #if OCCUR_CHECK
-LOCAL boolean Occur(V,T,B,Depth)
-    TERM V;
-    TERM T;
-    TERM B;
-    int Depth;
+LOCAL boolean Occur(TERM V, TERM T, TERM B, int Depth)
 {
     int ar;
     if(Depth == 0) ABORT(DEPTHE);
@@ -83,8 +74,7 @@ LOCAL boolean Occur(V,T,B,Depth)
         trailterm(V);else
 #endif
 #if !QUICK_BUT_DIRTY
-LOCAL void trailvar(V)
-    TERM V;
+LOCAL void trailvar(TERM V)
 {
 #if DEBUG
     if(CHOICEPOINT == NIL_ENV)
@@ -95,11 +85,7 @@ LOCAL void trailvar(V)
 }
 #endif
 
-LOCAL TERM copy_block(T,ar,B,Depth)
-    TERM T;
-    TERM B;
-    int ar;
-    int Depth;
+LOCAL TERM copy_block(TERM T, int ar, TERM B, int Depth)
 {
     TERM Result;
     TERM Tmp;
@@ -130,10 +116,7 @@ LOCAL TERM copy_block(T,ar,B,Depth)
     return Result;
 }
 
-LOCAL void BIND(V,T,B,Depth)
-    register TERM V,T;
-    TERM B;
-    int Depth;
+LOCAL void BIND(register TERM V, register TERM T, TERM B, int Depth)
 {
     if(Depth == 0) ABORT(DEPTHE);
 
@@ -171,11 +154,7 @@ LOCAL void BIND(V,T,B,Depth)
 }
 
 #if HIGHER_ORDER
-LOCAL boolean var_call_unify(T1,T2,B1,B2,Depth)
-    TERM T1,T2;
-    TERM B1,B2;
-    int Depth;
-
+LOCAL boolean var_call_unify(TERM T1, TERM T2, TERM B1, TERM B2, int Depth)
 {
     boolean b1,b2;
     TERM T;
@@ -216,11 +195,7 @@ fail:;
 }
 #endif
 
-GLOBAL boolean UNIFY(N,Term1,Term2,B1,B2,Depth)
-    TERM Term1,Term2;
-    register TERM B1,B2;
-    int N;
-    int Depth;
+GLOBAL boolean UNIFY(int N, TERM Term1, TERM Term2, register TERM B1, register TERM B2, int Depth)
 {
     register TERM T1,T2;
     TRAIL T_TOP;
@@ -285,8 +260,7 @@ fail:
 
 
 #ifndef UNI
-GLOBAL boolean UNI(T1,T2)
-    TERM T1,T2;
+GLOBAL boolean UNI(TERM T1, TERM T2)
 {
     return UNIFY(1,T1,T2,BE,BE,MAXDEPTH);
 }

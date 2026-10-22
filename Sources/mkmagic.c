@@ -17,11 +17,10 @@
 ***********************************************************************
 **********************************************************************/
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-extern long time();
-extern void exit();
-
-int main()
+int main(void)
 {
     printf("%ld\n",(long)time(NULL));
     exit(0);

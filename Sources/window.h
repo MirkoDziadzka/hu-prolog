@@ -35,18 +35,20 @@
 #define BOLD       ((int)0x08)
 #define PAGING     ((int)0x10)
 
-extern WIN w_create(/* int x,y,xl,yl ; char *name ; int attr */);
-extern void w_remove(/* WIN w */);
-extern void w_up(/* WIN w */);
-extern void w_puts(/* WIN w ; char *str */);
-extern int  w_gets(/* WIN w ; char *buf ; int maxlen */);
-extern void w_cls(/* WIN w */);
-extern void w_gotoxy(/* WIN w ; int xpos,ypos */);
-extern void w_scr_refresh();
-extern void w_exit();
-extern int t_rc();
-extern void Init_Windows();
-extern void show_window(/*WIN*/);
+extern WIN w_create(int x, int y, int xl, int yl, char *s, int mode);
+extern void w_remove(WIN w);
+extern void w_up(WIN w);
+extern void w_puts(WIN w, char *s);
+extern int  w_gets(WIN w, char buf[], int len);
+extern void w_cls(WIN w);
+extern void w_gotoxy(WIN w, int x, int y);
+extern int  w_get_x_pos(WIN w);
+extern int  w_get_y_pos(WIN w);
+extern void w_scr_refresh(void);
+extern void w_exit(void);
+extern int t_rc(void);
+extern void Init_Windows(void);
+extern void show_window(WIN w);
 
 
 /* end of file */

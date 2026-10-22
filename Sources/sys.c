@@ -19,13 +19,19 @@
 
 
 #include "config.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include <time.h>
+#if UNIX
+#include <sys/times.h>
+#endif
 
-extern char * getenv();
 extern int DEBUGFLAG;
+extern void out(int, char *);
+extern char *itoa(int);
 
 
-/*GLOBAL*/ int get_num_env_val( var )
-    char *var;
+/*GLOBAL*/ int get_num_env_val(char *var)
 {
     char *value;
     int Result = 0;
@@ -71,7 +77,7 @@ extern int DEBUGFLAG;
 #endif
 
 static int HZ_VAL;
-static void init_HZ()
+static void init_HZ(void)
 {
     static int is_init = 0;
     if(is_init)
@@ -117,15 +123,12 @@ static void init_HZ()
 # endif
 #endif
 
-long TIMER()
+long TIMER(void)
 {
 #if UNIX  || VMS
-    static struct {
-        long usertime,systime,cusertime,csystime;
-    } UTIME;
-    extern long times(); /* from clib */
+    static struct tms UTIME;
     (void)times(&UTIME);
-    return (UTIME.usertime * 100) / HZ_VAL;
+    return (UTIME.tms_utime * 100) / HZ_VAL;
 #endif
 
 #if MS_DOS
@@ -138,20 +141,16 @@ long TIMER()
 }
 
 
-int file_exist(filename)
-char *filename;
+int file_exist(char *filename)
 {
-    extern int access();
     return access(filename,0x04)==0 ;
 }
 
 /*
 ** call_system
 */
-int call_system(command)
-    char *command;
+int call_system(char *command)
 {
-    int system();       /* from clib */
     int result;
     result =  system(command);
 #if UNIX || MS_DOS
@@ -169,15 +168,15 @@ int call_system(command)
 #define NULL      ((char *)0)
 #endif
 
+#include <string.h>
+
 extern char **environ;
-extern int  strncmp();
 
 static char *new_env[ENVSIZE+1];
 static char  new_char[CHARSIZE];
 
 
-char *setenv(env_string)
-register char env_string[];
+char *hup_setenv(register char env_string[])
 {
     register char *s;
     register char *first_free; /* first free character */
@@ -229,13 +228,13 @@ register char env_string[];
 static int LINES = 25;
 static int COLUMNS = 80;
 
-#if UNIX 
+#if UNIX
 #ifndef NO_TERMCAP
-extern int tgetent();
-extern int tgetnum();
-extern char *tgetstr();
-extern char *tgoto();
-extern tputs();
+extern int tgetent(char *, char *);
+extern int tgetnum(char *);
+extern char *tgetstr(char *, char **);
+extern char *tgoto(char *, int, int);
+extern int tputs(char *, int, int (*)(char));
 #endif
 
 #ifndef NULL
@@ -247,7 +246,7 @@ static char *CL = NULL;
 static char *CR = NULL;
 
 
-static void init_terminal()
+static void init_terminal(void)
 {
 #ifndef NO_TERMCAP
     char tbuffer[1024];
@@ -287,8 +286,7 @@ static int b_index;
 
 #define  reset_buffer()	b_index = 0
 #define  end_buffer()	buffer[b_index] = '\0'
-static int put_char(c)
-    char c;
+static int put_char(char c)
 {
     buffer[b_index++] = c;
     if(b_index >= BUFLEN)
@@ -315,8 +313,7 @@ static int put_char(c)
 #endif
 }
 
-/*GLOBAL*/ char *t_gotoxy(col,row)
-    int col,row;
+/*GLOBAL*/ char *t_gotoxy(int col, int row)
 {
 #if UNIX
 #ifndef NO_TERMCAP
@@ -358,7 +355,7 @@ static int put_char(c)
 }
 
 
-void Init_Sys()
+void Init_Sys(void)
 {
 #if UNIX
     init_HZ();

@@ -17,8 +17,11 @@
 ***********************************************************************
 **********************************************************************/
 
+#if 0 /* flip to enable verbose read-tracing */
 #define debug(X)	out(2,"[");out(2,__FILE__);out(2,":");out(2,itoa(__LINE__));out(2,"  ");out(2,X);out(2,"]");
+#else
 #define debug(X)	/**/
+#endif
 
 #include "config.h"
 #include "types.h"
@@ -30,8 +33,7 @@
 
 
 /* The precedence for a left operand of a. */
-GLOBAL int LPREC (A)
-    ATOM A;
+GLOBAL int LPREC(ATOM A)
 { 
     switch (oclass(A))
     { 
@@ -45,8 +47,7 @@ GLOBAL int LPREC (A)
 }
 
 /* The precedence for a right operand of a. */
-GLOBAL int RPREC (A)
-    ATOM A;
+GLOBAL int RPREC(ATOM A)
 { 
     switch (oclass(A))
     { 
@@ -107,19 +108,14 @@ LOCAL TERM TSTACK[READSIZE];
 LOCAL ATOM ASTACK[READSIZE];
 LOCAL ELEMTAG TAGSTACK[READSIZE];
 
-LOCAL void RPOP(PA,PT)
-register ATOM *PA; 
-register TERM *PT;
+LOCAL void RPOP(register ATOM *PA, register TERM *PT)
 { 
     *PA=ASTACK[RTOP]; 
     *PT=TSTACK[RTOP]; 
     RTOP--; 
 }
 
-LOCAL void RPUSH (T,A,X)
-register ELEMTAG T; 
-register ATOM A; 
-register TERM X;
+LOCAL void RPUSH(register ELEMTAG T, register ATOM A, register TERM X)
 { 
     if (RTOP>=READSIZE) SYNERROR(READSTACKE);
     RTOP++;
@@ -132,7 +128,7 @@ LOCAL  int STOP;
 LOCAL  int READCONTEXT[READDEPTH];
 LOCAL  int READPREC[READDEPTH];
 
-LOCAL void SAVECONTEXT()
+LOCAL void SAVECONTEXT(void)
 { 
     if (STOP>=READDEPTH) SYNERROR(READNESTE);
     READCONTEXT[STOP]= CONTEXT; 
@@ -140,7 +136,7 @@ LOCAL void SAVECONTEXT()
     STOP++;
 }
 
-LOCAL void RESTORECONTEXT()
+LOCAL void RESTORECONTEXT(void)
 { 
     STOP--; 
     CONTEXT= READCONTEXT[STOP]; 
@@ -149,7 +145,7 @@ LOCAL void RESTORECONTEXT()
 
 LOCAL int  VARCT;
 
-GLOBAL int VARCOUNT()
+GLOBAL int VARCOUNT(void)
 {
     return VARCT;
 }
@@ -158,7 +154,7 @@ LOCAL string aIDENT[MAXVARS];
 LOCAL TERM VAR_TAB[MAXVARS];
 LOCAL int counter[MAXVARS];
 
-GLOBAL TERM VARTERM()
+GLOBAL TERM VARTERM(void)
 { 
     TERM Q,R; 
     int I;
@@ -193,8 +189,7 @@ GLOBAL TERM VARTERM()
       complete.
 */
 
-LOCAL void REDUCE (P, LP)
-int P, LP;
+LOCAL void REDUCE(int P, int LP)
 { 
     TERM  X, Y;
     ATOM  A,XA,YA;
@@ -237,7 +232,7 @@ int P, LP;
       operator occurs as an atom.
 */
 
-LOCAL void CHECKDELIM ()
+LOCAL void CHECKDELIM(void)
 { 
     ATOM  A; 
     TERM X;
@@ -253,8 +248,7 @@ LOCAL void CHECKDELIM ()
 
 /* Process an atom. */
 
-LOCAL void SQUASHRAND (A)
-    ATOM A;
+LOCAL void SQUASHRAND(ATOM A)
 { 
     int  P, LP;
     P= oprec(A);
@@ -269,8 +263,7 @@ LOCAL void SQUASHRAND (A)
 /* Read an atom or string quoted by 'q' and store its characters
       in the atom table, translating pairs of embedded quotes. */
 
-LOCAL void SCANQUOTE (Q)
-char Q;
+LOCAL void SCANQUOTE(char Q)
 { 
     STARTATOM();
     for(;;)
@@ -320,7 +313,7 @@ char Q;
 /* variable handling */
 
 LOCAL int VARHWM;
-LOCAL TERM ENTERVAR ()
+LOCAL TERM ENTERVAR(void)
 { 
     TERM  V;
     int  N=0,NEWINDEX;
@@ -354,7 +347,7 @@ LOCAL TERM ENTERVAR ()
     return V;
 }
 
-LOCAL void Var_Check()
+LOCAL void Var_Check(void)
 { 
     int i;
     /* check if a variable is only used only at one time */
@@ -371,11 +364,9 @@ LOCAL void Var_Check()
 }
 
 #if REALARITH
-LOCAL REAL genreal(r,expo)
 /* used by readnumber */
 /* result is r * 10 ^ expo */
-REAL r;
-int expo;
+LOCAL REAL genreal(REAL r, int expo)
 {
     while(expo >= 10 ) {
         expo-= 10; 
@@ -398,9 +389,8 @@ int expo;
 #endif
 
 #if REALARITH && LONGARITH
-LOCAL TERM readnumber(sign)
 /* read an number - LASTCH is the first digit */
-boolean sign;
+LOCAL TERM readnumber(boolean sign)
 {
     LONG l ; 
     int  i ; 
@@ -472,9 +462,8 @@ double2:
 #endif
 
 #if ! REALARITH && LONGARITH
-LOCAL TERM readnumber(sign)
 /* read an number - LASTCH is the first digit */
-boolean sign;
+LOCAL TERM readnumber(boolean sign)
 {
     LONG l ; 
     int  i ;
@@ -491,9 +480,8 @@ boolean sign;
 #endif
 
 #if ! REALARITH && !LONGARITH
-LOCAL TERM readnumber(sign)
 /* read an number - LASTCH is the first digit */
-boolean sign;
+LOCAL TERM readnumber(boolean sign)
 {
     int  i ;
     i = LASTCH-'0';
@@ -507,9 +495,8 @@ boolean sign;
 #endif
 
 #if REALARITH && !LONGARITH
-LOCAL TERM readnumber(sign)
 /* read an number - LASTCH is the first digit */
-boolean sign;
+LOCAL TERM readnumber(boolean sign)
 {
     int  i ; 
     REAL r ;
@@ -572,8 +559,7 @@ double2:
 }
 #endif
 
-LOCAL void handle_macros(T)
-    TERM T;
+LOCAL void handle_macros(TERM T)
 {
     TERM Term_Top; 
     TRAIL Trail_Top;
@@ -615,7 +601,7 @@ LOCAL void handle_macros(T)
     }
 }
 
-GLOBAL TERM READIN ()
+GLOBAL TERM READIN(void)
 { 
     TERM T, X;
     ATOM A,HA,TA,XA;

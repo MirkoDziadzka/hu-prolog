@@ -72,7 +72,12 @@
 #       define POINTERMODE 	1
 #       define MAXDEPTH 	5000
 #ifndef MEMORYSIZE
-#	define MEMORYSIZE	(1024 * 1024)
+/* the (1024*1024) "big iron" tier was sized for '80s/'90s mainframes;
+** on a 64-bit build its static arrays add up to multiple GB of BSS,
+** which fails to even map on some modern systems. 16000 is still
+** tiny by today's standards but comfortably covers the standard
+** nrev/2000 benchmark. */
+#	define MEMORYSIZE	16000
 #endif
 #endif
 #if MS_DOS

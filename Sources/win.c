@@ -21,16 +21,15 @@
 #include "config.h"
 #if WINDOWS
 
+#include <string.h>
+#include <unistd.h>
 #include "charcl.h"
 
 
-extern char *t_cls();
-extern char *t_gotoxy();
-extern int t_lines();
-extern int t_columns();
-
-extern int read();
-extern int write();
+extern char *t_cls(void);
+extern char *t_gotoxy(int, int);
+extern int t_lines(void);
+extern int t_columns(void);
 
 /* 
 **  Compilerabhaengige Definitionen
@@ -165,8 +164,7 @@ int t_rc()              /* lesen eines Zeichens vom Terminal    */
 #endif
 }
 
-STATIC void t_buffer(mode)
-REGISTER byte mode;
+STATIC void t_buffer(REGISTER byte mode)
 {
     if(mode == ON) 
     {
@@ -183,8 +181,7 @@ REGISTER byte mode;
 }
 
 /*ARGSUSED*/
-STATIC void t_wc(c)
-char c;
+STATIC void t_wc(char c)
 {
     if(!is_no_char(c)) cur_x_pos++;
     if(buffered)
@@ -199,36 +196,34 @@ char c;
     else (void)write(1,&c,1);
 }
 
-STATIC void t_ws(s)
-REGISTER char *s;
+STATIC void t_ws(REGISTER char *s)
 {
     while(*s) t_wc(*s++);
 
 }
 
-STATIC void _gotoxy(S,Z)
-REGISTER byte S,Z;
+STATIC void _gotoxy(REGISTER byte S, REGISTER byte Z)
 {
     t_ws(t_gotoxy((int)S,(int)Z));
     cur_x_pos = S; 
     cur_y_pos = Z;
 }
 
-STATIC void _cls()
+STATIC void _cls(void)
 {
     t_ws(t_cls());
     cur_x_pos = 1 ; 
     cur_y_pos =1;
 }
 
-STATIC void _beep()
+STATIC void _beep(void)
 {
     (void)write(1,"\007",1);
 }
 
 /*  Routinen zur Windowverwaltung                       */
 
-void Init_Windows()
+void Init_Windows(void)
 {
     WIN w;
     REGISTER byte x,y;
@@ -255,14 +250,13 @@ void Init_Windows()
 
 }
 
-void w_exit()
+void w_exit(void)
 {
     _gotoxy(1,LINES+1);
     t_exit();
 }
 
-STATIC WIN newwindow(size)
-word size;
+STATIC WIN newwindow(word size)
 {
     WIN w;
     for(w = 0 ; w < MAXWINDOWS; ++w)
@@ -275,8 +269,7 @@ word size;
     return w;
 }
 
-STATIC void freewindow(w)
-WIN w;
+STATIC void freewindow(WIN w)
 {
     REGISTER WIN ww;
     REGISTER word i;
@@ -295,9 +288,7 @@ WIN w;
     }
 }
 
-STATIC void w_charout(w,x,y)
-REGISTER WIN w;
-REGISTER byte x,y;
+STATIC void w_charout(REGISTER WIN w, REGISTER byte x, REGISTER byte y)
 {
     REGISTER byte xp,yp;
     if((xp = x_scr_pos(w,x)) < 1 || xp > COLUMNS) return ;
@@ -309,8 +300,7 @@ REGISTER byte x,y;
     scr_char(xp,yp) = w_char(w,x,y);
 }
 
-STATIC void w_out(w)
-REGISTER WIN w;
+STATIC void w_out(REGISTER WIN w)
 {
     REGISTER byte x,y;
     t_buffer(ON);
@@ -332,10 +322,7 @@ ok:
     t_buffer(OFF);
 }
 
-WIN w_create(x,y,xl,yl,s,mode)
-int x,y,xl,yl;
-char *s;
-int mode;
+WIN w_create(int x, int y, int xl, int yl, char *s, int mode)
 {
     WIN w;
     byte i;
@@ -394,8 +381,7 @@ int mode;
 
 }
 
-STATIC void page_window_info(w)
-    WIN w;
+STATIC void page_window_info(WIN w)
 {
     t_buffer(ON);
     w_up(w);
@@ -425,8 +411,7 @@ STATIC void page_window_info(w)
     t_buffer(OFF);
 }
 
-STATIC void scroll_window(w)
-REGISTER WIN w;
+STATIC void scroll_window(REGISTER WIN w)
 {
     REGISTER byte i,j;
     t_buffer(ON);
@@ -445,8 +430,7 @@ REGISTER WIN w;
     t_buffer(OFF);
 }
 
-void w_remove(w)
-WIN w;
+void w_remove(WIN w)
 {
     REGISTER byte x,y;
     REGISTER WIN ww;
@@ -504,9 +488,7 @@ WIN w;
 
 STATIC char *space = " ";
 
-void w_puts(w,s)
-REGISTER WIN w;
-REGISTER char *s;
+void w_puts(REGISTER WIN w, REGISTER char *s)
 {
     if(!iswindow(w)) return;
     t_buffer(ON);
@@ -545,8 +527,7 @@ REGISTER char *s;
     t_buffer(OFF);
 }
 
-void w_up(w)
-WIN w;
+void w_up(WIN w)
 {
     WIN ww;
     if(!iswindow(w) || w == firstwindow) return;
@@ -566,10 +547,7 @@ WIN w;
 }
 
 
-int w_gets(w,buf,len)
-WIN w;
-char buf[];
-int len;
+int w_gets(WIN w, char buf[], int len)
 {
     int l;
     if(!iswindow(w)) return 0;
@@ -604,9 +582,7 @@ int len;
     return l;
 }
 
-void w_gotoxy(w,x,y)
-WIN w;
-int x,y;
+void w_gotoxy(WIN w, int x, int y)
 {
     if(!iswindow(w)) return;
     t_buffer(ON);
@@ -621,22 +597,19 @@ int x,y;
     t_buffer(OFF);
 }
 
-int w_get_x_pos( w )
-WIN w;
+int w_get_x_pos(WIN w)
 {
     if(!iswindow(w)) return -1;
     return x_pos(w);
 }
 
-int w_get_y_pos( w )
-WIN w;
+int w_get_y_pos(WIN w)
 {
     if(!iswindow(w)) return -1;
     return y_pos(w);
 }
 
-void w_cls(w)
-WIN w;
+void w_cls(WIN w)
 {
     byte x,y;
     if(!iswindow(w)) return;
@@ -656,8 +629,7 @@ WIN w;
     t_buffer(OFF);
 }
 
-void show_window(w)
-    WIN w;
+void show_window(WIN w)
 {
     if(!iswindow(w)) return;
 
@@ -665,7 +637,7 @@ void show_window(w)
 	w_cls(w);
 }
 
-void w_scr_refresh()
+void w_scr_refresh(void)
 {
     byte x,y;
 

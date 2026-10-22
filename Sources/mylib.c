@@ -39,6 +39,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 static char  ** new_argv 	= NULL;
 static int      new_argv_size 	= 0;

@@ -65,42 +65,36 @@ LOCAL  jmp_buf abort_label;
 LOCAL  jmp_buf exit_label;
 
 
-GLOBAL VOLATILE void ERROR_JMP()
+GLOBAL VOLATILE void ERROR_JMP(void)
 {
     longjmp(error_label,1);
 }
 
-GLOBAL VOLATILE void ABORT_JMP()
+GLOBAL VOLATILE void ABORT_JMP(void)
 {
     longjmp(abort_label,1);
 }
 
-GLOBAL VOLATILE void EXIT_JMP(N)
-    int N;
+GLOBAL VOLATILE void EXIT_JMP(int N)
 {
     ReturnCode = N;
     longjmp(exit_label,1);
 }
 
-GLOBAL void SAVE_ERROR(adr)
-    char *adr;
+GLOBAL void SAVE_ERROR(char *adr)
 {
     (void)memcpy(adr,(char *)error_label,sizeof(jmp_buf));
 }
 
-GLOBAL void RESTORE_ERROR(adr)
-    char *adr;
+GLOBAL void RESTORE_ERROR(char *adr)
 {
     (void)memcpy((char *)error_label,adr,sizeof(jmp_buf));
 }
 
 #if SIGNAL_RETURNS_VOID
-LOCAL void sig_handler(s)
-    int s;
-#endif
-#if ! SIGNAL_RETURNS_VOID
-LOCAL int sig_handler(s)
-    int s;
+LOCAL void sig_handler(int s)
+#else
+LOCAL int sig_handler(int s)
 #endif
 {
     (void)signal(s,SIG_IGN);
@@ -158,10 +152,10 @@ LOCAL int sig_handler(s)
 #if MSC
 LOCAL void (interrupt far * old_1b)();
 LOCAL int _1b_is_init = 0;
-LOCAL void interrupt far new_1b()
+LOCAL void interrupt far new_1b(void)
 { UserAbort = 1; }
 
-LOCAL void init_1b()
+LOCAL void init_1b(void)
 {
         if(! _1b_is_init)
         {
@@ -171,7 +165,7 @@ LOCAL void init_1b()
         }
 }
 
-LOCAL void exit_1b()
+LOCAL void exit_1b(void)
 {
         if(_1b_is_init)
         {
@@ -183,10 +177,10 @@ LOCAL void exit_1b()
 #if TURBOC
 LOCAL void interrupt  (* old_1b)();
 LOCAL int _1b_is_init = 0;
-LOCAL void interrupt new_1b()
+LOCAL void interrupt new_1b(void)
 { UserAbort = 1; }
 
-LOCAL void init_1b()
+LOCAL void init_1b(void)
 {
     if(! _1b_is_init)
     {
@@ -196,7 +190,7 @@ LOCAL void init_1b()
     }
 }
 
-LOCAL void exit_1b()
+LOCAL void exit_1b(void)
 {
         if(_1b_is_init)
         {
@@ -209,7 +203,7 @@ LOCAL void exit_1b()
 #define CATCH( sig ) 	if(signal(sig,sig_handler) == SIG_IGN) \
 				(void)signal(SIGINT,SIG_IGN) ; \
 			else  /* nothing */
-void Init_Signals()
+void Init_Signals(void)
 {
 #ifdef SIGHUP
     CATCH( SIGHUP );
@@ -262,8 +256,7 @@ void Init_Signals()
 #endif
 }
 
-LOCAL TERM make_toplevel(X)
-    TERM X;
+LOCAL TERM make_toplevel(TERM X)
 { 
     TERM Y;
     if (name(X)==COMMA_2)
@@ -278,7 +271,7 @@ LOCAL TERM make_toplevel(X)
 }
 
 
-LOCAL void TOPLEVEL ()
+LOCAL void TOPLEVEL(void)
 { 
     TERM  X;
     CLAUSE MCL;
@@ -382,9 +375,7 @@ LOCAL void TOPLEVEL ()
     }  
 }
 
-LOCAL void InitArg(argc,argv)
-    int argc;
-    char *argv[];
+LOCAL void InitArg(int argc, char *argv[])
 {
     int i;
     ARGC = argc;
@@ -445,7 +436,7 @@ LOCAL string PLGRCNAME="prolog.rc";
 LOCAL string PLGRCNAME="prolog.rc";
 #endif
 
-LOCAL void prologrcfile()
+LOCAL void prologrcfile(void)
 {
     string S,A,I;
     static char AA[100];
@@ -475,9 +466,7 @@ LOCAL void prologrcfile()
     return ;
 }
 
-int main(argc,argv)
-    int argc; 
-    char **argv;
+int main(int argc, char **argv)
 {
     static boolean first_time = true;
     static boolean CANT_RESTORE = false;

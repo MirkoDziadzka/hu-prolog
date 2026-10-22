@@ -73,6 +73,14 @@
 #define N_OF_STRINGS   (64 * 1024)  /*  "    "   " chars in string tab */
 #endif
 
+#if MEMORYSIZE==16000 /* KByte */
+#define N_OF_ATOMS    160000  /* MAX. no. of atoms */
+#define N_OF_TERMS    (16 * 1024 * 1024)  /*  "    "   " term */
+#define N_OF_TRAILS   320000  /*  "    "   " critical variables */
+#define N_OF_ENVS     480000  /*  "    "   " active goals */
+#define N_OF_STRINGS  (1024 * 1024)  /*  "    "   " chars in string tab */
+#endif
+
 #if MEMORYSIZE== (1024 * 1024) /* KByte */
 #define N_OF_ATOMS    (8 * 1024 * 1024)  /* MAX. no. of atoms */
 #define N_OF_TERMS    (64 * 1024 * 1024)  /*  "    "   " term */

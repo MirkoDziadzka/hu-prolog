@@ -24,10 +24,7 @@
 #include "files.h"
 #include "extern.h"
 
-GLOBAL void freeterm(N,T,Depth)
-    int N;
-    TERM T;
-    int Depth;
+GLOBAL void freeterm(int N, TERM T, int Depth)
 {
     register TERM TT;
     register int NN;
@@ -45,20 +42,17 @@ LOCAL TERM VAR_TAB[ MAXVARS ];
 
 LOCAL int VARCT;
 
-GLOBAL void Init_Skeleton()
+GLOBAL void Init_Skeleton(void)
 {
     VARCT = 0;
 }
 
-GLOBAL int Var_Count()
+GLOBAL int Var_Count(void)
 {
     return VARCT;
 }
 
-GLOBAL TERM SKELETON (T,N,Depth)
-    TERM T;
-    int N;
-    int Depth;
+GLOBAL TERM SKELETON(TERM T, int N, int Depth)
 { 
     TERM Result,S;
     TERM TT;
@@ -101,9 +95,7 @@ heapvar:
     return Result;
 }
 
-GLOBAL CLAUSE NewClause(Head,Body,user_unify)
-    TERM Head,Body;
-    boolean user_unify;
+GLOBAL CLAUSE NewClause(TERM Head, TERM Body, boolean user_unify)
 { 
     ATOM A;
     CLAUSE CL;
@@ -206,9 +198,7 @@ heapvar:
     return CL;
 }
 
-GLOBAL TERM ClauseHead(CL,B)
-    CLAUSE CL;
-    TERM B;
+GLOBAL TERM ClauseHead(CLAUSE CL, TERM B)
 {
     TERM H;
     H=mkfreevar();
@@ -216,9 +206,7 @@ GLOBAL TERM ClauseHead(CL,B)
     return H;
 }
 
-GLOBAL TERM ClauseBody(CL,B)
-    CLAUSE CL;
-    TERM B;
+GLOBAL TERM ClauseBody(CLAUSE CL, TERM B)
 {
     TERM T,TT;
     TERM Result;
@@ -250,8 +238,7 @@ GLOBAL TERM ClauseBody(CL,B)
    /*NOTREACHED*/
 }
 
-LOCAL CLAUSE make_clause(T)
-    TERM T;
+LOCAL CLAUSE make_clause(TERM T)
 {
     deref(T);
     if(name(T) == ARROW_2)
@@ -261,8 +248,7 @@ LOCAL CLAUSE make_clause(T)
 }
 
 
-GLOBAL void DOASSERT(asserta)
-    boolean asserta;           
+GLOBAL void DOASSERT(boolean asserta)
 {                         
     ATOM A;
     CLAUSE CL,C;
@@ -270,7 +256,7 @@ GLOBAL void DOASSERT(asserta)
 
     if((A = name(A0))== ARROW_2) 
         A=nameof(son(A0));
-    if((system(A) && !aSYSMODE) || class(A)!=NORMP) 
+    if((is_system(A) && !aSYSMODE) || class(A)!=NORMP) 
         ERROR(SYSPROCE);
     A=copyatom(A);
     CL = make_clause(A0);
@@ -291,13 +277,12 @@ GLOBAL void DOASSERT(asserta)
 
 
 
-GLOBAL void FreeClause(CL)
-    CLAUSE CL;
 /*
 ** Diese Funktion haengt von der konkreten Implementation
 ** der abstrakten Datantypen ab
 */
-{ 
+GLOBAL void FreeClause(CLAUSE CL)
+{
     TERM T,S;
     int i = _head_offset+1;
     nextcl(CL) = NIL_CLAUSE; /* nicht notwendig, aber sicherer */
@@ -334,7 +319,7 @@ GLOBAL void FreeClause(CL)
 
 LOCAL CLAUSE clausechain=NIL_CLAUSE;   
 
-GLOBAL void retractclauses()
+GLOBAL void retractclauses(void)
 { 
     CLAUSE CL ;
     while((CL=clausechain) != NIL_CLAUSE)
@@ -346,9 +331,8 @@ GLOBAL void retractclauses()
 }
 
 
-LOCAL boolean active_clause(CL)
-    CLAUSE CL;
 /* true, if CL is an active goal */
+LOCAL boolean active_clause(CLAUSE CL)
 {
     ENV EE;
     CLAUSE CP;
@@ -403,8 +387,7 @@ LOCAL boolean active_clause(CL)
     return result;
 }
 
-LOCAL void destroycl(CL)
-register CLAUSE CL;
+LOCAL void destroycl(register CLAUSE CL)
 {
     register ATOM A;
     register CLAUSE hcl;
@@ -432,9 +415,7 @@ register CLAUSE CL;
 
 
 
-LOCAL TERM GenTerm(CL,B)
-    CLAUSE CL;
-    TERM B;
+LOCAL TERM GenTerm(CLAUSE CL, TERM B)
 {
     TERM T,TT;
     T = ClauseBody(CL,B);
@@ -449,8 +430,7 @@ LOCAL TERM GenTerm(CL,B)
     }
 }
 
-GLOBAL boolean DORETRACT(retractall)
-    boolean retractall;
+GLOBAL boolean DORETRACT(boolean retractall)
 { 
     CLAUSE CL,NCL;
     ATOM A;
@@ -463,7 +443,7 @@ GLOBAL boolean DORETRACT(retractall)
     A=name(A0);
     if(A==ARROW_2) 
         A=nameof(arg1(A0));
-    if((system(A) && !aSYSMODE) || class(A)!=NORMP) 
+    if((is_system(A) && !aSYSMODE) || class(A)!=NORMP) 
         ARGERROR();
     if( A == REPEAT_0 )
 	return retractall;
@@ -493,7 +473,7 @@ GLOBAL boolean DORETRACT(retractall)
 }
 
 
-GLOBAL boolean DOCLAUSE()
+GLOBAL boolean DOCLAUSE(void)
 { 
     CLAUSE CL;
     TERM T;
@@ -508,7 +488,7 @@ GLOBAL boolean DOCLAUSE()
         A=name(A0);
         if(!func_atom(A))
             ARGERROR();
-        if((system(A) && !aSYSMODE) || class(A)!=NORMP) 
+        if((is_system(A) && !aSYSMODE) || class(A)!=NORMP) 
             return false;
         CL = clause(A);
     }
@@ -536,11 +516,10 @@ GLOBAL boolean DOCLAUSE()
     return false;
 }
 
-LOCAL void  abolish(A) 
-    ATOM A;
+LOCAL void  abolish(ATOM A)
 { 
     CLAUSE CL,CL1;
-    if((system(A) && !aSYSMODE) || class(A)!=NORMP) 
+    if((is_system(A) && !aSYSMODE) || class(A)!=NORMP) 
         return;
     if( A == REPEAT_0 )
 	return;
@@ -553,8 +532,7 @@ LOCAL void  abolish(A)
     }
 }
 
-GLOBAL void  DOABOLISH(argc)
-    int argc;
+GLOBAL void  DOABOLISH(int argc)
 {
     ATOM A;
 
@@ -581,10 +559,7 @@ GLOBAL void  DOABOLISH(argc)
 }
 
 
-GLOBAL boolean DOCONSULT(FILENAME,reconsult,library)
-    TERM FILENAME;  
-    boolean reconsult;
-    boolean library;
+GLOBAL boolean DOCONSULT(TERM FILENAME, boolean reconsult, boolean library)
 {
     TERM X;
     ATOM A,FILEATOM;
@@ -695,7 +670,7 @@ GLOBAL boolean DOCONSULT(FILENAME,reconsult,library)
         {
             if(A  == ARROW_2) 
                 A=nameof(son(X));
-            if((system(A) && !aSYSMODE) || class(A) != NORMP)
+            if((is_system(A) && !aSYSMODE) || class(A) != NORMP)
                 ABORT(SYSPROCE);
             A = copyatom(A);
             if(reconsult && !rc(A))
@@ -766,7 +741,7 @@ exit_func:
     return res;
 }
 
-GLOBAL boolean DOENSURE()
+GLOBAL boolean DOENSURE(void)
 {
     ATOM A;
     int ARITY;
@@ -808,8 +783,7 @@ GLOBAL boolean DOENSURE()
 LOCAL TERM CURRTERM;
 LOCAL int CURRMAX;
 
-LOCAL CLAUSE initclause(N,VARS)
-    int N,VARS;
+LOCAL CLAUSE initclause(int N, int VARS)
 { 
     CLAUSE CL;
     if(CURRMAX != 0)
@@ -822,8 +796,7 @@ LOCAL CLAUSE initclause(N,VARS)
     return CL;
 }
 
-LOCAL void setvar(S)
-    int S;
+LOCAL void setvar(int S)
 { 
     if (CURRMAX-- <= 1) 
         SYSTEMERROR("InitDatabase");
@@ -832,9 +805,7 @@ LOCAL void setvar(S)
     next_br(CURRTERM);
 }
 
-LOCAL void setarg(A,S)
-    ATOM A;
-    TERM S;
+LOCAL void setarg(ATOM A, TERM S)
 { 
     if (CURRMAX-- <= 1) 
         SYSTEMERROR("InitDatabase");
@@ -843,7 +814,7 @@ LOCAL void setarg(A,S)
     next_br(CURRTERM);
 }
 
-LOCAL void endclause()
+LOCAL void endclause(void)
 {
     if(CURRMAX-- != 1)
         SYSTEMERROR("InitDatabase");
@@ -851,8 +822,7 @@ LOCAL void endclause()
     son(CURRTERM)  = NIL_TERM;
 }
 
-LOCAL TERM vars(M,N)
-    int M,N;
+LOCAL TERM vars(int M, int N)
 { 
     register TERM T;
     T=heapterm(2); 
@@ -863,8 +833,7 @@ LOCAL TERM vars(M,N)
     return T;
 }
 
-LOCAL TERM var(N)
-    int N;
+LOCAL TERM var(int N)
 { 
     register TERM T;
     T=heapterm(1); 
@@ -873,8 +842,7 @@ LOCAL TERM var(N)
     return T;
 }
 
-LOCAL void arithclause(A)
-    ATOM A;
+LOCAL void arithclause(ATOM A)
 { 
     register TERM P;
     clause(A)=initclause(5,4);
@@ -891,7 +859,7 @@ LOCAL void arithclause(A)
 
 GLOBAL CLAUSE ANDG,OR1G,OR2G,IMPG,DUMMYCL;
 
-GLOBAL void Init_Datab()
+GLOBAL void Init_Datab(void)
 { 
     register TERM P;
     register CLAUSE C;
@@ -1084,7 +1052,7 @@ GLOBAL void Init_Datab()
 }
 
 
-void Check()
+void Check(void)
 {
     CLAUSE Cl;
     ATOM A;

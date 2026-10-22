@@ -17,11 +17,8 @@
 ***********************************************************************
 **********************************************************************/
 
+:- sysmode(on).
 :- op( 900 , xfx , := ).
-
-timer(X) :-
-    nonvar(X),!.
-timer(1).
 
 X := Y :-
     write( X := Y ).
@@ -51,7 +48,8 @@ gen(N) :-
 % Listenlaenge N  --> (N+1)*(N+2) / 2 Logische Inferenzen
 %
 test:-
-	numlist(X), timer(0), u(X), timer(T),
+	numlist(X), timer(0), u(X), timer(T0),
+	( T0 =:= 0 -> T = 1 ; T = T0 ),
 	LIPS:=(li * 100 ) // T, a:=a+LIPS, n:=n+1, S:=a//n,
 	write('LIPS:'),write(LIPS),write('    S='),write(S),nl,!.
 

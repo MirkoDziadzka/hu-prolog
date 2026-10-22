@@ -28,7 +28,7 @@
 static int t_is_init = 0;
 static int curses_is_init = 0;
 
-void t_init()
+void t_init(void)
 {
     if(t_is_init)
 	return;
@@ -45,7 +45,7 @@ void t_init()
     t_is_init = 1;
 }
 
-void t_exit()
+void t_exit(void)
 {
     if(! t_is_init)
 	return;

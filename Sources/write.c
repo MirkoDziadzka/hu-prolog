@@ -29,8 +29,7 @@
 LOCAL boolean QUOTE,LISTFLAG,DISPLFLAG;
 LOCAL boolean last_was_numb;
 
-LOCAL void write_quoted_char(ch)
-    char ch;
+LOCAL void write_quoted_char(char ch)
 {
     if(ch == '\t') 	  ws("\\t");
     else if(ch == '\n')   ws("\\n");
@@ -52,9 +51,9 @@ LOCAL void write_quoted_char(ch)
     else wc(ch);
 }
 
-GLOBAL void wq(A)
-ATOM A;
-{/* quoted output if necessary */
+/* quoted output if necessary */
+GLOBAL void wq(ATOM A)
+{
     int nIDENT=0,aIDENT=0;
     int notfirst = 0;
     string s,ss;
@@ -92,10 +91,7 @@ quote:
     return;
 }
 
-LOCAL void WRITETERM (Y, P, DEPTH)
-    TERM Y;
-    int P;
-    int DEPTH;
+LOCAL void WRITETERM(TERM Y, int P, int DEPTH)
 {
     ATOM A;
     last_was_numb=false;
@@ -326,8 +322,7 @@ no_string:
     }
 }
 
-GLOBAL void DISPLAY(T)
-TERM T;
+GLOBAL void DISPLAY(TERM T)
 { 
     QUOTE = true; 
     LISTFLAG = false; 
@@ -336,9 +331,7 @@ TERM T;
     QUOTE = false;
 }
 
-GLOBAL void WRITEOUT (X,quote)
-TERM X;
-boolean quote;
+GLOBAL void WRITEOUT(TERM X, boolean quote)
 { 
     QUOTE = quote; 
     DISPLFLAG = false; 
@@ -347,8 +340,7 @@ boolean quote;
     QUOTE=false;
 }
 
-GLOBAL void ABORT_WRITE(T)
-register TERM T;
+GLOBAL void ABORT_WRITE(register TERM T)
 {
     QUOTE = false; 
     DISPLFLAG = false; 
@@ -357,8 +349,7 @@ register TERM T;
 }
 
 
-GLOBAL void LISTOUT (X)
-TERM X;
+GLOBAL void LISTOUT(TERM X)
 { 
     LISTFLAG= true; 
     DISPLFLAG = false;
@@ -373,10 +364,7 @@ TERM X;
 #if !NO_TRACE
 GLOBAL ENV TRACE_GOON=0;
 
-GLOBAL boolean TRACE (MESS, Y, ENVP)
-    ATOM MESS;
-    TERM Y;
-    ENV ENVP;
+GLOBAL boolean TRACE(ATOM MESS, TERM Y, ENV ENVP)
 { 
     boolean spyflag= false, answer= true;
     boolean mustread= true;

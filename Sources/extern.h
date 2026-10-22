@@ -24,47 +24,20 @@
 /* Schnittstelle zum Betriebssystem */
 
 #include <setjmp.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <fcntl.h>
 
-PROTOTYPE(int open,(char *,int));
-PROTOTYPE(int creat,(char *,int));
-PROTOTYPE(int close,(int));
-PROTOTYPE(int read,(int,char *,int));
-PROTOTYPE(int write,(int,char *,int));
-PROTOTYPE(int isatty,(int));
-PROTOTYPE(int unlink,(char *));
-PROTOTYPE(long lseek,(int,long,int));
-PROTOTYPE(int access,(char *, int));
-
-#if UNIX 
-PROTOTYPE(int kill,(int,int));
-PROTOTYPE(int getpid,(void));
-PROTOTYPE(int pause,(void));
+#if UNIX
+#include <signal.h>
 #ifndef NO_TERMCAP
-/* TERMCAP */
+/* TERMCAP -- not declared by any standard header, keep manual prototypes */
 PROTOTYPE(int  tgetent,(char *));
 PROTOTYPE(char *tgetstr,(char *, char **));
 PROTOTYPE(int  tgetnum,(char *));
 PROTOTYPE(char *tgoto,(char *, int, int));
 #endif
-#endif
-
-#if SAVE
-PROTOTYPE(int execlp,(char *, char *, ...));
-#endif
-
-PROTOTYPE(void exit,(int));
-PROTOTYPE(char *getenv,(char *));
-
-PROTOTYPE(char *strcpy,(char *,char*));
-PROTOTYPE(char *strncpy,(char *,char*, int));
-PROTOTYPE(int  strcmp,(char *,char*));
-/*
-PROTOTYPE(int qsort, (void *,int,int, (int)* ));
-*/
-
-#ifndef __GNUC__
-PROTOTYPE(char *memcpy,(char *, char *, int));
-PROTOTYPE(int  strlen,(char *));
 #endif
 
 
@@ -220,6 +193,11 @@ PROTOTYPE(boolean islist,(TERM,boolean,boolean));
 PROTOTYPE(int get_num_env_val,(char *));
 
 /*
+** mylib.c
+*/
+PROTOTYPE(void add_string_to_argv,(int *, char ***, char *));
+
+/*
 ** prolog.c
 */
 
@@ -275,7 +253,7 @@ PROTOTYPE(char *t_cls,(void));
 PROTOTYPE(char *t_gotoxy,(int,int));
 PROTOTYPE(int t_lines,(void));
 PROTOTYPE(int t_columns,(void));
-PROTOTYPE(char *setenv,(char *));
+PROTOTYPE(char *hup_setenv,(char *));
 
 /*
 ** types.c in types.h

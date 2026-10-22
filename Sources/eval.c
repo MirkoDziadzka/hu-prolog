@@ -45,21 +45,19 @@ GLOBAL int SPYCOUNT;
 
 GLOBAL TERM A0,A1,A2;
 
-GLOBAL boolean isatom(T)
-    TERM T;
+GLOBAL boolean isatom(TERM T)
 {
     ATOM A;
     return norm_atom(A = name(T)) && arity(A) == 0;
 }
 
-GLOBAL void CHECKATOM(T)
-    TERM T;
+GLOBAL void CHECKATOM(TERM T)
 {
     if(!isatom(T))
         ERROR( ARGE );
 }
 
-LOCAL boolean DOGETENV()
+LOCAL boolean DOGETENV(void)
 {
     char *envp;
     if(!isatom(A1))
@@ -70,7 +68,7 @@ LOCAL boolean DOGETENV()
         return false;
 }
 
-LOCAL boolean DOPUTENV()
+LOCAL boolean DOPUTENV(void)
 {
     if(isatom(A0) && isatom(A1))
     {
@@ -83,7 +81,7 @@ LOCAL boolean DOPUTENV()
         for(i=0,S=atomstring(name(A1));stringchar(S,i) != '\0';++i)
             ATOMCHAR(stringchar(S,i));
         ATOMCHAR('\0');
-        return setenv(NEWATOM) != (char *)0;
+        return hup_setenv(NEWATOM) != (char *)0;
     }
     else 
         ERROR(ARGE);
@@ -92,18 +90,17 @@ LOCAL boolean DOPUTENV()
 }
 
 
-LOCAL boolean DODICT(sys_prad)
-    boolean sys_prad;
+LOCAL boolean DODICT(boolean sys_prad)
 {
     ATOM A=NIL_ATOM;
     TERM T=NIL_TERM;
 
     while((A=GetAtom(A)) != NIL_ATOM)
     {
-        if ((system(A) && !sys_prad) || (sys_prad && !system(A)))
+        if ((is_system(A) && !sys_prad) || (sys_prad && !is_system(A)))
             continue;
         T=mk2sons(DIVIDE_2,
-            mk2sons(LOOKATOM(A,0,true),NIL_TERM,INTT,arity(A)),
+            mk2sons(LOOKATOM(A,0,true),NIL_TERM,INTT,(TERM)arity(A)),
             (T != NIL_TERM ? CONS_2:NIL_0),T);
     }
     if( T != NIL_TERM)
@@ -112,9 +109,7 @@ LOCAL boolean DODICT(sys_prad)
         return UNI(A0,mkfunc(NIL_0,T));
 }
 
-GLOBAL int compare(A,B,DEPTH)
-    TERM A,B;
-    int DEPTH;
+GLOBAL int compare(TERM A, TERM B, int DEPTH)
 {
     int N;
     ATOM AA,BB;
@@ -224,7 +219,7 @@ GLOBAL int compare(A,B,DEPTH)
 }
 
 
-LOCAL boolean DOFUNCTOR ()
+LOCAL boolean DOFUNCTOR(void)
 {
     ATOM A;
     int ar;
@@ -260,7 +255,7 @@ LOCAL boolean DOFUNCTOR ()
     return false;
 }
 
-LOCAL boolean DOARG ()
+LOCAL boolean DOARG(void)
 {
     register int N;
     if (name(A0) != INTT || !norm_atom(name(A1))) 
@@ -282,8 +277,7 @@ LOCAL boolean DOARG ()
    }
 }
 
-LOCAL void LISTCLAUSE(CL)
-    CLAUSE CL;
+LOCAL void LISTCLAUSE(CLAUSE CL)
 {
     register TERM T;
     register int notfirst = 0;
@@ -304,8 +298,7 @@ LOCAL void LISTCLAUSE(CL)
     ws(".\n");
 }
 
-LOCAL int LISTATOM(A)
-    ATOM A;
+LOCAL int LISTATOM(ATOM A)
 {
     register CLAUSE CL; 
     register int N;
@@ -314,7 +307,7 @@ LOCAL int LISTATOM(A)
         return 0;
     if(lib(A) && !DEBUGFLAG)
 	return 0;
-    if((system(A) && !DEBUGFLAG) || A == REPEAT_0)
+    if((is_system(A) && !DEBUGFLAG) || A == REPEAT_0)
 	return 0;
     if(stringchar(atomstring(A),0)== '$' && !DEBUGFLAG) 
         return 0;
@@ -324,7 +317,7 @@ LOCAL int LISTATOM(A)
     return N;
 }
 
-LOCAL void DOLISTING()
+LOCAL void DOLISTING(void)
 {
     ATOM A,AA;
     int N=0,i;
@@ -378,8 +371,7 @@ LOCAL void DOLISTING()
 
 #if !NO_TRACE
 
-LOCAL void DOSPY(SPYMODE)
-    boolean SPYMODE;
+LOCAL void DOSPY(boolean SPYMODE)
 {
     ATOM A;
     int i;
@@ -435,9 +427,7 @@ LOCAL void DOSPY(SPYMODE)
 
 #endif	/* !NO_TRACE */
 
-GLOBAL boolean DOEQUAL(X0,X1,Depth)
-    TERM X0,X1;
-    int Depth;
+GLOBAL boolean DOEQUAL(TERM X0, TERM X1, int Depth)
 {   
     int ar;
     ATOM A;
@@ -457,9 +447,7 @@ GLOBAL boolean DOEQUAL(X0,X1,Depth)
     return true;
 }
 
-GLOBAL boolean ground(ARG,Depth)
-    TERM ARG;
-    int Depth;
+GLOBAL boolean ground(TERM ARG, int Depth)
 {   
     int ar;
     ATOM A;
@@ -480,7 +468,7 @@ GLOBAL boolean ground(ARG,Depth)
     return true;
 }
 
-LOCAL boolean DOUNIV()
+LOCAL boolean DOUNIV(void)
 {
     ATOM A;
     TERM X,Y,T;
@@ -536,8 +524,7 @@ LOCAL boolean DOUNIV()
 }  /* univ */
 
 
-LOCAL void SetFlag(FLAG)
-    boolean *FLAG;
+LOCAL void SetFlag(boolean *FLAG)
 { 
     ATOM A;
     A=name(A0);
@@ -549,8 +536,7 @@ LOCAL void SetFlag(FLAG)
     else ARGERROR();
 }
 
-LOCAL boolean DOCURATOM( curr_pred )
-    boolean curr_pred; 
+LOCAL boolean DOCURATOM(boolean curr_pred)
 {
     ATOM A;
     TERM T;
@@ -569,7 +555,7 @@ LOCAL boolean DOCURATOM( curr_pred )
 	  (class(A) != NORMP || clause(A) == NIL_CLAUSE ))
 	    continue;
         T=mkfunc(DIVIDE_2,
-                 mk2sons(LOOKATOM(A,0,true),NIL_TERM,INTT,arity(A)));
+                 mk2sons(LOOKATOM(A,0,true),NIL_TERM,INTT,(TERM)arity(A)));
         if(UNI(T,A0))
             return true;
 
@@ -580,7 +566,7 @@ LOCAL boolean DOCURATOM( curr_pred )
 }
 
 
-LOCAL boolean DOCUROP()
+LOCAL boolean DOCUROP(void)
 {
     ATOM A,P;
 
@@ -614,8 +600,7 @@ LOCAL boolean DOCUROP()
     return false;
 }
 
-LOCAL void copy(s)
-    char *s;
+LOCAL void copy(char *s)
 {
     while(*s)
         ATOMCHAR(*s++);
@@ -623,8 +608,7 @@ LOCAL void copy(s)
 }
 
 
-LOCAL boolean DOANCESTORS(ENVP)
-    ENV ENVP;
+LOCAL boolean DOANCESTORS(ENV ENVP)
 {
     TERM T,TT,C;
     ENV CE;
@@ -648,7 +632,7 @@ LOCAL boolean DOANCESTORS(ENVP)
     return UNI(A0,TT);
 }
 
-LOCAL boolean DOSYSTEM()
+LOCAL boolean DOSYSTEM(void)
 {
     TERM T;
     ATOM A;
@@ -693,8 +677,7 @@ LOCAL boolean DOSYSTEM()
 
 #if SAVE
 
-LOCAL boolean DOSAVE(save)
-    boolean save;
+LOCAL boolean DOSAVE(boolean save)
 {
     string filename;
 
@@ -721,7 +704,7 @@ LOCAL boolean DOSAVE(save)
 }
 #endif
 
-void SetWarnFlag()
+void SetWarnFlag(void)
 {
     if(name(A0) == UNBOUNDT)
     {
@@ -778,9 +761,7 @@ GLOBAL TERM CALLX;
 GLOBAL ENV CALLXENV;
 
 
-GLOBAL boolean CALLEVALPRED (X,ENVP)
-    TERM X; 
-    ENV ENVP;
+GLOBAL boolean CALLEVALPRED(TERM X, ENV ENVP)
 {
     extern jmp_buf error_label;
     ATOM NAME;
@@ -964,7 +945,7 @@ GLOBAL boolean CALLEVALPRED (X,ENVP)
         break;
     case VAR_1:         RES= name(A0)==UNBOUNDT; break;
     case NONVAR_1:      RES= name(A0)!=UNBOUNDT; break;
-    case SYS_1:         RES= system(atom(A0)); break;
+    case SYS_1:         RES= is_system(atom(A0)); break;
     case CURATOM_1:     RES= DOCURATOM( false ); break;
     case CURPRED_1:     RES= DOCURATOM( true ); break;
     case CUROP_3:       RES= DOCUROP(); break;

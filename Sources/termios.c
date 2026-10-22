@@ -18,6 +18,7 @@
 **********************************************************************/
 
 #include "config.h"
+#include <string.h>
 #if WINDOWS
 
 #if UNIX
@@ -36,7 +37,7 @@ char EOL_CHAR = '\r';
 char ERASE_CHAR = '\b';
 
 
-void t_init()
+void t_init(void)
 {
     if(t_is_init)
 	return;
@@ -65,7 +66,7 @@ void t_init()
     t_is_init = 1;
 }
 
-void t_exit()
+void t_exit(void)
 {
     if(! t_is_init)
 	return;

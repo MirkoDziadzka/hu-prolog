@@ -35,8 +35,7 @@ GLOBAL file_type file_tab[MAXFILES];
 GLOBAL boolean FERRORFLAG=true;
 GLOBAL file inputfile,outputfile;
 
-GLOBAL TERM phy_name(A)   
-    ATOM A;
+GLOBAL TERM phy_name(ATOM A)
 {
     int depth = 0;
 
@@ -65,9 +64,7 @@ start:;
     return tempterm;
 }
 
-GLOBAL file OpenFile(filename , mode)
-    TERM filename;
-    fmode mode;
+GLOBAL file OpenFile(TERM filename, fmode mode)
 {
     file f;
 
@@ -190,8 +187,7 @@ GLOBAL file OpenFile(filename , mode)
     else return NOFILE;
 }
 
-GLOBAL void CloseFile(f)
-    file f;
+GLOBAL void CloseFile(file f)
 {
     if(f<=STDTRACE || FNAME(f) == NIL_TERM) 
         return;
@@ -219,10 +215,8 @@ LOCAL  char numbuffer[MAXDIGITS]; /* for number conversation */
 LOCAL int PRTF = -1; /* os - filepointer to protfile */
 GLOBAL int IOERRORFLAG=0;
 
-LOCAL void IOError(f)
-TERM  f;
+LOCAL void IOError(TERM f)
 { 
-    FORWARD void ws();
     if(IOERRORFLAG++>3) 
         ABORT(IOERROR);
     if((outputfile=OpenFile(phy_name(STDERR_0),write_mode))<FIRSTFILE)
@@ -234,8 +228,7 @@ TERM  f;
 
 #if REALARITH
 
-GLOBAL string ftoa(d)
-    double d;
+GLOBAL string ftoa(double d)
 {
     register string cp;
     register r;
@@ -339,8 +332,7 @@ GLOBAL string ftoa(d)
 
 #endif
 
-GLOBAL string ltoa(v)
-    long v;
+GLOBAL string ltoa(long v)
 {
     unsigned long int r;
     register string p;
@@ -365,30 +357,24 @@ GLOBAL string ltoa(v)
     return p;
 }
 
-GLOBAL string itoa(i)
-    int i;
+GLOBAL string itoa(int i)
 { 
     return ltoa((long)i);
 }
 
-GLOBAL void wc(ch)
-    register char ch;
+GLOBAL void wc(register char ch)
 { 
-    FORWARD void ws();
     static char c[2] = "x";
     *c = ch;
     ws(c); 
 }
 
-GLOBAL void out(f,s)
-    register int f;
-    register string s;
+GLOBAL void out(register int f, register string s)
 {
     (void)write(f,s,(unsigned int)strlen(s));
 }
 
-GLOBAL void ws(s)
-    string s;
+GLOBAL void ws(string s)
 { 
     register int i; 
     register string p;
@@ -414,7 +400,7 @@ GLOBAL int  ERRPOS;
 LOCAL boolean unget = false;
 LOCAL int FirstCharPos = 0;
 
-LOCAL void fillbuffer()
+LOCAL void fillbuffer(void)
 {
     FirstCharPos = CHARPOS = ERRPOS = LINELENGTH = 0;
 #if WINDOWS
@@ -438,7 +424,7 @@ LOCAL void fillbuffer()
     LINEBUF[LINELENGTH] = 0;
 }
 
-GLOBAL boolean FILEENDED()
+GLOBAL boolean FILEENDED(void)
 {
     if(!unget && CHARPOS >= LINELENGTH && !ISTTY(inputfile))
         fillbuffer();
@@ -447,7 +433,7 @@ GLOBAL boolean FILEENDED()
 
 GLOBAL char CH, LASTCH;
 
-GLOBAL void GETCHAR()
+GLOBAL void GETCHAR(void)
 {
     if(unget)
     {
@@ -481,7 +467,7 @@ GLOBAL void GETCHAR()
 
 }
 
-GLOBAL boolean LINEENDED()
+GLOBAL boolean LINEENDED(void)
 { 
     if(CHARPOS >= LINELENGTH && !ISTTY(inputfile))
         fillbuffer();
@@ -489,7 +475,7 @@ GLOBAL boolean LINEENDED()
 }
 
 
-GLOBAL void REGET()
+GLOBAL void REGET(void)
 { 
     unget = true;
 }
@@ -550,8 +536,7 @@ LOCAL struct {
     { 0              ,  "unknown error" }
 };
 
-GLOBAL ATOM error_string(N)
-    ERRORTYPE N;
+GLOBAL ATOM error_string(ERRORTYPE N)
 {
     int I;
     for (I=0; ERRTAB[I].ERRNR != 0; I++)
@@ -559,8 +544,7 @@ GLOBAL ATOM error_string(N)
     return LOOKUP(ERRTAB[I].ERRMSG,0,false,true); 
 }
 
-GLOBAL void ERROR_MESS(N)
-    ERRORTYPE N;
+GLOBAL void ERROR_MESS(ERRORTYPE N)
 {
     int I;
     for (I=0; ERRTAB[I].ERRNR != 0; I++)
@@ -580,8 +564,7 @@ GLOBAL void ERROR_MESS(N)
     ws(".\n");
 }
 
-GLOBAL void ABORT(N)
-    ERRORTYPE N;
+GLOBAL void ABORT(ERRORTYPE N)
 {
     static abort_counter = 0;
     if(N != NOERROR)
@@ -603,7 +586,7 @@ GLOBAL void ABORT(N)
 LOCAL file old_out_file;
 LOCAL boolean in_warning = false;
 
-GLOBAL void START_WARNING()
+GLOBAL void START_WARNING(void)
 {
     in_warning = true;
     old_out_file = outputfile;
@@ -612,35 +595,32 @@ GLOBAL void START_WARNING()
 	outputfile = STDOUT;
 }
 
-GLOBAL void END_WARNING()
+GLOBAL void END_WARNING(void)
 {
     if(! in_warning)
 	SYSTEMERROR("END_WARNING without START_WARNING");
     outputfile = old_out_file;
 }
 
-GLOBAL void ARGERROR()
+GLOBAL void ARGERROR(void)
 { 
     ERROR(ARGE); 
 }
 
-GLOBAL void ERROR(N)
-    ERRORTYPE N;
+GLOBAL void ERROR(ERRORTYPE N)
 {
     ERRORFLAG = N;
     ERROR_JMP();
 }
 
-GLOBAL void FileError(error)
-    ERRORTYPE error;
+GLOBAL void FileError(ERRORTYPE error)
 {
     if(!FERRORFLAG) return;
     ERROR(error);
 }
 
 
-GLOBAL void SYNERROR(N)
-    ERRORTYPE N;
+GLOBAL void SYNERROR(ERRORTYPE N)
 { 
     int  I;
     if((outputfile = OpenFile(phy_name(STDERR_0),write_mode)) < FIRSTFILE)
@@ -669,8 +649,7 @@ GLOBAL void SYNERROR(N)
     ABORT(N);
 }
 
-GLOBAL void SYSTEMERROR(m)
-    string m;
+GLOBAL void SYSTEMERROR(string m)
 { 
     out(2,"\n\n[System Error in: "); 
     out(2,m); 
@@ -682,7 +661,7 @@ LOCAL file f;
 LOCAL TERM filename;
 LOCAL ATOM matom;
 
-GLOBAL boolean DOSEE()
+GLOBAL boolean DOSEE(void)
 {
     CHECKATOM(A0);
     matom = name(A0);
@@ -720,7 +699,7 @@ GLOBAL boolean DOSEE()
     return true;
 }
 
-GLOBAL boolean DOOPEN()
+GLOBAL boolean DOOPEN(void)
 {
     CHECKATOM(A0);
     matom = name(A0);
@@ -741,7 +720,7 @@ GLOBAL boolean DOOPEN()
     return true;
 }
 
-GLOBAL boolean DOCLOSE()
+GLOBAL boolean DOCLOSE(void)
 {
     CHECKATOM(A0);
     matom = name(A0);
@@ -763,7 +742,7 @@ GLOBAL boolean DOCLOSE()
 }
 
 
-GLOBAL boolean DOTELL()
+GLOBAL boolean DOTELL(void)
 {
     CHECKATOM(A0);
     matom = name(A0);
@@ -806,7 +785,7 @@ GLOBAL boolean DOTELL()
 }
 
 
-GLOBAL boolean DOSEEK()
+GLOBAL boolean DOSEEK(void)
 {
     long l;
     boolean res = true; /* initialisation for lint only */
@@ -862,39 +841,39 @@ contseek:
 }
 
 LOCAL TERM oldfilename;
-GLOBAL void getinfile()
+GLOBAL void getinfile(void)
 {
     if((inputfile=OpenFile(oldfilename,read_mode)) < FIRSTFILE)
         SYSTEMERROR("getinfile.1");
 }
 
-GLOBAL void setinfile()
+GLOBAL void setinfile(void)
 {
     oldfilename = FNAME(inputfile);
     if((inputfile = OpenFile(phy_name(STDIN_0),read_mode)) < FIRSTFILE)
         getinfile();
 }
 
-GLOBAL void getoutfile()
+GLOBAL void getoutfile(void)
 {
     if((outputfile=OpenFile(oldfilename,write_mode)) < FIRSTFILE)
         SYSTEMERROR("getoutfile.1");
 }
 
 
-GLOBAL void setoutfile()
+GLOBAL void setoutfile(void)
 {
     oldfilename = FNAME(outputfile);
     if((outputfile = OpenFile(phy_name(STDOUT_0),write_mode)) < FIRSTFILE)
         getoutfile();
 }
 
-GLOBAL boolean DOGET0()
+GLOBAL boolean DOGET0(void)
 {
         return INTRES(A0,FILEENDED() ? -1 : (GETCHAR(),(int)CH));
 }
 
-GLOBAL boolean DOGET()
+GLOBAL boolean DOGET(void)
 {
     register int ch;
 nextch:
@@ -908,7 +887,7 @@ nextch:
     return INTRES(A0,ch);
 }
 
-GLOBAL void DOSKIP()
+GLOBAL void DOSKIP(void)
 {
     register int n;
     n=(INTVALUE(A0) & 0xff);
@@ -918,7 +897,7 @@ nextch:
     if (CH!=(char)n) goto nextch;
 }
 
-GLOBAL boolean DOASK()
+GLOBAL boolean DOASK(void)
 {
     register int ch;
 nextch:
@@ -931,14 +910,14 @@ nextch:
     return INTRES(A0,ch);
 }
 
-GLOBAL void DOTAB()
+GLOBAL void DOTAB(void)
 {  
     register int n;
     n=INTVALUE(A0);
     while (n-->0) ws(" ");
 }
 
-GLOBAL void DOPUT()
+GLOBAL void DOPUT(void)
 {
     if(name(A0) == CONS_2 || name(A0) == STRING_CONS)
     {
@@ -955,7 +934,7 @@ GLOBAL void DOPUT()
 }
 
 
-GLOBAL boolean DOFASSIGN()
+GLOBAL boolean DOFASSIGN(void)
 {
     register CLAUSE CL,CC;
     TERM F;
@@ -1004,7 +983,7 @@ GLOBAL boolean DOFASSIGN()
     return true;
 }
 
-GLOBAL void DOCLS()
+GLOBAL void DOCLS(void)
 {
 #if WINDOWS
     if(xWINDOW_ON && FTYPE(outputfile) == WINDOWFT)
@@ -1014,7 +993,7 @@ GLOBAL void DOCLS()
         ws(t_cls());
 }
 
-GLOBAL boolean DOGOTOXY()
+GLOBAL boolean DOGOTOXY(void)
 { 
     register int S,Z;
 
@@ -1051,8 +1030,7 @@ GLOBAL boolean DOGOTOXY()
 /****************** I N I T I A L I S A T I O N *****************/
 
 
-LOCAL TERM node(A)
-    ATOM A;
+LOCAL TERM node(ATOM A)
 { 
     TERM T;
     T=heapterm(1);
@@ -1061,7 +1039,7 @@ LOCAL TERM node(A)
     return T;
 }
 
-GLOBAL void Init_Io()
+GLOBAL void Init_Io(void)
 {
     file i;
     static first_time = 1;
@@ -1187,7 +1165,7 @@ GLOBAL void Init_Io()
     }
 }
 
-boolean DOWINDOW()
+boolean DOWINDOW(void)
 {
 #if NEW_WINDOWS
     if(!xWINDOW_ON)

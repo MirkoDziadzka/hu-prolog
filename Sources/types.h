@@ -278,7 +278,7 @@ typedef card    OCLASS;
 #define setspy(atom)             (bit1(atom) |= 0x0200)
 #define setnotspy(atom)          (bit1(atom) &= 0xfdff)
 
-#define system(atom)             (bit1(atom) & 0x0400)
+#define is_system(atom)          (bit1(atom) & 0x0400)
 #define setsystem(atom)          (bit1(atom) |= 0x0400)
 #define setnotsystem(atom)       (bit1(atom) &= 0xfbff)
 
@@ -429,7 +429,7 @@ PROTOTYPE(LONG longval,(TERM));
 #endif
 PROTOTYPE(TERM mkatom,(ATOM));
 PROTOTYPE(TERM mkfunc,(ATOM,TERM));
-PROTOTYPE(TERM mk2sons,(/* nicht spezifiziert */));
+PROTOTYPE(TERM mk2sons,(ATOM,TERM,ATOM,TERM));
 PROTOTYPE(TERM stackvar,(int ));
 PROTOTYPE(TERM arg1,(TERM));
 PROTOTYPE(TERM arg2,(TERM));

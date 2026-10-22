@@ -28,8 +28,7 @@
 
 #define useratom(i)        (LAST_ATOM + i * ATOM_UNIT)
 
-LOCAL boolean DOSORT(delete)
-    boolean delete;
+LOCAL boolean DOSORT(boolean delete)
 {
     TERM T,TT,S;
     TERM Res;
@@ -53,8 +52,7 @@ LOCAL boolean DOSORT(delete)
     return UNI(A1,Res);
 }
 
-boolean is_a_tty(T)
-    TERM T;
+boolean is_a_tty(TERM T)
 {
     file f;
     CHECKATOM(T);
@@ -66,7 +64,7 @@ boolean is_a_tty(T)
     return ISTTY(f);
 }
 
-void Init_User()
+void Init_User(void)
 {
 #if DEBUG
     if(DEBUGFLAG)
@@ -81,9 +79,7 @@ void Init_User()
 }
 
 /*ARGSUSED*/
-boolean CallUser(X,ENVP) 
-    TERM X;
-    ENV ENVP;
+boolean CallUser(TERM X, ENV ENVP)
 { 
     boolean res= false;
     switch(name(X))

@@ -29,8 +29,7 @@
 ****************************************************************/
 
 
-LOCAL int idhash(A)
-register ATOM A;
+LOCAL int idhash(register ATOM A)
 {
     STRING index;
     index=atomstring(A);
@@ -41,14 +40,13 @@ LOCAL char s_tab[ MAX_NAME_LEN+1 ];
 LOCAL int NEWINDEX;
 GLOBAL string NEWATOM = s_tab;
 
-GLOBAL void STARTATOM ()
+GLOBAL void STARTATOM(void)
 {
     NEWINDEX = 0;
     NEWATOM = s_tab;
 }
 
-GLOBAL void ATOMCHAR (C)
-    char C;
+GLOBAL void ATOMCHAR(char C)
 {
     if (NEWINDEX >= MAX_NAME_LEN)
     {
@@ -58,9 +56,7 @@ GLOBAL void ATOMCHAR (C)
 }
 
 
-LOCAL int idstrcmp(A,str)
-    ATOM A;
-    string str;
+LOCAL int idstrcmp(ATOM A, string str)
 {
     STRING S;
     int index = 0;
@@ -78,9 +74,7 @@ LOCAL int idstrcmp(A,str)
 LOCAL ATOM CONSTATOM;  
 LOCAL boolean INIT;
 
-LOCAL void initfields(A,ar)
-    ATOM A;
-    int ar;
+LOCAL void initfields(ATOM A, int ar)
 {
     bit1(A)=0;
     bit2(A)=0;
@@ -92,11 +86,7 @@ LOCAL void initfields(A,ar)
     setnotlib(A);
 }
 
-GLOBAL ATOM LOOKUP (str,ar,heap,create)
-    string str;
-    int ar;
-    boolean heap; 
-    boolean create;
+GLOBAL ATOM LOOKUP(string str, int ar, boolean heap, boolean create)
 {
     register ATOM A,OA;
     ATOM NA,HASHATOM;
@@ -212,8 +202,7 @@ created:
 
 #if 0
 #ifndef var_call
-GLOBAL boolean var_call(A)
-    register ATOM A;
+GLOBAL boolean var_call(register ATOM A)
 {
     register int ar;
     if(is_heap_atom(A) && hide(A))
@@ -230,10 +219,7 @@ GLOBAL boolean var_call(A)
 #endif
 #endif
 
-GLOBAL ATOM LOOKATOM(A,ar,create)
-    ATOM A;
-    int ar;
-    boolean create;
+GLOBAL ATOM LOOKATOM(ATOM A, int ar, boolean create)
 {
     register ATOM OA;
     ATOM ORG_A;
@@ -284,15 +270,13 @@ GLOBAL ATOM LOOKATOM(A,ar,create)
     return LOOKUP(tempstring(atomstring(ORG_A)),ar,heap,create);
 }
 
-GLOBAL ATOM nameof(X)
-    TERM X;
+GLOBAL ATOM nameof(TERM X)
 { 
     deref(X); 
     return name(X); 
 }
 
-GLOBAL ATOM atom(X)   
-    TERM X;
+GLOBAL ATOM atom(TERM X)
 {
     ATOM A;
     if(name(X)!=DIVIDE_2) 
@@ -303,8 +287,7 @@ GLOBAL ATOM atom(X)
     return A;
 }
 
-GLOBAL ATOM copyatom(A)
-    ATOM A;
+GLOBAL ATOM copyatom(ATOM A)
 {
     ATOM NA;
     TERM T;
@@ -321,8 +304,7 @@ GLOBAL ATOM copyatom(A)
 }
 
 
-LOCAL void PRIVATE(A)
-    ATOM A;
+LOCAL void PRIVATE(ATOM A)
 {
     register ATOM AA;
     AA = A = copyatom(A);
@@ -332,8 +314,7 @@ LOCAL void PRIVATE(A)
     } while(A != AA);
 }
 
-LOCAL void HIDE(A)
-    ATOM A;
+LOCAL void HIDE(ATOM A)
 {
     string str;
     int cmp;
@@ -359,7 +340,7 @@ LOCAL void HIDE(A)
     } while(A != AA);
 }
 
-GLOBAL void DOPRIVATE()
+GLOBAL void DOPRIVATE(void)
 { 
     while(name(A0) == CONS_2)
     { 
@@ -370,7 +351,7 @@ GLOBAL void DOPRIVATE()
         PRIVATE(name(A0));
 }
 
-GLOBAL void DOHIDE()
+GLOBAL void DOHIDE(void)
 {
     while(name(A0) == CONS_2)
     { 
@@ -382,24 +363,20 @@ GLOBAL void DOHIDE()
 }
 
 /* A Prolog list of the characters of s: cf. 'atom'. */
-GLOBAL TERM LISTREP (s,cons,nil)
-    string s;
-    ATOM cons;
-    ATOM nil;
+GLOBAL TERM LISTREP(string s, ATOM cons, ATOM nil)
 { 
     register TERM  X;
     register int  len;
     len = strlen(s);
     if(len-- == 0) 
         return mkatom(nil);
-    X = mk2sons(INTT,(int)(unsigned char)(char)s[len],nil,NIL_TERM);
+    X = mk2sons(INTT,(TERM)(int)(unsigned char)(char)s[len],nil,NIL_TERM);
     while(--len >= 0)
-        X = mk2sons(INTT,(int)(unsigned char)(char)s[len],cons,X);
+        X = mk2sons(INTT,(TERM)(int)(unsigned char)(char)s[len],cons,X);
     return mkfunc(cons,X);
 }
 
-GLOBAL ATOM GetAtom(A)
-    ATOM A;
+GLOBAL ATOM GetAtom(ATOM A)
 {
     register int count;
 start:;
@@ -430,7 +407,7 @@ found:;
 }
 
 
-GLOBAL boolean DONAME ()
+GLOBAL boolean DONAME(void)
 {
     if(norm_atom(name(A0)))
         return UNI(A1,LISTREP(tempstring(atomstring(name(A0))),CONS_2,NIL_0));
@@ -466,7 +443,7 @@ GLOBAL boolean DONAME ()
     return false ;
 }
 
-GLOBAL void DOOP()
+GLOBAL void DOOP(void)
 {
     int  prec,ar;
     ATOM  A;
@@ -507,7 +484,7 @@ GLOBAL void DOOP()
         deref(T);
         CHECKATOM(T);
         A= copyatom( LOOKATOM(name(T),ar,true) );
-        if(system(A) && !aSYSMODE) 
+        if(is_system(A) && !aSYSMODE) 
             ERROR(SYSPROCE);
 
         if((WARNFLAG & WARN_OP) == WARN_OP && prec != 0)
@@ -564,7 +541,7 @@ InitT[] =
 };
 
 
-GLOBAL void Init_Atoms()
+GLOBAL void Init_Atoms(void)
 { 
     register int I;
     int Arity,Oprec,Predtype,Optype;
@@ -633,13 +610,7 @@ GLOBAL void Init_Atoms()
 }
 
 #if USER
-GLOBAL void InitUAtom(A,s,oc,ar,cl,sys)
-    ATOM A;
-    string s;
-    OCLASS oc;
-    int ar;
-    CLASS cl;
-    boolean sys;
+GLOBAL void InitUAtom(ATOM A, string s, OCLASS oc, int ar, CLASS cl, boolean sys)
 {
     int Arity;
     INIT= true;

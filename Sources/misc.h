@@ -21,10 +21,9 @@
 #ifndef __MISC_H_INCLUDED__
 #define __MISC_H_INCLUDED__	1
 
-#ifdef NO_PROTOTYPE
+#if NO_PROTOTYPE
 #	define PROTOTYPE(NAME,ARG_LIST)	IMPORT NAME ()
-#endif
-#ifndef NO_PROTOTYPE
+#else
 #	define PROTOTYPE(NAME,ARG_LIST)	NAME ARG_LIST
 #endif
 

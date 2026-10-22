@@ -25,7 +25,7 @@
 #include "extern.h"
 
 
-GLOBAL void print_copyright()
+GLOBAL void print_copyright(void)
 {
     ws(version);
     ws("Author(s): 87-89  Christian Horn, Mirko Dziadzka, Matthias Horn\n");
@@ -41,14 +41,8 @@ GLOBAL void print_copyright()
 
 LOCAL long LTIME;
 LOCAL struct tm *TIMEREC;
-IMPORT struct tm *localtime();
 
-#if ! BSD
-IMPORT long time();
-#endif
-
-GLOBAL boolean DOTIME(A)
-    ATOM A;
+GLOBAL boolean DOTIME(ATOM A)
 {
     (void)time(&LTIME);
     TIMEREC=localtime(&LTIME);
@@ -70,7 +64,7 @@ GLOBAL boolean DOTIME(A)
     return false;
 }
 
-GLOBAL boolean DOTIMER()
+GLOBAL boolean DOTIMER(void)
 { 
     static long STARTTIME,CURRTIME;
     CURRTIME = TIMER();
@@ -93,10 +87,7 @@ GLOBAL boolean DOTIMER()
 #endif
 }
 
-GLOBAL boolean islist(T, char_list, no_deref)
-    register TERM T;
-    boolean char_list;
-    boolean no_deref;
+GLOBAL boolean islist(register TERM T, boolean char_list, boolean no_deref)
 {
     card counter = 0;
     if(!no_deref)

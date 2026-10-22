@@ -40,8 +40,7 @@ int HELPFILE;
 #define h_getpos()	lseek(HELPFILE,0L,1)
 #define h_close()	close(HELPFILE)
 
-int h_open(filename)
-    char *filename;
+int h_open(char *filename)
 {
     if((HELPFILE = open(filename,0)) < 0)
 	return ERROR;
@@ -49,9 +48,7 @@ int h_open(filename)
 	return OK;
 }
 
-int h_getline(buffer,MaxLen)
-    char buffer[];
-    int MaxLen;
+int h_getline(char buffer[], int MaxLen)
 {
     int r;
     int i;
@@ -100,8 +97,7 @@ int h_getline(buffer,MaxLen)
 #define UMLAUT_U	"UE"
 #define UMLAUT_s	"ss"
 #endif
-void h_putstring(s)
-    char *s;
+void h_putstring(char *s)
 {
     while(*s)
     {
@@ -130,9 +126,7 @@ void h_putstring(s)
 #define h_putint(i)	ws(itoa((i)))
 #define h_cls()         DOCLS()
 
-int ask_user(buffer,MaxLen)
-    char buffer[];
-    int MaxLen;
+int ask_user(char buffer[], int MaxLen)
 {
     int i = 0;
     GETCHAR();
@@ -161,7 +155,7 @@ LOCAL char subbuf[MAX_SUBENTRIES][MAX_LINE_LEN+1];
 LOCAL long INDEXSTART, TEXTSTART;
 LOCAL boolean is_init = false;
 
-LOCAL void open_helpfile()
+LOCAL void open_helpfile(void)
 {
     char *s;
     if((s = getenv(HUP_HELP_ENV)) == (char *)0)
@@ -191,8 +185,7 @@ LOCAL void open_helpfile()
     is_init = true;
 }
 
-LOCAL char lower(ch)
-    char ch;
+LOCAL char lower(char ch)
 {
     if(ch >= 'A' && ch <= 'Z')
 	return ( (ch - 'A') + 'a');
@@ -200,12 +193,10 @@ LOCAL char lower(ch)
 	return ch;
 }
 
-LOCAL int match_string(topic,help_entry)
-    char *topic;
-    char *help_entry;
 /* -1 -> Fehler
 **  n -> Zahl der nichtbeachteten Stellen in help_entry
 */
+LOCAL int match_string(char *topic, char *help_entry)
 {
     for(;;)
     {
@@ -232,8 +223,7 @@ LOCAL int match_string(topic,help_entry)
 
 #define isdigit(c)    ((c) >= '0' && (c) <= '9')
 
-int scanlong(long_buffer)
-    char long_buffer[];
+int scanlong(char long_buffer[])
 {
     long l = 0;
     char *s = long_buffer;
@@ -246,8 +236,7 @@ int scanlong(long_buffer)
     return l;
 }
 
-long lookup(topic)
-    char *topic;
+long lookup(char *topic)
 {
     long l;
     int i;
@@ -281,8 +270,7 @@ long lookup(topic)
     }
 }
 
-int help(topic_ptr)
-    char *topic_ptr;
+int help(char *topic_ptr)
 {
     long pos;
     unsigned int subecnt;
@@ -406,8 +394,7 @@ int help(topic_ptr)
     goto again;
 }
 
-boolean DOHELP(A)
-    ATOM A;
+boolean DOHELP(ATOM A)
 {
     boolean result = false;
     TERM oldin, oldout;

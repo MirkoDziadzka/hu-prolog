@@ -64,16 +64,14 @@ typedef struct ATP
 #define longf(av)          ((av)->atp_value.atp_lrec)
 #define isreal(av)         ((av)->atp_isreal)
 
-LOCAL LONG lis(AT) 
-    ATP_TYPE *AT;
+LOCAL LONG lis(ATP_TYPE *AT)
 { 
     if(isreal(AT))
         ERROR(STDFUNCARGE);
     return longf(AT); 
 }
 
-LOCAL REAL ris(AT) 
-    ATP_TYPE *AT;
+LOCAL REAL ris(ATP_TYPE *AT)
 { 
     return (isreal(AT) ? realf(AT) : (REAL)longf(AT));
 }
@@ -84,9 +82,7 @@ typedef LONG ATP_TYPE;
 #define lis(av)         (longf(av)+0)
 #endif
 
-LOCAL boolean assign(ap,t) 
-    ATP_TYPE *ap; 
-    TERM t;
+LOCAL boolean assign(ATP_TYPE *ap, TERM t)
 { 
     ATOM A;
     A=name(t);
@@ -112,10 +108,7 @@ LOCAL boolean assign(ap,t)
     return true;
 }
 
-LOCAL boolean compute(A,at1,at2,ap,stdfunc)
-    ATOM A;
-    ATP_TYPE *at1,*at2,*ap;
-    boolean stdfunc;
+LOCAL boolean compute(ATOM A, ATP_TYPE *at1, ATP_TYPE *at2, ATP_TYPE *ap, boolean stdfunc)
 {
 #if REALARITH
     isreal(ap) = false;
@@ -225,9 +218,7 @@ intret:
     return true;
 }
 
-GLOBAL boolean DOREDUCE(B0,B1,eval)
-    TERM B0,B1;
-    boolean eval;
+GLOBAL boolean DOREDUCE(TERM B0, TERM B1, boolean eval)
 { 
     ATOM A;
     ATP_TYPE atR,at1,at2;
@@ -272,9 +263,7 @@ reduced:
 
 LOCAL TERM new_calls;
 
-LOCAL TERM putreduce(A,R)
-    ATOM A;
-    TERM R;
+LOCAL TERM putreduce(ATOM A, TERM R)
 {
     TERM TT;
     TERM Result;
@@ -288,8 +277,7 @@ LOCAL TERM putreduce(A,R)
     return Result;
 }
 
-LOCAL void putcall(T,R)
-    TERM T,R;
+LOCAL void putcall(TERM T, TERM R)
 {
     TERM TT;
     ATOM A; 
@@ -307,9 +295,7 @@ LOCAL void putcall(T,R)
     new_calls = TT;
 }
 
-LOCAL void eval(T,R,Depth)
-    TERM T,R;
-    int Depth;
+LOCAL void eval(TERM T, TERM R, int Depth)
 {
     ATOM A;
 
@@ -362,9 +348,7 @@ LOCAL void eval(T,R,Depth)
   end:;
       /* check0(); */
 }
-GLOBAL TERM DOEVAL(CP,CE)
-    TERM CP;
-    ENV CE;
+GLOBAL TERM DOEVAL(TERM CP, ENV CE)
 {
 #if OPTIMIZE
     TERM T,OLD_T;
@@ -402,10 +386,7 @@ GLOBAL TERM DOEVAL(CP,CE)
 }
 
 
-LOCAL void iseval(t,ap,Depth) 
-    TERM t;
-    ATP_TYPE *ap;
-    card Depth;
+LOCAL void iseval(TERM t, ATP_TYPE *ap, card Depth)
 {
     ATP_TYPE at1,at2;
     TERM s;
@@ -434,8 +415,7 @@ LOCAL void iseval(t,ap,Depth)
     (void)compute(a,&at1,&at2,ap,true);
 }
 
-GLOBAL int INTVALUE(T)
-    TERM T;
+GLOBAL int INTVALUE(TERM T)
 { 
     ATP_TYPE a;
     deref(T);
@@ -449,7 +429,7 @@ GLOBAL int INTVALUE(T)
     return (int)longf(&a);
 }
 
-GLOBAL boolean DOACOMP()
+GLOBAL boolean DOACOMP(void)
 {
 #if REALARITH
     REAL R1,R2;
@@ -509,7 +489,7 @@ GLOBAL boolean DOACOMP()
     }
 }
 
-GLOBAL boolean DOIS() 
+GLOBAL boolean DOIS(void)
 { 
     ATP_TYPE a;
     iseval(A1,&a,MAXDEPTH);
@@ -520,10 +500,8 @@ GLOBAL boolean DOIS()
     return LONGRES(A0,longf(&a));
 }
 
-LOCAL boolean equal(HT , T , Depth)
-    TERM HT; /* HEAPTERM whithout Stacksegment -- DON'T DEREF */
-    TERM T;
-    int Depth;
+/* HT is a HEAPTERM whithout Stacksegment -- DON'T DEREF */
+LOCAL boolean equal(TERM HT, TERM T, int Depth)
 {
     deref(T);
 
@@ -545,7 +523,7 @@ LOCAL boolean equal(HT , T , Depth)
     return true;
 }
 
-GLOBAL boolean DODASS()
+GLOBAL boolean DODASS(void)
 {
     ATOM A;
     CLAUSE CL;
@@ -563,7 +541,7 @@ GLOBAL boolean DODASS()
 
     ar = arity(A)+1;
     A = copyatom(LOOKATOM(A,ar,true));
-    if((system(A) && !aSYSMODE) || class(A) != NORMP)
+    if((is_system(A) && !aSYSMODE) || class(A) != NORMP)
         ERROR(SYSPROCE);
     for (CL= clause(A);CL != NIL_CLAUSE;CL = nextcl(CL))
         if(name(body(CL)) == NIL_ATOM)
@@ -652,7 +630,7 @@ LOCAL ATOM build_in_tab[] = {
     NIL_ATOM
 };
 
-GLOBAL void Init_Arith()
+GLOBAL void Init_Arith(void)
 {
     ATOM *AP;
 #if DEBUG

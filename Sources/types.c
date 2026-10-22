@@ -40,8 +40,7 @@ LOCAL STRING STRINGHTOP = MIN_STRING; /* erstes freies Feld */
 LOCAL STRING STRINGSTOP = MAX_STRING; /* letztes belegtes Feld */
 #endif
 
-GLOBAL STRING heapstring(s)
-    string s;
+GLOBAL STRING heapstring(string s)
 { 
     STRING P;
     STRING Q;
@@ -54,8 +53,7 @@ GLOBAL STRING heapstring(s)
     return Q;
 }
 
-GLOBAL STRING stackstring(s)
-    register string s;
+GLOBAL STRING stackstring(register string s)
 { 
     register STRING P;
     P= (STRINGSTOP - (strlen(s)+1));
@@ -68,9 +66,7 @@ GLOBAL STRING stackstring(s)
 }
 
 #ifndef stringchar
-GLOBAL char stringchar(S,i)
-    STRING S;
-    int i;
+GLOBAL char stringchar(STRING S, int i)
 {
     return stab(S+i);
 }
@@ -78,30 +74,28 @@ GLOBAL char stringchar(S,i)
 
 
 #ifndef init_string_stack
-GLOBAL void init_string_stack()
+GLOBAL void init_string_stack(void)
 {
     STRINGSTOP = MAX_STRING;
 }
 #endif
 
 #ifndef rel_string_stack
-GLOBAL void rel_string_stack(S)
-    STRING S;
+GLOBAL void rel_string_stack(STRING S)
 {
     STRINGSTOP = S;
 }
 #endif
 
 #ifndef mark_string_stack
-GLOBAL STRING mark_string_stack()
+GLOBAL STRING mark_string_stack(void)
 {
     return STRINGSTOP;
 }
 #endif
 
 #ifndef tempstring
-GLOBAL string tempstring(S)
-    register STRING S;
+GLOBAL string tempstring(register STRING S)
 {
     static char buffer[ MAX_NAME_LEN+1 ];
     register int i;
@@ -129,8 +123,7 @@ LOCAL ATOM ATOMSTOP = MAX_ATOM; /* letztes belegtes Feld */
 
 #if USER
 LOCAL boolean init = true;
-GLOBAL void reserve_atom(A)
-    ATOM A;
+GLOBAL void reserve_atom(ATOM A)
 {
     if(!init)
         SYSTEMERROR("reserve_atom");
@@ -139,7 +132,7 @@ GLOBAL void reserve_atom(A)
 }
 #endif
 
-GLOBAL ATOM heapatom()
+GLOBAL ATOM heapatom(void)
 {
 #if USER
     init = false;
@@ -149,7 +142,7 @@ GLOBAL ATOM heapatom()
     return ATOMHTOP;
 }
 
-GLOBAL ATOM stackatom()
+GLOBAL ATOM stackatom(void)
 {
     if(dec_atom(ATOMSTOP) <= ATOMHTOP)
         ABORT(ATOMSPACEE);
@@ -157,8 +150,7 @@ GLOBAL ATOM stackatom()
 }
 
 #ifndef is_heap_atom
-GLOBAL boolean is_heap_atom(A)
-    register ATOM A;
+GLOBAL boolean is_heap_atom(register ATOM A)
 {
 #if DEBUG
     if(A == NIL_ATOM)
@@ -169,8 +161,7 @@ GLOBAL boolean is_heap_atom(A)
 #endif
 
 #ifndef is_stack_atom
-GLOBAL boolean is_stack_atom(A)
-    register ATOM A;
+GLOBAL boolean is_stack_atom(register ATOM A)
 {
 #if DEBUG
     if(A == NIL_ATOM)
@@ -181,46 +172,42 @@ GLOBAL boolean is_stack_atom(A)
 #endif
 
 #ifndef init_atom_stack
-GLOBAL void init_atom_stack()
+GLOBAL void init_atom_stack(void)
 {
     ATOMSTOP = MAX_ATOM;
 }
 #endif
 
 #ifndef rel_atom_stack
-GLOBAL void rel_atom_stack(A)
-    ATOM A;
+GLOBAL void rel_atom_stack(ATOM A)
 {
     ATOMSTOP = A;
 }
 #endif
 
 #ifndef mark_atom_stack
-GLOBAL ATOM mark_atom_stack()
+GLOBAL ATOM mark_atom_stack(void)
 {
     return ATOMSTOP;
 }
 #endif
 
 #ifndef norm_atom
-GLOBAL boolean norm_atom(A)
-    ATOM A;
+GLOBAL boolean norm_atom(ATOM A)
 {
     return (A >= NORMATOM);
 }
 #endif
 
 #ifndef func_atom
-GLOBAL boolean func_atom(A)
-    ATOM A;
+GLOBAL boolean func_atom(ATOM A)
 {
     return (A >= FUNCNAME);
 }
 #endif
 
 #ifndef get_stack_atom
-GLOBAL ATOM get_stack_atom(A)
-    register ATOM A;
+GLOBAL ATOM get_stack_atom(register ATOM A)
 {
     if( A == NIL_ATOM)
         A = ATOMSTOP;
@@ -233,8 +220,7 @@ GLOBAL ATOM get_stack_atom(A)
 #endif
 
 #ifndef is_integer
-GLOBAL boolean is_integer(A)
-    register ATOM A;
+GLOBAL boolean is_integer(register ATOM A)
 {
     return A == INTT 
 #if LONGARITH
@@ -245,8 +231,7 @@ GLOBAL boolean is_integer(A)
 #endif
 
 #ifndef is_number
-GLOBAL boolean is_number(A)
-    register ATOM A;
+GLOBAL boolean is_number(register ATOM A)
 {
     return A == INTT
 #if LONGARITH
@@ -276,7 +261,7 @@ LOCAL TERM GLOTOP = MAX_TERM; /* erstes freies Feld */
 
 LOCAL TERM freelist[MAXARITY+1];  /* chain of disposed nodes */
 
-LOCAL void init_freelist()
+LOCAL void init_freelist(void)
 {
     register int i;
     for(i = 0; i<= MAXARITY;++i)
@@ -284,17 +269,14 @@ LOCAL void init_freelist()
 }
 
 #ifndef br
-GLOBAL TERM br(T)
-    TERM T;
+GLOBAL TERM br(TERM T)
 {
     return T + TERM_UNIT;
 }
 #endif
 
 #ifndef n_brother
-GLOBAL TERM n_brother(T,N)
-    TERM T;
-    int N;
+GLOBAL TERM n_brother(TERM T, int N)
 {
     return T + N * TERM_UNIT; 
 }
@@ -302,8 +284,7 @@ GLOBAL TERM n_brother(T,N)
 
 #define res_stack(X,N)    {if(( X = (GLOTOP -= (N)*TERM_UNIT)) <= HEAPTOP) \
                                ABORT(LOCALSPACEE); }
-GLOBAL TERM stackterm(N)
-    register int N;
+GLOBAL TERM stackterm(register int N)
 { 
     register TERM X;
     if(N == 0) 
@@ -313,8 +294,7 @@ GLOBAL TERM stackterm(N)
 }
 
 
-GLOBAL TERM heapterm(N)
-    register int N;
+GLOBAL TERM heapterm(register int N)
 { 
     register TERM T;
     if (N > MAXARITY) 
@@ -339,9 +319,7 @@ GLOBAL TERM heapterm(N)
     return T;
 }
 
-GLOBAL void freeblock(N,T)
-    register int N;
-    register TERM T;
+GLOBAL void freeblock(register int N, register TERM T)
 { 
 
     if (N==0) return;
@@ -353,53 +331,48 @@ GLOBAL void freeblock(N,T)
 }
 
 #ifndef init_term_stack
-GLOBAL void init_term_stack()
+GLOBAL void init_term_stack(void)
 {
     GLOTOP = MAX_TERM;
 }
 #endif
 
 #ifndef mark_term_stack
-GLOBAL TERM mark_term_stack()
+GLOBAL TERM mark_term_stack(void)
 {
     return GLOTOP;
 }
 #endif
 
 #ifndef rel_term_stack
-GLOBAL void rel_term_stack(T)
-     TERM T;
+GLOBAL void rel_term_stack(TERM T)
 {
     GLOTOP = T;
 }
 #endif
 
 #ifndef is_heap_term
-GLOBAL boolean is_heap_term(T)
-    TERM T;
+GLOBAL boolean is_heap_term(TERM T)
 {
     return T < HEAPTOP;
 }
 #endif
 
 #ifndef is_stack_term
-GLOBAL boolean is_stack_term(T)
-    TERM T;
+GLOBAL boolean is_stack_term(TERM T)
 {
     return T >= GLOTOP;
 }
 #endif
 
 #ifndef is_older_term
-GLOBAL boolean is_older_term(Older,Younger)
-    TERM Older,Younger;
+GLOBAL boolean is_older_term(TERM Older, TERM Younger)
 {
     return Older > Younger;
 }
 #endif
 
-GLOBAL TERM get_stack_term(T)
-    register TERM T;
+GLOBAL TERM get_stack_term(register TERM T)
 {
     /* NIL_TERM < T <= GLOTOP */
     if(T == NIL_TERM)
@@ -411,9 +384,8 @@ GLOBAL TERM get_stack_term(T)
 }
 
 
-GLOBAL void collect_garbage(abort)
-    boolean abort;
 /* reclaim heapnodes if possible */
+GLOBAL void collect_garbage(boolean abort)
 {
     register TERM T,LASTT;
     register int ar;
@@ -464,8 +436,7 @@ GLOBAL void collect_garbage(abort)
         ABORT(LOCALSPACEE);
 }
 
-GLOBAL TERM stackvar(N)
-    register int N;
+GLOBAL TERM stackvar(register int N)
 {
     register TERM T;
     register TERM Result;
@@ -479,7 +450,7 @@ GLOBAL TERM stackvar(N)
     return Result;
 }
 
-GLOBAL TERM mkfreevar()
+GLOBAL TERM mkfreevar(void)
 { 
     register TERM T;
     res_stack(T,1);
@@ -487,16 +458,14 @@ GLOBAL TERM mkfreevar()
     return T;
 }
 
-GLOBAL TERM arg1(T)
-    register TERM T;
+GLOBAL TERM arg1(register TERM T)
 { 
     T=son(T); 
     deref(T); 
     return T; 
 }
 
-GLOBAL TERM arg2(T)
-    register TERM T;
+GLOBAL TERM arg2(register TERM T)
 { 
     T=son(T);
     next_br(T); 
@@ -504,9 +473,7 @@ GLOBAL TERM arg2(T)
     return T; 
 }
 
-GLOBAL TERM arg(N,T)
-    register TERM T;
-    register int N;
+GLOBAL TERM arg(register int N, register TERM T)
 {
     T=son(T); 
     while(--N > 0)
@@ -516,9 +483,7 @@ GLOBAL TERM arg(N,T)
 }
 
 
-GLOBAL TERM mkfunc(A,T)
-    ATOM A;
-    TERM T;
+GLOBAL TERM mkfunc(ATOM A, TERM T)
 { 
     register TERM X;
     res_stack(X,1);
@@ -527,8 +492,7 @@ GLOBAL TERM mkfunc(A,T)
     return X;
 }
 
-GLOBAL TERM mkatom(N)
-    ATOM N;
+GLOBAL TERM mkatom(ATOM N)
 { 
     register TERM X;
     res_stack(X,1);
@@ -537,8 +501,7 @@ GLOBAL TERM mkatom(N)
     return X;
 }
 
-GLOBAL TERM mkint(N)
-    int N;
+GLOBAL TERM mkint(int N)
 { 
     register TERM X;
     res_stack(X,1);
@@ -548,9 +511,7 @@ GLOBAL TERM mkint(N)
 }
 
 /*VARARGS*/
-GLOBAL TERM mk2sons(NAM1,SON1,NAM2,SON2)
-    ATOM NAM1,NAM2;
-    TERM SON1,SON2;
+GLOBAL TERM mk2sons(ATOM NAM1, TERM SON1, ATOM NAM2, TERM SON2)
 { 
     register TERM T;
     res_stack(T,2);
@@ -574,8 +535,7 @@ GLOBAL TRAIL TRAILEND = MIN_TRAIL; /* erstes freies */
 LOCAL TRAIL TRAILEND = MIN_TRAIL; /* erstes freies */
 #endif
 
-GLOBAL void trailterm(TT)
-    TERM TT;
+GLOBAL void trailterm(TERM TT)
 {
     boundvar(TRAILEND) = TT;
     inc_trail(TRAILEND);
@@ -584,22 +544,21 @@ GLOBAL void trailterm(TT)
 }
 
 #ifndef init_trail_stack
-GLOBAL void init_trail_stack()
+GLOBAL void init_trail_stack(void)
 {
     TRAILEND = MIN_TRAIL;
 }
 #endif
 
 #ifndef mark_trail_stack
-GLOBAL TRAIL mark_trail_stack()
+GLOBAL TRAIL mark_trail_stack(void)
 {
     return TRAILEND;
 }
 #endif
 
 #ifndef rel_trail_stack
-GLOBAL void rel_trail_stack(T)
-    register TRAIL T;
+GLOBAL void rel_trail_stack(register TRAIL T)
 {
     register TRAIL newtrail = T;
     while(T < TRAILEND)
@@ -624,7 +583,7 @@ GLOBAL ENV   ENVTOP   = MIN_ENV; /* letztes belegtes */
 LOCAL ENV   ENVTOP   = MIN_ENV; /* letztes belegtes */
 #endif
 
-GLOBAL ENV newenv()
+GLOBAL ENV newenv(void)
 {
     if(inc_env(ENVTOP) >= MAX_ENV)
         ABORT(FRAMESPACEE);
@@ -632,37 +591,34 @@ GLOBAL ENV newenv()
 }
 
 #ifndef init_env_stack
-GLOBAL void init_env_stack()
+GLOBAL void init_env_stack(void)
 {
     ENVTOP = MIN_ENV;
 }
 #endif
 
 #ifndef mark_env_stack
-GLOBAL ENV mark_env_stack()
+GLOBAL ENV mark_env_stack(void)
 {
     return ENVTOP;
 }
 #endif
 
 #ifndef rel_env_stack
-GLOBAL void rel_env_stack(EE)
-    ENV EE;
+GLOBAL void rel_env_stack(ENV EE)
 {
     ENVTOP = EE;
 }
 #endif
 
 #ifndef is_older_env
-GLOBAL boolean is_older_env(Older,Younger)
-    ENV Older,Younger;
+GLOBAL boolean is_older_env(ENV Older, ENV Younger)
 {
     return Older < Younger;
 }
 #endif
 
-GLOBAL ENV get_env(EE)
-    register ENV EE;
+GLOBAL ENV get_env(register ENV EE)
 {
     if(EE == NIL_ENV)
         EE = MIN_ENV;
@@ -694,8 +650,7 @@ LOCAL union
 #endif
 
 #if REALARITH
-GLOBAL TERM mkreal(R)
-    REAL R;
+GLOBAL TERM mkreal(REAL R)
 { 
     TERM T;
     int I;
@@ -711,8 +666,7 @@ GLOBAL TERM mkreal(R)
     return mkfunc(REALT,TT);
 }
 
-GLOBAL REAL realval(T)
-    TERM T;
+GLOBAL REAL realval(TERM T)
 { 
     int I;
     if(name(T)!=REALT) ERROR(ARGE);
@@ -728,8 +682,7 @@ GLOBAL REAL realval(T)
 #endif
 
 #if LONGARITH
-GLOBAL TERM mklong(L)
-    LONG L;
+GLOBAL TERM mklong(LONG L)
 { 
     TERM T,TT; 
     int I;
@@ -753,8 +706,7 @@ GLOBAL TERM mklong(L)
     return mkfunc(LONGT,TT);
 }
 
-GLOBAL LONG longval(T)
-    TERM T;
+GLOBAL LONG longval(TERM T)
 { 
     register int I;
     if(name(T)!=LONGT) ERROR(ARGE);
@@ -786,18 +738,14 @@ GLOBAL LONG longval(T)
 
 LOCAL long TOTAL;
 
-LOCAL void wtotal(S,MAX)
-string S;
-card MAX;
+LOCAL void wtotal(string S, card MAX)
 { 
     ws(S); 
     ws(ltoa((long)MAX)); 
     TOTAL=MAX; 
 }
 
-LOCAL void wpercent(S,N)
-    string S;
-    card N;
+LOCAL void wpercent(string S, card N)
 { 
     ws(S); 
     ws(ltoa((long)N));
@@ -807,7 +755,7 @@ LOCAL void wpercent(S,N)
 }
 
 /* evaluable predicate stats */
-GLOBAL void DOSTATS ()
+GLOBAL void DOSTATS(void)
 { 
     card RN; 
     TERM T;
@@ -867,7 +815,7 @@ GLOBAL void DOSTATS ()
 static char FileHeader[HEADERSIZE];
 #define concat(st) for(s=st ; *s && index < HEADERSIZE; ++s,++index) \
 			FileHeader[index] = *s
-LOCAL void mkheader()
+LOCAL void mkheader(void)
 {
     int index = 0;
     char *s;
@@ -892,9 +840,7 @@ LOCAL void mkheader()
 
 LOCAL ERRORTYPE result;
 
-LOCAL int checksum(from , len)
-    register char * from;
-    register card len;
+LOCAL int checksum(register char * from, register card len)
 {
     register int chksum = 0;
 
@@ -903,18 +849,14 @@ LOCAL int checksum(from , len)
     return (int)(chksum >> 8);
 }
 
-LOCAL void doio(fileptr, save , from , len )
-    int fileptr;
-    boolean save;
-    char * from;
-    card len;
+LOCAL void doio(int fileptr, boolean save, char * from, card len)
 {
     int chksum;
 
-    if((save ? write : read )(fileptr,from,len) != len)
+    if(save ? (write(fileptr,from,len) != len) : (read(fileptr,from,len) != len))
 	if(result  == NOERROR)
 	    result = IOERROR;
-    
+
     chksum = checksum(from,len);
     if(save)
     {
@@ -939,9 +881,7 @@ LOCAL void doio(fileptr, save , from , len )
 #define handle_vf(first_adr,last_adr)  doio(fileptr,save, \
 	(char*)(first_adr),(card)((char*)(last_adr) - (char*)(first_adr)))
 
-GLOBAL ERRORTYPE save_restore(save,filename)
-    boolean save;
-    char *filename;
+GLOBAL ERRORTYPE save_restore(boolean save, char *filename)
 {
     int fileptr;
     long magic;
@@ -1021,7 +961,7 @@ Sorry, but this is not implemented yet
 }
 #endif
 
-GLOBAL void Init_Types()
+GLOBAL void Init_Types(void)
 {
 #if DEBUG
     if(DEBUGFLAG)

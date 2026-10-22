@@ -28,18 +28,14 @@
 #endif
 
 #ifndef INTRES
-GLOBAL boolean INTRES (X, I)
-    TERM X;
-    int I;
+GLOBAL boolean INTRES(TERM X, int I)
 {
     return UNI(X,mkint(I));
 }
 #endif
 
 #if LONGARITH
-GLOBAL boolean LONGRES(T,L)
-    TERM T;
-    LONG L;
+GLOBAL boolean LONGRES(TERM T, LONG L)
 {
     if(minint<=L && L<=maxint)
         return INTRES(T,(int)L);
@@ -49,11 +45,7 @@ GLOBAL boolean LONGRES(T,L)
 #endif
 
 #if OCCUR_CHECK
-LOCAL boolean Occur(V,T,B,Depth)
-    TERM V;
-    register TERM T;
-    TERM B;
-    int Depth;
+LOCAL boolean Occur(TERM V, register TERM T, TERM B, int Depth)
 {
     int ar;
     if(Depth == 0) ABORT(DEPTHE);
@@ -84,11 +76,7 @@ LOCAL boolean Occur(V,T,B,Depth)
 #define bind_int(V,I)  ((name(V)=INTT),(ival(V)=ival(I)),trailvar(V))
 #define bind_vars(Y,O) ((name(Y)=VART),(val(Y)=O),trailvar(Y))
 
-LOCAL TERM copy_block(T,ar,BB,Depth)
-    TERM T;
-    TERM BB;
-    register int ar;
-    int Depth;
+LOCAL TERM copy_block(TERM T, register int ar, TERM BB, int Depth)
 {
     TERM Result;
     register TERM Tmp;
@@ -153,17 +141,12 @@ LOCAL TERM copy_block(T,ar,BB,Depth)
 #endif
 
 #if HIGHER_ORDER
-LOCAL TERM normalize_var_call(T,B)
-    TERM T,B;
+LOCAL TERM normalize_var_call(TERM T, TERM B)
 {
     return T;
 }
 
-LOCAL boolean var_call_unify(T1,T2,B1,B2,Depth)
-    TERM T1,T2;
-    TERM B1,B2;
-    int Depth;
-
+LOCAL boolean var_call_unify(TERM T1, TERM T2, TERM B1, TERM B2, int Depth)
 {
     boolean b1,b2;
     TERM T;
@@ -204,11 +187,7 @@ fail:;
 #endif
 
 
-GLOBAL boolean UNIFY(N,Term2,Term1,B2,B1,Depth)
-    TERM Term1,Term2;
-    TERM B1,B2;
-    int N;
-    int Depth;
+GLOBAL boolean UNIFY(int N, TERM Term2, TERM Term1, TERM B2, TERM B1, int Depth)
 {
     TRAIL T_TOP;
     TERM  S_TOP;
