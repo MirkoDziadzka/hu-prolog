@@ -306,12 +306,12 @@ ancestors/1 unifiziert sein Argument mit einer Liste
 der Aufrufe, die von Toplevel zum aktuellen Aufruf gef"uhrt
 haben. Damit ist so eine Art nachtr"agliches Debugging m"oglich.
 #arg/3
-arg(Term, N, SubTerm) dient zur Analyse und Synthese
+arg(N, Term, SubTerm) dient zur Analyse und Synthese
 von Termen. arg/3 unifiziert ``SubTerm'' mit dem
 ``N''-ten Unterterm von ``Term''.
 Beispiel:
 
-?- arg( hello(first, second(Y)) , 2 , X).
+?- arg( 2 , hello(first, second(Y)) , X).
 X = second(Y).
 @functor/3
 @=../2
@@ -1107,19 +1107,48 @@ Definition:
 retract/1 entfernt die als Argument angegebene Klausel aus
 der Datenbasis. Dabei mu"s aus dem Argument mindestens der Name
 und die Stellenzahl des Kopfes der Klausel hervorgehen.
-Beim Backtracking werden weitere Klauseln gel"oscht.
-Beispiel:
+Beim Backtracking werden weitere Klauseln gel"oscht -- siehe
+aber die ACHTUNG unten f"ur eine wichtige Einschr"ankung, wenn
+das Argument explizit als ``(Kopf :- Rumpf)'' angegeben wird.
+Beispiel (Argument als blo"ser Kopf, ohne ``:-''):
 
 Die Datenbasis enthalte:
-        a(1) :- fail.
-        a(2).
+        b(1).
+        b(2).
+        b(3).
 Dann gilt:
-        ?- retract(( a(X) :- Y )).
-        X = 1
-        Y = fail ;
-        X = 2
-        Y = true;
+        ?- retract(b(X)).
+        X = 1 ;
+        X = 2 ;
+        X = 3 ;
+        no
 
+ACHTUNG: Wird das Argument explizit als ``(Kopf :- Rumpf)''
+         angegeben, kann retract/1 NUR Klauseln mit echtem
+         Rumpf (also Regeln) treffen, niemals Fakten --
+         unabh"angig vom Backtracking. Intern wird ein Fakt
+         ohne Rumpf gespeichert (nicht etwa mit Rumpf `true'),
+         und retract/1 vergleicht dann nur den blo"sen Kopf,
+         nicht ``Kopf :- true''. (clause/2 gleicht diesen
+         Unterschied f"ur seine Nutzer aus und liefert bei
+         Fakten brav Body=true -- retract/1 tut das nicht.)
+         Beispiel:
+
+         Die Datenbasis enthalte:
+                 a(1) :- fail.
+                 a(2).
+         Dann gilt:
+                 ?- retract(( a(X) :- Y )).
+                 X = 1
+                 Y = fail
+                 no          % a(2) wird NICHT gefunden,
+                              % obwohl es passen sollte!
+
+         Abhilfe: entweder das Argument ohne ``:-'' angeben
+         (dann trifft es sowohl Fakten als auch Regeln, siehe
+         obiges b/1-Beispiel), oder bei Bedarf getrennt nach
+         Fakten (blo"ser Kopf) und Regeln (``Kopf :- Rumpf'')
+         suchen.
 @retractall/1
 @abolish/1
 @abolish/2
@@ -1558,7 +1587,7 @@ Beispiel:
 ?- sort("abccba",X).
 X = "aabbcc"
 ?- sort0("abccbd",X).
-X = "abc"
+X = "abcd"
 
 ACHTUNG: Diese Pr"adikate werden evt. mal entfernt.
 
