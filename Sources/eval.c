@@ -259,20 +259,20 @@ LOCAL boolean DOARG(void)
 {
     register int N;
     if (name(A0) != INTT || !norm_atom(name(A1))) 
-        ABORT(ARGE);
+        ERROR(ARGE);
     N= ival(A0);
 #if HIGHER_ORDER
     if(var_call(name(A1)))
     {
 	if (N<1 || N >= arity(name(A1)))
-	    ABORT(ARGE);
+	    ERROR(ARGE);
 	return UNI(A2,n_brother(son(A1),N));
     }
     else
 #endif
    {
 	if (N<1 || N > arity(name(A1)))
-	    ABORT(ARGE);
+	    ERROR(ARGE);
 	return UNI(A2,n_brother(son(A1),N-1));
    }
 }

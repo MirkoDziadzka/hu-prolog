@@ -17,21 +17,18 @@
 :- functor(X, foo, 0), check_eq(functor_synth_arity0, X, foo).
 
 % --- arg/3 ---
-% NOTE: Help/help.txt documents arg/3 as arg(Term, N, SubTerm), with
-% the worked example "arg(hello(first,second(Y)),2,X) => X=second(Y)".
-% That is NOT what this build implements: Sources/eval.c's DOARG
-% requires the integer FIRST (arg(N, Term, SubTerm), the usual
-% ISO-Prolog order) -- A0 must be INTT or it raises ARGE (error 2).
-% This is a real doc/implementation mismatch worth fixing in the docs;
-% these tests pin down the actual, current behavior.
-% arg/3's error path (Sources/eval.c DOARG) uses ABORT(ARGE), not
-% ERROR(ARGE) -- unlike most error codes, ABORT() jumps straight to
-% the top level via ABORT_JMP() and bypasses the error/2 hook
-% entirely, so it can't be probed with check_error here. Only the
-% success paths are covered.
+% NOTE: Help/help.txt used to document arg/3 as arg(Term, N, SubTerm);
+% that was a doc bug, now fixed. The real (and standard, ISO/DEC-10)
+% order is arg(N, Term, SubTerm) -- A0 must be the integer index.
 :- arg(2, hello(first,second(q)), X), check_eq(arg_example, X, second(q)).
 :- arg(1, foo(a,b,c), X), check_eq(arg_first, X, a).
 :- arg(3, foo(a,b,c), X), check_eq(arg_last, X, c).
+
+% arg/3's error path (Sources/eval.c DOARG) now raises ERROR(ARGE),
+% catchable via error/2 like every other ARGE site (it used to be
+% ABORT(ARGE), the one ARGE call site that bypassed error/2 entirely).
+:- check_error(arg_out_of_range, arg(3, foo(a,b), _), 2).
+:- check_error(arg_index_not_integer, arg(foo(a,b,c), 1, _), 2).
 
 % --- =../2 (manual examples) ---
 :- 7 =.. L, check_eq(univ_number, L, [7]).
