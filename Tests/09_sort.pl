@@ -21,7 +21,7 @@
 % sort order follows @</2 (standard order of terms): unbound var <
 % number < everything else (atoms and compounds together, ordered by
 % functor NAME first, then arity -- so a(1) with name "a" sorts
-% before the atom "b", per the confirmed a(1) @< b rule).
+% before the atom "b", since a(1) @< b).
 :- sort([b,1,a(1),_], [S1,S2,S3,S4]),
    check(sort_mixed_types_var_first, var(S1)),
    check_eq(sort_mixed_types_number_second, S2, 1),

@@ -12,14 +12,13 @@
 % NVARSE) and C-stack-depth guards (DEPTHE) -- constructing the
 % error(Call,N) splice-in term needs the very resource that's gone --
 % and for abort/0, abort/2, restart/0 and friends, which are
-% documented as deliberately uncatchable. It was previously ALSO true
-% for arg/3's ARGE (eval.c DOARG) and the consult-time SYSPROCE check
-% in datab.c's clause-insertion loop, but those had no such reason --
-% every *other* ARGE/SYSPROCE site already used catchable ERROR() --
-% so both were switched from ABORT() to ERROR(), see the checks below.
-% ARGE-via-arg/3 is now routed through error/2 like any other ERROR();
-% SYSPROCE-via-consult is catchable too, but only as an ordinary goal
-% failure, not via error/2 -- see that check's own comment for why.
+% documented as deliberately uncatchable. Everything else uses
+% catchable ERROR(), including arg/3's ARGE (eval.c DOARG) and the
+% consult-time SYSPROCE check in datab.c's clause-insertion loop --
+% see the checks below. ARGE-via-arg/3 is routed through error/2 like
+% any other ERROR(); SYSPROCE-via-consult is catchable too, but only
+% as an ordinary goal failure, not via error/2 -- see that check's own
+% comment for why.
 
 :- consult('harness.pl').
 
@@ -37,17 +36,14 @@
 :- check_error(functor_arity_exceeds_maxarity, functor(_,foo,99999), 4).
 :- check_error(stdfunc_arg_not_an_expression, (_ is sqrt(foo)), 31).
 
-% arg/3 out-of-range / wrong-argument-order: used to be ABORT(ARGE),
-% uncatchable (see 03_termconstruct.pl for the positive-path tests of
-% arg/3 itself); now ERROR(ARGE) like every other ARGE site.
+% arg/3 out-of-range / wrong-argument-order raises ERROR(ARGE) like
+% every other ARGE site (see 03_termconstruct.pl for the positive-path
+% tests of arg/3 itself).
 :- check_error(arg_out_of_range_is_catchable, arg(3, foo(a,b), _), 2).
 
 % Defining a clause for a protected system predicate WHILE CONSULTING
-% A FILE (as opposed to via assert/1, which already used catchable
-% ERROR(SYSPROCE)) used to be ABORT(SYSPROCE), which printed "ERROR
-% 29" and unwound the ENTIRE PROCESS straight to the top level --
-% consulting any file with one bad clause in it was fatal, even from
-% deep inside a library load. Trigger it by consulting a scratch file
+% A FILE (as with assert/1) raises a catchable ERROR(SYSPROCE). Trigger
+% it by consulting a scratch file
 % that tries to add a clause to retractall/1 (a NORMP, sysflag-
 % protected predicate) without sysmode.
 %
@@ -60,8 +56,8 @@
 % in that path to splice error/2 in. DOCONSULT catches its own
 % ERROR()s locally (see its "reset_error_label") so one bad clause
 % can't take down the whole process; the result is that consult/1
-% simply FAILS as an ordinary goal, exactly like the pre-existing
-% CANTOP (file-not-found) case in the very same function. That's the
+% simply FAILS as an ordinary goal, exactly like the CANTOP
+% (file-not-found) case in the very same function. That's the
 % behavior pinned down here: catchable via ordinary Prolog control
 % flow (fail/backtrack), just not via error/2's (Call, ErrorNum) form.
 :- tell('/tmp/hu_sysproce_test.pl'),
@@ -69,8 +65,7 @@
    told,
    check_not(consult_time_sysproce_fails_cleanly,
              consult('/tmp/hu_sysproce_test.pl')).
-% and execution actually continues normally afterward -- this would
-% have been unreachable code under the old ABORT()-based behavior.
+% and execution continues normally afterward.
 :- check(execution_continues_after_consult_time_sysproce, true).
 
 % error/2 is itself just a normal user-definable predicate (class

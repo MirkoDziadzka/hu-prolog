@@ -17,16 +17,14 @@
 :- functor(X, foo, 0), check_eq(functor_synth_arity0, X, foo).
 
 % --- arg/3 ---
-% NOTE: Help/help.txt used to document arg/3 as arg(Term, N, SubTerm);
-% that was a doc bug, now fixed. The real (and standard, ISO/DEC-10)
-% order is arg(N, Term, SubTerm) -- A0 must be the integer index.
+% The argument order is arg(N, Term, SubTerm) (standard, ISO/DEC-10)
+% -- A0 must be the integer index.
 :- arg(2, hello(first,second(q)), X), check_eq(arg_example, X, second(q)).
 :- arg(1, foo(a,b,c), X), check_eq(arg_first, X, a).
 :- arg(3, foo(a,b,c), X), check_eq(arg_last, X, c).
 
-% arg/3's error path (Sources/eval.c DOARG) now raises ERROR(ARGE),
-% catchable via error/2 like every other ARGE site (it used to be
-% ABORT(ARGE), the one ARGE call site that bypassed error/2 entirely).
+% arg/3's error path (Sources/eval.c DOARG) raises ERROR(ARGE),
+% catchable via error/2 like every other ARGE site.
 :- check_error(arg_out_of_range, arg(3, foo(a,b), _), 2).
 :- check_error(arg_index_not_integer, arg(foo(a,b,c), 1, _), 2).
 

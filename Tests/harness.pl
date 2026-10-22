@@ -10,21 +10,26 @@
 % and a final:
 %   SUMMARY passed=<N> failed=<M>
 
-:- retractall(test_pass_count(_)).
-:- asserta(test_pass_count(0)).
-:- retractall(test_fail_count(_)).
-:- asserta(test_fail_count(0)).
+% '$collected' and '$drain_collected' are implementation details of
+% collect_all/3 only -- private/1 here plus hide/1 at the end of the
+% file (see Help/help.txt) scope them to this file so the names can't
+% collide with anything defined by the test files consulting it, the
+% same way a module system would.
+:- private(['$collected', '$drain_collected']).
+
+% test_pass_count/test_fail_count/last_error (below) are scalar
+% counters/flags held in :=/2 global variables (see Help/help.txt).
+% := persists across backtracking and updates the stored value in
+% place, leaving the clause chain untouched.
+:- test_pass_count := 0.
+:- test_fail_count := 0.
 
 pass(Name) :-
-    retract(test_pass_count(N)),
-    N1 is N + 1,
-    asserta(test_pass_count(N1)),
+    test_pass_count := test_pass_count + 1,
     write('PASS '), write(Name), nl.
 
 report_fail(Name, Reason) :-
-    retract(test_fail_count(N)),
-    N1 is N + 1,
-    asserta(test_fail_count(N1)),
+    test_fail_count := test_fail_count + 1,
     write('FAIL '), write(Name), write(' -- '), write(Reason), nl.
 
 % check(Name, Goal) -- Goal must succeed.
@@ -42,21 +47,24 @@ check_eq(Name, Actual, Expected) :-
 
 % error/2 hook: records the last error number raised while Goal (below)
 % was running, then fails so the caller's own control flow resumes.
-:- retractall(last_error(_)).
-:- asserta(last_error(none)).
+% Sentinel for "no error yet" is -1, a number rather than the atom
+% 'none' -- := only evaluates a stored ATOM value by first trying (and
+% failing) to call it as a 0-arity function, which is harmless but
+% prints a stray "WARNING: unknown relation ./1 failed" on every
+% reset; a number sentinel avoids that noise. No test file depends on
+% the literal value, only on check_error/3's pass/fail outcome.
+:- last_error := -1.
 error(_, E) :-
-    retractall(last_error(_)),
-    asserta(last_error(E)),
+    last_error := E,
     fail.
 
 % check_error(Name, Goal, ExpectedErrNum) -- Goal must raise exactly
 % ExpectedErrNum (an integer error code, see Sources/types.h) and fail.
 check_error(Name, Goal, ExpectedErrNum) :-
-    retractall(last_error(_)),
-    asserta(last_error(none)),
+    last_error := -1,
     ( call(Goal) ->
         report_fail(Name, 'expected error but goal succeeded')
-    ; last_error(Got),
+    ; Got := last_error,
       ( Got == ExpectedErrNum -> pass(Name)
       ; report_fail(Name, got_error(Got)-expected(ExpectedErrNum)) )
     ).
@@ -78,5 +86,7 @@ collect_all(Goal, Template, List) :-
     ; List = [] ).
 
 summary :-
-    test_pass_count(P), test_fail_count(F),
+    P := test_pass_count, F := test_fail_count,
     write('SUMMARY passed='), write(P), write(' failed='), write(F), nl.
+
+:- hide(['$collected', '$drain_collected']).
