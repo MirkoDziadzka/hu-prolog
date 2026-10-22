@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 FILE *infile;
 FILE *outfile;
@@ -7,9 +8,7 @@ FILE *outfile;
 
 static char buffer[MAX_LINE_LEN+1];
 
-main(argc,argv)
-    int argc;
-    char *argv[];
+int main(int argc, char *argv[])
 {
     long currentpos;
     char *s;
