@@ -1,3 +1,46 @@
+#2.30# (unveroeffentlicht, Branch modernize)
+
+- Quelltext auf ANSI-C umgestellt: alle Funktionsdefinitionen mit
+  Prototypen statt K&R-Parameterlisten, Systemfunktionen ueber die
+  Standard-Header (<stdlib.h>, <string.h>, <unistd.h>, <time.h>,
+  <signal.h>, ...) statt eigener Deklarationen. Nur die
+  termcap-Funktionen werden weiterhin von Hand deklariert.
+  Prototypen in window.h und fuer mk2sons() vervollstaendigt.
+
+- Namenskonflikte mit der C-Bibliothek behoben: das Makro system(atom)
+  heisst jetzt is_system(atom), setenv() heisst jetzt hup_setenv().
+
+- times() benutzt struct tms (tms_utime) aus <sys/times.h>.
+
+- DOSAVE: read/write werden direkt aufgerufen, nicht ueber einen
+  Funktionszeiger.
+
+- MEMORYSIZE fuer die grosse Konfiguration ist jetzt 16000 (KByte),
+  mit eigenen Tabellengroessen in memory.h. (1024 * 1024) ergibt auf
+  64-Bit-Systemen mehrere GB statische Felder.
+
+- arg/3 meldet ARGE jetzt mit ERROR() statt ABORT(); der Fehler kann
+  also mit error/2 abgefangen werden.
+
+- DOCONSULT: SYSPROCE (Klausel fuer ein Systempraedikat ausserhalb von
+  sysmode) wird jetzt mit ERROR() statt ABORT() gemeldet. consult/1
+  schlaegt dann fehl und setzt ERRORFLAG zurueck; das Programm laeuft
+  normal weiter.
+
+- help.txt korrigiert: Argumentreihenfolge von arg/3 ist
+  arg(N, Term, SubTerm); Beispiel zu sort0/2; bei retract/1 eine
+  Warnung ergaenzt: mit (Kopf :- Rumpf) als Argument werden nur Regeln
+  gefunden, keine Fakten.
+
+- nrev0: Benchmark benutzt die eingebauten Praedikate timer/1 und
+  :=/2 samt Operator und vermeidet eine Division durch 0 bei
+  Laufzeit 0.
+
+- Neue Regressionstests in Tests/ (harness.pl, 01_syntax.pl ..
+  13_streams.pl), Aufruf mit python3 Tests/run_tests.py.
+
+- .gitignore fuer die generierten Dateien in Sources/.
+
 #2.29# Thu Mar 16 13:28:59 MET 1995
 
 - Fehler in ltoa rausgenommen. Jetzt wird unsigned long anstelle
