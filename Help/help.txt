@@ -178,8 +178,13 @@ zugewiesen. Handelt es sich dabei um eine Prolog-Variable oder
 um eine Zahl, ist das Verhalten von :=/2 analog zu is/2.
 Handelt es sich um einen anderen Term, wird dieser als
 globale Variable interpretiert und dieser der Wert zugewiesen.
+Ein mit dem Pr"afixoperator ` markierter Term wird nicht
+ausgewertet, sondern unver"andert "ubernommen.
 
 Beispiel:
+?- status := `none.
+?- X := status.
+X = none
 ?- counter(17) := 0.
 ?- counter(17) := counter(17) + 1.
 ?- X := counter(17).
@@ -1651,6 +1656,7 @@ e        | real | 2.718281828...
 pi       |      | 3.1415.....
 ---------+------+-------------------------------------------
 maxarity | int  | maximale Funktor-Stellenzahl
+maxdepth | int  | maximale Rekursionstiefe beim Verarbeiten von Termen
 
 @1-stellige Funktionen
 @2-stellige Funktionen
