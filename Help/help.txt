@@ -1,6 +1,6 @@
 #HU-Prolog Online Help
-Online Help f"ur HU-Prolog 2.025
-(letzte "Anderungen: Fri Feb 19 14:00:50 GMT 1993)
+Online Help f"ur HU-Prolog 2.029
+(letzte "Anderungen: Sun Oct 25 10:14:29 UTC 2026)
 
 Bemerkung: Mir ist bekannt, da"s sich hier in jeder Zeile
            mindestens ein Tippfehler befindent. Irgendwann

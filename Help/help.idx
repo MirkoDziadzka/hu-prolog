@@ -1,0 +1,210 @@
+INDEX
+>0 HU-Prolog Online Help
+>453 Syntax
+>593 Copyright, Quelltexte, Bugs, ...
+>759 Copyright
+>1553 Wo gibts die Quellen?
+>1874 Was mach ich bei 'nem Fehler ?
+>2472 Wem darf ich f"ur dieses Meisterwerk danken ?
+>3155 Kontakt zum Autor
+>3705 Ein- und Ausgabe
+>4060 Streamoperationen
+>4158 Eingabeoperationen
+>4248 Ausgabeoperationen
+>4318 Bildschirmsteuerung
+>4365 ,/2
+>4460 :-/2
+>4684 :=/2
+>5505 Bekannte Fehler von :=/2
+>5862 ;/2
+>5945 </2
+>5986 =../2
+>6370 =/2
+>6393 \=/2
+>6424 =:=/2
+>6467 =\=/2
+>6510 =</2
+>6552 ==/2
+>6758 \==/2
+>6826 >/2
+>6867 >=/2
+>6909 @</2
+>6941 @=/2
+>6973 @=</2
+>7006 @>/2
+>7038 @>=/2
+>7071 @\=/2
+>7104 abolish/2
+>7250 abolish/1
+>7430 abort/0
+>7462 restart/0
+>7496 abort/0 und restart/0
+>7760 abort/2
+>8049 ancestors/1
+>8240 arg/3
+>8469 argc/1
+>8691 argv/2
+>8978 ttyask/1
+>8995 ask/1
+>9289 asserta/1
+>9310 assertz/1
+>9331 assert/1
+>9615 assign/2
+>10462 atom/1
+>10522 atomic/1
+>10617 number/1
+>10714 integer/1
+>10787 real/1
+>10856 compound/1
+>10952 var/1
+>11059 nonvar/1
+>11125 ground/1
+>11223 invar/1
+>11380 list/1
+>11502 string/1
+>11699 call/1
+>11783 clause/2
+>12074 close/1
+>12292 open/1
+>12470 see/1
+>12574 seeing/1
+>12662 seen/0
+>12767 tell/1
+>12877 telling/1
+>12967 told/0
+>13068 ttycls/0
+>13085 cls/0
+>13444 ttygotoxy/2
+>13467 gotoxy/2
+>13857 consult/1
+>14299 reconsult/1
+>14452 current_atom/1
+>14725 current_predicate/1
+>14896 current_op/3
+>15316 dict/1
+>15344 sdict/1
+>15373 dict/1 und sdict/1
+>15758 !/0
+>15897 Literatur
+>16404 Datenbasisoperationen
+>16619 date/3
+>16721 time/3
+>16829 weekday/1
+>16973 display/1
+>17359 ttywrite/1
+>17380 write/1
+>17653 writeq/1
+>18007 echo/1
+>18357 log/1
+>18769 fileerrors/1
+>19289 end/0
+>19624 halt/0
+>19678 exit/1
+>19890 ensure/3
+>20668 Aufbau der Bibliothek
+>21149 eof/0
+>21280 fail/0
+>21448 Ich will wirklich wissen, was fail/0 macht
+>21763 Ich will wirklich JETZT wissen, was fail/0 macht
+>21870 Flags
+>22041 functor/3
+>22306 name/2
+>22613 ttyget/1
+>22630 get/1
+>22828 ttyget0/1
+>22847 get0/1
+>23107 getenv/2
+>23302 putenv/2
+>23401 help/0
+>23415 help
+>24151 hide/1
+>24454 private/1
+>24947 interrupt/0
+>25086 not/1
+>25181 \+/1
+>25441 ttyput/1
+>25458 put/1
+>25830 ttytab/1
+>25847 tab/1
+>26057 ttynl/0
+>26072 nl/0
+>26255 ->/2
+>26350 ./2
+>26366 eoln/0
+>26499 error/2
+>27088 help/1
+>27180 is/2
+>27390 listing/0
+>27456 listing/1
+>27678 spy/1
+>27696 nospy/1
+>27716 trace/0
+>27736 trace/1
+>27756 notrace/0
+>27778 occur_check/1
+>28338 op/3
+>29124 ttyread/1
+>29143 read/1
+>29351 read/2
+>29634 repeat/0
+>30180 restore/1
+>30516 retract/1
+>32301 retractall/1
+>32480 save/1
+>32825 ttyskip/1
+>32844 skip/1
+>33240 true/0
+>33414 version/0
+>33497 unget/0
+>33855 unknown/1
+>34339 seek/2
+>35056 timer/1
+>35546 system/1
+>35943 toplevel/0
+>36377 prompt/0
+>36588 window/0
+>36696 Termbehandlung
+>36805 Termklassifikation
+>36992 Termanalyse und -synthese
+>37044 Termvergleich
+>37115 Unifizierbarkeit
+>37358 Identit"at
+>37376 Lexikographische Ordnung
+>38018 Analyse und Sythese von Atomen
+>38074 warn/1
+>38793 vordefinierte Streams
+>39308 sys/1
+>39807 wget0/1
+>40202 isatty/1
+>40376 sysmode/1
+>40869 Steuerung
+>40937 Globale Steuerung des Systemverhaltens
+>41147 Programmierumgebung
+>41276 Modulkonzept von HU-Prolog
+>41333 Schnittstelle zur Systemumgebung
+>41469 Testunterst"utzung
+>41500 Systemflags und Optionen
+>41526 login/0
+>41557 logout/0
+>41589 Streamkonzept
+>41929 Fenster
+>42373 Beispiel einer .prologrc-Datei f"ur die Arbeit mit Fenstern
+>42887 Kommandozeilenoptionen
+>44091 sort/2
+>44119 sort0/2
+>44148 sort/2 und sort0/2
+>44581 exit/1 , halt/0, end/0
+>44673 Arithmetische Vergleichsoperatoren
+>45035 Ablaufsteuerung
+>45114 Arithmetik und funktionale Programmierung
+>45702 Standardfunktionen und -operationen
+>45901 0-stellige Funktionen
+>46440 1-stellige Funktionen
+>47271 2-stellige Funktionen
+>48264 Arithmetik
+>48319 login/0 und logout/0
+>48721 Globale Variablen und nutzerdefinierte Funktionen
+>49458 Debugging
+>49783 stats/0
+>49901 Eigenschaften der lokalen Implementation
+TEXT

@@ -1,0 +1,210 @@
+INDEX
+>0 HU-Prolog Online Help
+>381 Syntax
+>521 Copyright, Sources, Bugs, ...
+>683 Copyright
+>1368 Where can I get the sources?
+>1677 What do I do about a bug?
+>2199 Whom may I thank for this masterpiece?
+>2798 Contacting the Author
+>3358 Input and Output
+>3673 Stream Operations
+>3771 Input Operations
+>3859 Output Operations
+>3928 Screen Control
+>3970 ,/2
+>4069 :-/2
+>4260 :=/2
+>4971 Known Bugs of :=/2
+>5275 ;/2
+>5362 </2
+>5400 =../2
+>5784 =/2
+>5803 \=/2
+>5830 =:=/2
+>5870 =\=/2
+>5910 =</2
+>5949 ==/2
+>6141 \==/2
+>6209 >/2
+>6247 >=/2
+>6286 @</2
+>6313 @=/2
+>6340 @=</2
+>6368 @>/2
+>6395 @>=/2
+>6423 @\=/2
+>6451 abolish/2
+>6588 abolish/1
+>6745 abort/0
+>6777 restart/0
+>6811 abort/0 and restart/0
+>7035 abort/2
+>7307 ancestors/1
+>7474 arg/3
+>7702 argc/1
+>7920 argv/2
+>8168 ttyask/1
+>8185 ask/1
+>8483 asserta/1
+>8504 assertz/1
+>8525 assert/1
+>8805 assign/2
+>9614 atom/1
+>9666 atomic/1
+>9761 number/1
+>9858 integer/1
+>9918 real/1
+>9975 compound/1
+>10071 var/1
+>10141 nonvar/1
+>10207 ground/1
+>10292 invar/1
+>10437 list/1
+>10559 string/1
+>10754 call/1
+>10833 clause/2
+>11103 close/1
+>11288 open/1
+>11437 see/1
+>11530 seeing/1
+>11614 seen/0
+>11717 tell/1
+>11813 telling/1
+>11900 told/0
+>12003 ttycls/0
+>12020 cls/0
+>12315 ttygotoxy/2
+>12338 gotoxy/2
+>12667 consult/1
+>13054 reconsult/1
+>13182 current_atom/1
+>13430 current_predicate/1
+>13594 current_op/3
+>13989 dict/1
+>14017 sdict/1
+>14046 dict/1 and sdict/1
+>14387 !/0
+>14522 Literature
+>15009 Database Operations
+>15212 date/3
+>15307 time/3
+>15406 weekday/1
+>15551 display/1
+>15898 ttywrite/1
+>15919 write/1
+>16172 writeq/1
+>16479 echo/1
+>16783 log/1
+>17156 fileerrors/1
+>17594 end/0
+>17929 halt/0
+>17987 exit/1
+>18187 ensure/3
+>18857 Library Structure
+>19304 eof/0
+>19435 fail/0
+>19569 I really want to know what fail/0 does
+>19856 I really want to know NOW what fail/0 does
+>19958 Flags
+>20110 functor/3
+>20373 name/2
+>20670 ttyget/1
+>20687 get/1
+>20877 ttyget0/1
+>20896 get0/1
+>21157 getenv/2
+>21334 putenv/2
+>21433 help/0
+>21447 help
+>22047 hide/1
+>22309 private/1
+>22738 interrupt/0
+>22857 not/1
+>22952 \+/1
+>23194 ttyput/1
+>23211 put/1
+>23564 ttytab/1
+>23581 tab/1
+>23783 ttynl/0
+>23798 nl/0
+>23957 ->/2
+>24052 ./2
+>24068 eoln/0
+>24195 error/2
+>24681 help/1
+>24763 is/2
+>24965 listing/0
+>25031 listing/1
+>25210 spy/1
+>25228 nospy/1
+>25248 trace/0
+>25268 trace/1
+>25288 notrace/0
+>25310 occur_check/1
+>25801 op/3
+>26523 ttyread/1
+>26542 read/1
+>26738 read/2
+>27009 repeat/0
+>27530 restore/1
+>27844 retract/1
+>29495 retractall/1
+>29672 save/1
+>29988 ttyskip/1
+>30007 skip/1
+>30385 true/0
+>30556 version/0
+>30630 unget/0
+>30947 unknown/1
+>31377 seek/2
+>32065 timer/1
+>32493 system/1
+>32859 toplevel/0
+>33235 prompt/0
+>33422 window/0
+>33513 Term Handling
+>33628 Term Classification
+>33806 Term Analysis and Synthesis
+>33860 Term Comparison
+>33922 Unifiability
+>34133 Identity
+>34149 Lexicographic Order
+>34746 Analysis and Synthesis of Atoms
+>34803 warn/1
+>35444 Predefined Streams
+>35926 sys/1
+>36382 wget0/1
+>36742 isatty/1
+>36891 sysmode/1
+>37329 Control
+>37387 Global Control of System Behavior
+>37592 Programming Environment
+>37726 Module Concept of HU-Prolog
+>37784 Interface to the System Environment
+>37923 Testing Support
+>37951 System Flags and Options
+>37977 login/0
+>38008 logout/0
+>38040 Stream Concept
+>38355 Windows
+>38733 Example .prologrc File for Working with Windows
+>39212 Command Line Options
+>40282 sort/2
+>40310 sort0/2
+>40339 sort/2 and sort0/2
+>40720 exit/1 , halt/0, end/0
+>40815 Arithmetic Comparison Operators
+>41129 Flow Control
+>41205 Arithmetic and Functional Programming
+>41740 Standard Functions and Operations
+>41907 0-ary Functions
+>42405 1-ary Functions
+>43188 2-ary Functions
+>44147 Arithmetic
+>44198 login/0 and logout/0
+>44540 Global Variables and User-Defined Functions
+>45228 Debugging
+>45529 stats/0
+>45624 Properties of the Local Installation
+TEXT

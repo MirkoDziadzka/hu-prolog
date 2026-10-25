@@ -1,5 +1,5 @@
 :
-FILE=help.txt
+FILE=${1:-help.txt}
 TMP0=tmp.$$.0
 TMP1=tmp.$$.1
 TMP2=tmp.$$.2

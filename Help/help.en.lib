@@ -1,0 +1,1981 @@
+THIS FILE IS GENERATED AUTOMATICALLY -- DON'T CHANGE IT 
+
+/**********************************************************************
+***********************************************************************
+**                                                                   **
+**  HU-Prolog         Public Domain Version       Release  2.022     **
+**                                                                   **
+**  Author(s): 87-89  Christian Horn, Mirko Dziadzka, Matthias Horn  **
+**             90-92  Mirko Dziadzka                                 **
+**                    Humboldt-Universitaet zu Berlin, FB Informatik **
+**                    email: dziadzka@informatik.hu-berlin.de        **
+**                                                                   **
+**  HU-Prolog 2.022 can be copied, modified and distributed freely   **
+**  for any non-commercial purposes under the conditions that all    **
+**  files include this header and that the message                   **
+**  "HU-Prolog public domain version" and the names of the authors   **
+**  will be displayed, when HU-Prolog is called.                     **
+**                                                                   **
+***********************************************************************
+**********************************************************************/
+
+Why do you want to read this file ??
+
+INDEX
+>0 HU-Prolog Online Help
+>381 Syntax
+>521 Copyright, Sources, Bugs, ...
+>683 Copyright
+>1368 Where can I get the sources?
+>1677 What do I do about a bug?
+>2199 Whom may I thank for this masterpiece?
+>2798 Contacting the Author
+>3358 Input and Output
+>3673 Stream Operations
+>3771 Input Operations
+>3859 Output Operations
+>3928 Screen Control
+>3970 ,/2
+>4069 :-/2
+>4260 :=/2
+>4971 Known Bugs of :=/2
+>5275 ;/2
+>5362 </2
+>5400 =../2
+>5784 =/2
+>5803 \=/2
+>5830 =:=/2
+>5870 =\=/2
+>5910 =</2
+>5949 ==/2
+>6141 \==/2
+>6209 >/2
+>6247 >=/2
+>6286 @</2
+>6313 @=/2
+>6340 @=</2
+>6368 @>/2
+>6395 @>=/2
+>6423 @\=/2
+>6451 abolish/2
+>6588 abolish/1
+>6745 abort/0
+>6777 restart/0
+>6811 abort/0 and restart/0
+>7035 abort/2
+>7307 ancestors/1
+>7474 arg/3
+>7702 argc/1
+>7920 argv/2
+>8168 ttyask/1
+>8185 ask/1
+>8483 asserta/1
+>8504 assertz/1
+>8525 assert/1
+>8805 assign/2
+>9614 atom/1
+>9666 atomic/1
+>9761 number/1
+>9858 integer/1
+>9918 real/1
+>9975 compound/1
+>10071 var/1
+>10141 nonvar/1
+>10207 ground/1
+>10292 invar/1
+>10437 list/1
+>10559 string/1
+>10754 call/1
+>10833 clause/2
+>11103 close/1
+>11288 open/1
+>11437 see/1
+>11530 seeing/1
+>11614 seen/0
+>11717 tell/1
+>11813 telling/1
+>11900 told/0
+>12003 ttycls/0
+>12020 cls/0
+>12315 ttygotoxy/2
+>12338 gotoxy/2
+>12667 consult/1
+>13054 reconsult/1
+>13182 current_atom/1
+>13430 current_predicate/1
+>13594 current_op/3
+>13989 dict/1
+>14017 sdict/1
+>14046 dict/1 and sdict/1
+>14387 !/0
+>14522 Literature
+>15009 Database Operations
+>15212 date/3
+>15307 time/3
+>15406 weekday/1
+>15551 display/1
+>15898 ttywrite/1
+>15919 write/1
+>16172 writeq/1
+>16479 echo/1
+>16783 log/1
+>17156 fileerrors/1
+>17594 end/0
+>17929 halt/0
+>17987 exit/1
+>18187 ensure/3
+>18857 Library Structure
+>19304 eof/0
+>19435 fail/0
+>19569 I really want to know what fail/0 does
+>19856 I really want to know NOW what fail/0 does
+>19958 Flags
+>20110 functor/3
+>20373 name/2
+>20670 ttyget/1
+>20687 get/1
+>20877 ttyget0/1
+>20896 get0/1
+>21157 getenv/2
+>21334 putenv/2
+>21433 help/0
+>21447 help
+>22047 hide/1
+>22309 private/1
+>22738 interrupt/0
+>22857 not/1
+>22952 \+/1
+>23194 ttyput/1
+>23211 put/1
+>23564 ttytab/1
+>23581 tab/1
+>23783 ttynl/0
+>23798 nl/0
+>23957 ->/2
+>24052 ./2
+>24068 eoln/0
+>24195 error/2
+>24681 help/1
+>24763 is/2
+>24965 listing/0
+>25031 listing/1
+>25210 spy/1
+>25228 nospy/1
+>25248 trace/0
+>25268 trace/1
+>25288 notrace/0
+>25310 occur_check/1
+>25801 op/3
+>26523 ttyread/1
+>26542 read/1
+>26738 read/2
+>27009 repeat/0
+>27530 restore/1
+>27844 retract/1
+>29495 retractall/1
+>29672 save/1
+>29988 ttyskip/1
+>30007 skip/1
+>30385 true/0
+>30556 version/0
+>30630 unget/0
+>30947 unknown/1
+>31377 seek/2
+>32065 timer/1
+>32493 system/1
+>32859 toplevel/0
+>33235 prompt/0
+>33422 window/0
+>33513 Term Handling
+>33628 Term Classification
+>33806 Term Analysis and Synthesis
+>33860 Term Comparison
+>33922 Unifiability
+>34133 Identity
+>34149 Lexicographic Order
+>34746 Analysis and Synthesis of Atoms
+>34803 warn/1
+>35444 Predefined Streams
+>35926 sys/1
+>36382 wget0/1
+>36742 isatty/1
+>36891 sysmode/1
+>37329 Control
+>37387 Global Control of System Behavior
+>37592 Programming Environment
+>37726 Module Concept of HU-Prolog
+>37784 Interface to the System Environment
+>37923 Testing Support
+>37951 System Flags and Options
+>37977 login/0
+>38008 logout/0
+>38040 Stream Concept
+>38355 Windows
+>38733 Example .prologrc File for Working with Windows
+>39212 Command Line Options
+>40282 sort/2
+>40310 sort0/2
+>40339 sort/2 and sort0/2
+>40720 exit/1 , halt/0, end/0
+>40815 Arithmetic Comparison Operators
+>41129 Flow Control
+>41205 Arithmetic and Functional Programming
+>41740 Standard Functions and Operations
+>41907 0-ary Functions
+>42405 1-ary Functions
+>43188 2-ary Functions
+>44147 Arithmetic
+>44198 login/0 and logout/0
+>44540 Global Variables and User-Defined Functions
+>45228 Debugging
+>45529 stats/0
+>45624 Properties of the Local Installation
+TEXT
+#HU-Prolog Online Help
+Online help for HU-Prolog 2.025
+(last changes: Fri Feb 19 14:00:50 GMT 1993)
+
+Note: I am aware that every line here contains at least
+      one typo. Some day that will change.
+
+@Syntax
+@Input and Output
+@Term Handling
+@Database Operations
+@Arithmetic
+@Control
+@Programming Environment
+@Copyright, Sources, Bugs, ...
+@Properties of the Local Installation
+%%
+#Syntax
+Anyone who wants to know about the syntax of HU-Prolog should
+read the HU-Prolog user manual and/or a good Prolog book.
+@Literature
+#Copyright, Sources, Bugs, ...
+@Copyright
+@Where can I get the sources?
+@What do I do about a bug?
+@Whom may I thank for this masterpiece?
+@Contacting the Author
+#Copyright
+Copyright (C) 1987-89 Christian Horn, Mirko Dziadzka, Matthias Horn
+Copyright (C) 1990-93 Mirko Dziadzka
+
+All rights to this version are held by the author.
+
+Permitted is any non-commercial use of HU-Prolog by private
+individuals, the use of HU-Prolog for non-commercial education
+and training, and the use of HU-Prolog in research. Any other
+(especially commercial) use of HU-Prolog requires the consent
+of the author.
+
+Redistribution of HU-Prolog is expressly encouraged.
+
+THE AUTHORS GIVE NO WARRANTY WHATSOEVER THAT THE PROGRAM WORKS.
+NO LEGAL CLAIMS AGAINST THE AUTHORS CAN BE DERIVED FROM THE
+PROGRAM NOT WORKING.
+
+@Contacting the Author
+@Where can I get the sources?
+#Where can I get the sources?
+
+The current sources of HU-Prolog can be found on
+
+        ftp.informatik.hu-berlin.de [141.20.20.38]
+        Login name:  anonymous
+        Password:    <your own mail address>
+
+in the directory
+
+        /pub/unix/languages/huprolog
+
+If not, contact me.
+
+@Contacting the Author
+#What do I do about a bug?
+1) This program has no bugs! It is always, without exception,
+   an optical illusion. :-))
+2) If bugs really should occur, it is the user's fault. :-)
+3) If it is not the user's fault, please let me know.
+   Since in case of doubt I will always insist on point 1)
+   or 2), a short Prolog program that reproduces the bug is
+   certainly very valuable.
+   Short means that I can understand it without having to invest
+   a week of time (it should fit on one screen page).
+
+@Contacting the Author
+#Whom may I thank for this masterpiece?
+HU-Prolog was developed at the Humboldt University of Berlin
+(hence the name :-)) From 1987 to 89 HU-Prolog had
+three fathers:
+
+    Christian Horn, Mirko Dziadzka and Matthias Horn.
+
+In 1990 (almost) the whole system was rewritten from scratch by
+Mirko Dziadzka, to make the sources understandable again and to
+document them. Based on this version, Christian Horn and Mirko
+Dziadzka (each on his own) have continued the development of
+HU-Prolog since then. At regular intervals we try to unify
+our versions.
+(the emphasis is on `try')
+
+@Contacting the Author
+#Contacting the Author
+Please send all questions, comments, bug reports, donations, ...
+to:
+
+    Mirko Dziadzka
+    Humboldt University of Berlin
+    Department of Computer Science
+    Institute for Software Engineering
+
+    email:      dziadzka@informatik.hu-berlin.de
+    Phone:      (030) 2093 2216 -- no guarantee
+
+PLEASE, if at all possible, USE EMAIL. Whether the mail
+will find me is questionable, and whether I am near a phone
+is even more questionable.
+
+@What do I do about a bug?
+@Whom may I thank for this masterpiece?
+@Where can I get the sources?
+#Input and Output
+The IO system of HU-Prolog is based on the concept
+of streams. These can be manipulated with the
+`stream operations'. The actual IO is then handled
+by the `input' and `output operations'.
+
+@Stream Concept
+@Stream Operations
+@Predefined Streams
+@Input Operations
+@Output Operations
+@Screen Control
+#Stream Operations
+@assign/2
+@open/1
+@close/1
+@see/1
+@seeing/1
+@seen/0
+@tell/1
+@telling/1
+@told/0
+#Input Operations
+@get0/1
+@get/1
+@read/1
+@read/2
+@ask/1
+@skip/1
+@eoln/0
+@eof/0
+@unget/0
+#Output Operations
+@write/1
+@writeq/1
+@display/1
+@put/1
+@nl/0
+@tab/1
+#Screen Control
+@cls/0
+@gotoxy/2
+@wget0/1
+#,/2
+','(Goal1,Goal2) :-
+        Goal1,
+        Goal2.
+,/2 is transparent with respect to !/0
+@!/0
+#:-/2
+When defining clauses, :-/2 serves as the separator between
+clause head and clause body. In HU-Prolog, :-/2 also acts
+as a predicate:
+
+':-'(X,Y) :-
+        assert((X :- Y)).
+
+@assert/1
+#:=/2
+The second argument of :=/2 is evaluated. Any global variables
+and user-defined functions that have been defined are taken
+into account.
+The result of this evaluation is assigned to the first argument
+of :=/2. If that is a Prolog variable or a number, :=/2
+behaves like is/2.
+If it is any other term, it is interpreted as a global
+variable, and the value is assigned to it.
+A term marked with the prefix operator ` is not evaluated
+but taken over unchanged.
+
+Example:
+?- status := `none.
+?- X := status.
+X = none
+?- counter(17) := 0.
+?- counter(17) := counter(17) + 1.
+?- X := counter(17).
+X = 1
+?-listing.
+counter(1,17).
+@Global Variables and User-Defined Functions
+@Arithmetic
+@is/2
+@Known Bugs of :=/2
+#Known Bugs of :=/2
+If the first argument of :=/2 is a Prolog term with
+free variables, and the result of evaluating the second
+argument also contains free variables, the result may
+be wrong. In this case a warning is generated.
+
+In general, the handling of unbound variables in :=/2
+is not quite right.
+#;/2
+    (X ; _) :- X.
+    (_ ; Y) :- Y.
+
+;/2 is transparent with respect to !/0.
+@!/0
+#</2
+:Arithmetic Comparison Operators
+#=../2
+The predicate =../2 is used for the analysis and synthesis of
+terms. The second argument is a list of the components of the
+first argument.
+
+Example:
+?- 7 =.. X.
+    X = [7].
+?- hello(world) =.. X.
+    X = [hello | world]
+?- X =.. [this, is, [a , test], Y].
+    X = this(is, [a, test], Y)
+?- X =.. [Y].
+        ERROR .....     % not sufficiently instantiated
+@functor/3
+@arg/3
+#=/2
+:Unifiability
+#\=/2
+:Unifiability
+@not/1
+#=:=/2
+:Arithmetic Comparison Operators
+#=\=/2
+:Arithmetic Comparison Operators
+#=</2
+:Arithmetic Comparison Operators
+#==/2
+==/2 checks whether its two arguments are identical terms.
+No unification is performed.
+
+Examples:
+?- a == a.
+    yes
+?- a(X) == a(X).
+    yes
+?- a(X) == a(Y).
+    no
+@\==/2
+@=/2
+@=:=/2
+#\==/2
+Definition:
+    X  \== Y :-
+        not X == Y.
+@==/2
+@not/1
+#>/2
+:Arithmetic Comparison Operators
+#>=/2
+:Arithmetic Comparison Operators
+#@</2
+:Lexicographic Order
+#@=/2
+:Lexicographic Order
+#@=</2
+:Lexicographic Order
+#@>/2
+:Lexicographic Order
+#@>=/2
+:Lexicographic Order
+#@\=/2
+:Lexicographic Order
+#abolish/2
+abolish(Name, Arity) removes all clauses of the predicate
+Name/Arity from the database.
+abolish/2 always succeeds.
+@abolish/1
+#abolish/1
+abolish(Name) removes all clauses of all predicates with the
+name ``Name'' and any arity from the database.
+abolish/1 always succeeds.
+@abolish/2
+#abort/0
+:abort/0 and restart/0
+#restart/0
+:abort/0 and restart/0
+#abort/0 and restart/0
+abort/0 raises an uncatchable error that interrupts program
+execution. The error message
+``ERROR 1: execution aborted'' is printed.
+
+restart/0 works like abort/0, but prints no error
+message.
+@abort/0
+#abort/2
+abort/2 makes it possible to raise an error caught with error/2
+after all (uncatchably). A clause of the form:
+
+        error(X,Y) :- abort(X,Y).
+
+works as if error/2 were not defined at all. The error that was
+so laboriously caught is raised after all.
+@error/2
+#ancestors/1
+ancestors/1 unifies its argument with a list of the calls
+that led from the toplevel to the current call. This allows
+a kind of after-the-fact debugging.
+#arg/3
+arg(N, Term, SubTerm) is used for the analysis and synthesis
+of terms. arg/3 unifies ``SubTerm'' with the
+``N''-th subterm of ``Term''.
+Example:
+
+?- arg( 2 , hello(first, second(Y)) , X).
+X = second(Y).
+@functor/3
+@=../2
+#argc/1
+argc/1 unifies its argument with the value of the
+parameter argc of the C function main of the Prolog system.
+Together with argv/2 this gives access to the command line
+parameters of the Prolog system.
+@argv/2
+#argv/2
+argv(Parameter, N) unifies ``Parameter'' with the ``N''-th
+parameter of the command line HU-Prolog was called with.
+Parameter zero is (as in C) the name of the program.
+
+WARNING: The order of the arguments may change
+         soon!
+@argc/1
+#ttyask/1
+:ask/1
+#ask/1
+ask(ASCII_VALUE) reads a line from the current input stream.
+Then the ASCII value of the first character of the line is
+unified with the argument of ask/1. When reading past the end
+of the file, the ASCII value -1 is used.
+
+ttyask/1 works the same way, but reads from 'stdin'
+@get/1
+@get0/1
+#asserta/1
+:assert/1
+#assertz/1
+:assert/1
+#assert/1
+asserta(Clause) adds the clause ``Clause'' to the database before
+all other clauses with the same principal functor.
+
+assertz(Clause) adds the clause ``Clause'' to the database after
+all other clauses with the same principal functor.
+
+assert(Clause) :- assertz(Clause).
+#assign/2
+assign(Stream_Name, Stream_Description) defines a new stream
+with the name ``Stream_Name''. Stream_Description can be
+one of the following:
+a) an atom
+    a1) the name of an already existing stream.
+        => the new stream is connected to the old one.
+    a2) any other atom
+        => the new stream is assigned to a file with the name
+           of the atom.
+b) a structure: window(X,Y,XL,YL,Name,PropertyList)
+    => a window is assigned to the stream.
+       It has `X' and `Y' as the coordinates of its upper left
+       corner, `XL' and `YL' as the size of the window,
+       Name as the name shown in its frame, and `PropertyList'
+       as an (implementation-specific!) list of properties
+       of this window.
+
+@Stream Operations
+@Windows
+@window/0
+@Properties of the Local Installation
+#atom/1
+atom(X) is true if its argument is an atom.
+#atomic/1
+Definition:
+
+    atomic(X) :- atom(X).
+    atomic(X) :- number(X).
+@atom/1
+@number/1
+#number/1
+Definition:
+
+    number(N) :- integer(N).
+    number(N) :- real(N).
+@real/1
+@integer/1
+#integer/1
+integer(N) is true exactly if `N' is an integer.
+#real/1
+real(R) is true exactly if `R' is a real number.
+#compound/1
+Definition:
+
+    compound(X) :- not atomic(X) , not var(X).
+@var/1
+@atomic/1
+@not/1
+#var/1
+var(X) is true exactly if its argument is an unbound
+variable.
+#nonvar/1
+Definition:
+
+    nonvar(X) :- not var(X).
+@var/1
+@not/1
+#ground/1
+ground( Term ) is true exactly if the argument contains no
+free variables.
+#invar/1
+Definition:
+    invar(X) :-
+        not ground(X).
+
+WARNING: This predicate may be removed in later
+         versions.
+@ground/1
+@not/1
+#list/1
+Definition:
+
+    list(X)  :-
+        var(X), ! fail.
+    list([]).
+    list([_|T]) :-
+        list(T).
+
+@string/1
+#string/1
+Definition:
+
+    string(X)  :-
+        var(X), ! fail.
+    string([]).
+    string([Val|T]) :-
+        (Val >= 32 , Val =< 127), % or (Val >= 0 , Val =< 255)
+        string(T).
+
+@list/1
+#call/1
+Definition:
+
+    call(X) :- X.
+
+call/1 is NOT transparent to !/0.
+@!/0
+#clause/2
+clause(Head, Body) searches the database for a clause whose
+head unifies with `Head' and whose body unifies with `Body'.
+Facts have the body `true'. The argument `Head' must be
+instantiated at least far enough to determine the principal
+functor of the clause.
+#close/1
+close(Open_Stream) closes the stream `Open_Stream'.
+If it is the current standard input and/or standard output,
+these are set to the streams `stdin' and `stdout'
+respectively.
+#open/1
+open(Stream) opens the given stream for reading and writing.
+Unlike `see/1' and `tell/1', the current input or output
+stream is not changed.
+#see/1
+see(Stream) opens the given stream for reading and makes it
+the current input stream.
+#seeing/1
+seeing(X) unifies its argument with the name of the current
+input stream.
+#seen/0
+seen closes the current input stream. Afterwards
+`stdin' becomes the new current input stream.
+#tell/1
+tell(Stream) opens the given stream for writing and makes it
+the current output stream.
+#telling/1
+telling(X) unifies its argument with the name of the current
+output stream.
+#told/0
+told closes the current output stream. Afterwards `stdout'
+becomes the current output stream.
+
+#ttycls/0
+:cls/0
+#cls/0
+cls/0 clears the screen / the window that represents the current
+output stream. If that is not a screen or window, the result
+is undefined. (Expect the escape sequence for clearing the
+screen to be written to the current output stream.)
+
+ttycls/0 works like cls/0, but always on 'stdout'
+#ttygotoxy/2
+:gotoxy/2
+#gotoxy/2
+gotoxy(X,Y) positions the cursor on the screen / in the window
+that represents the current output stream. If that is not a
+screen or window, the result is undefined.
+(Expect the escape sequence for cursor positioning to be
+written to the current output stream.)
+
+ttygotoxy/2 works like gotoxy/2, but always on 'stdout'
+#consult/1
+consult(Stream) opens the given stream and reads it in.
+Clauses defined in the stream are added to the database
+with assertz/1.
+
+If the atom `end/0' is read or the predicate `end/0' is
+executed, reading of the stream stops early.
+
+As an abbreviation, list notation is allowed.
+    [ F ] :- consult(F).
+    [ F1 , F2 | T ] :- consult(F1) , [ F2 | T ].
+
+@assertz/1
+@reconsult/1
+#reconsult/1
+reconsult/1 works like consult/1, but all clauses to be
+redefined are first removed from the database.
+@consult/1
+
+#current_atom/1
+A call current_atom(Name / Arity) unifies Name and Arity with the
+name and arity of an atom known to the interpreter.
+On backtracking the predicate returns all atoms currently
+known to the system.
+@current_op/3
+@current_predicate/1
+#current_predicate/1
+current_predicate(Name/Arity) unifies its argument on backtracking
+with all predicates known to the interpreter.
+@current_atom/1
+@current_op/3
+#current_op/3
+A call current_op(V,A,N) unifies V, A and N with the precedence,
+the associativity and the name of an operator known to the system.
+New solutions are generated on backtracking.
+The following program lists all operators known to the
+interpreter.
+
+    list_op     :-
+        current_op(V,A,N),
+        write((?-op(V,A,N)),nl,
+        fail.
+@op/3
+@current_atom/1
+@current_predicate/1
+#dict/1
+:dict/1 and sdict/1
+#sdict/1
+:dict/1 and sdict/1
+#dict/1 and sdict/1
+sdict(X) unifies its argument with the list of all atoms
+predefined by the system, dict/1 with the list of all
+user-defined atoms.
+
+These predicates exist only for historical reasons and should
+no longer be used. Alternatives are current_atom/1,
+current_predicate/1 and sys/1.
+@current_atom/1
+@current_predicate/1
+@sys/1
+#!/0
+If you don't know what the cut does in Prolog, this online
+help is too short for you. I recommend a good Prolog book.
+@Literature
+#Literature
+When in doubt, first read the HU-Prolog user manual.
+If you don't have it, please request it from the author.
+
+The standard introductory book is still
+
+    Clocksin/Mellish: Programming in Prolog, Springer Verlag 81
+
+Of the more advanced books, I like:
+
+Tore Amble: Logic Programming and Knowledge Engineering
+            Addison Wesley 87
+
+Unfortunately I cannot list all the other 365 Prolog books
+here. (Many of them really aren't worth it either.)
+@Contacting the Author
+#Database Operations
+The following predicates affect the contents of the
+Prolog database.
+@assert/1
+@asserta/1
+@assertz/1
+@retract/1
+@retractall/1
+@abolish/1
+@abolish/2
+@consult/1
+@reconsult/1
+@clause/2
+#date/3
+date(Day, Month, Year) unifies its arguments with the
+current date.
+@time/3
+@weekday/1
+#time/3
+time(Hour, Minute, Second) unifies its arguments with
+the current time.
+@date/3
+@weekday/1
+#weekday/1
+weekday(Day) unifies its argument with the number of the current
+day of the week. [ Monday == 1 , ... , Sunday == 7 ]
+@time/3
+@date/3
+#display/1
+display(Term) writes its argument to the current output stream.
+The term is ALWAYS written in normal form, that is, without
+taking operator declarations into account.
+That is not very readable for the user, but it is for the
+Prolog system. A term written with display/1 should always
+be readable with read/1.
+@read/1
+@write/1
+@writeq/1
+#ttywrite/1
+:write/1
+#write/1
+write(Term) writes its argument to the current output stream.
+The operator declarations currently in effect are used to
+make the output as readable as possible.
+
+ttywrite/1 works the same way, but always writes to 'stdout'
+@writeq/1
+@display/1
+#writeq/1
+writeq(Term) writes its argument to the current output stream.
+Atoms are enclosed in quotes where necessary. Unlike with
+write/1, they can therefore always be read back in. Unlike
+display/1, however, writeq/1 uses the current operator
+declarations to make the output readable.
+@write/1
+@display/1
+#echo/1
+echo( on )  switches echo mode on.
+echo( off ) switches echo mode off.
+echo( X )   unifies its argument with `on' or `off', depending
+            on whether echo mode is currently on or off.
+
+Echo mode means that EVERY character read by the Prolog system
+is echoed to the standard output.
+@log/1
+#log/1
+log( on )  switches log mode on.
+log( off ) switches log mode off.
+log( X )   unifies its argument with `on' or `off', depending
+            on whether log mode is currently on or off.
+
+Log mode means that ALL input and output of the interpreter is
+recorded in a log file. This file must be specified when the
+Prolog system is started.
+@echo/1
+@Command Line Options
+#fileerrors/1
+fileerrors( on )        switches this mode on.
+fileerrors( off )       switches this mode off.
+fileerrors( X )         unifies its argument with `on' or `off'
+                        depending on whether the mode is on or
+                        off.
+
+If fileerror mode is on, the stream handling predicates
+(open/1, close/1, ....) raise an error when they do not
+succeed.
+
+If the mode is off, they only cause backtracking.
+#end/0
+end tells the interpreter that the current toplevel should be
+terminated once the current computation has finished.
+
+The following count as toplevels:
+- the built-in interactive toplevel
+- a user-defined toplevel defined via toplevel/0
+- a consult/1 that is currently running
+@toplevel/0
+@consult/1
+@reconsult/1
+@halt/0
+@exit/1
+#halt/0
+halt terminates the Prolog system.
+@end/0
+@exit/1
+#exit/1
+exit(N) terminates the Prolog system. N must be an integer.
+This number is the return value of the whole Prolog system.
+(the argument of the C function exit() that ends Prolog)
+@halt/0
+@end/0
+#ensure/3
+HU-Prolog implements a simple library concept.
+ensure(Lib, Name, Arity) loads the predicate `Name/Arity' from
+the library `Lib'. The following rules apply:
+- If the predicate is already defined or has already been
+  successfully(!) loaded from a library once, ensure/3
+  succeeds without further action.
+- If the predicate is not contained in the library,
+  ensure/3 fails.
+- In every other case the predicate is loaded from the
+  library.
+
+Undefined predicates can be loaded automatically with
+unknown/1.
+
+In the current implementation, predicates loaded with ensure
+are not shown by listing/0. That may change again.
+@Library Structure
+@unknown/1
+@listing/0
+#Library Structure
+A library currently consists of a directory in the file system
+of the operating system. Under UNIX a call of the form
+    ensure('/usr/local/lib/huprolog/',member,1)
+causes the file '/usr/local/lib/huprolog/member.1' to be
+taken as the definition of the predicate member/1. This file
+is loaded with consult/1 when needed. It is only a
+convention, not a requirement, that this file actually
+contains the corresponding predicate.
+#eof/0
+eof is true if the end of file of the current input stream
+has been reached.
+@read/1
+@get/1
+@get0/1
+@ask/1
+@skip/1
+@unget/0
+#fail/0
+
+Now is really a good time to read a proper introductory
+book on Prolog.
+
+@Literature
+@I really want to know what fail/0 does
+#I really want to know what fail/0 does
+
+PLEASE READ A GOOD PROLOG BOOK !!!
+
+The predicate fail/0 is so elementary that everyone who has
+ever read a Prolog book knows it. This online help is not
+meant as introductory literature.
+
+
+@Literature
+@I really want to know NOW what fail/0 does
+#I really want to know NOW what fail/0 does
+
+All right.
+
+    fail/0 causes backtracking.
+
+@Literature
+#Flags
+There are numerous flags that control how HU-Prolog runs.
+They are set with the following predicates.
+@log/1
+@trace/1
+@warn/1
+@echo/1
+@sysmode/1
+#functor/3
+functor(Term,Name,Arity) decomposes the term given as the first
+argument into the name ``Name'' and the arity
+``Arity'' of its principal functor.
+
+Example:
+
+?- functor(hello(world),X,Y).
+X = hello
+Y = 1
+?- functor(X,f,3).
+X = f(V1,V2,V3)
+@arg/3
+@=../2
+#name/2
+name(Atom, String) decomposes atoms into the characters that
+represent the name of the atom, and vice versa.
+
+Example:
+
+?- name(hello,X).
+X = ""hello""
+?- name(17,X).
+X = ""17""        % so it works with numbers too.
+?- name(X, ""17"").
+X = '17'        % THE ATOM '17', NOT THE NUMBER 17.
+#ttyget/1
+:get/1
+#get/1
+get(ASCII) :-
+    repeat,
+        get0(Value),
+    (Value == -1 ; Value > 32 , Value < 128),
+    !,
+    ASCII = Value.
+
+ttyget/1 works like get, but reads from 'stdin'
+@get0/1
+@ask/1
+#ttyget0/1
+:get0/1
+#get0/1
+get0(ASCII) reads a character from the current input stream and
+unifies the ASCII value of that character with the argument of
+get0/1. At the end of the file the ASCII value -1 is used.
+
+ttyget0/1 works like get0/1, but reads from 'stdin'
+@ask/1
+@get/1
+#getenv/2
+getenv(Value, Name) reads the environment variable `Name' and
+unifies `Value' with its value.
+
+WARNING: The order of the arguments may change
+         soon!
+@putenv/2
+#putenv/2
+putenv(Name, Value) sets the environment variable `Name'
+to the value `Value'.
+@getenv/2
+#help/0
+:help
+#help
+help calls this online help. The top line shows the name of
+the current topic.
+After a help text (like this one) has been printed, the
+references reachable from this help text are listed
+(see below).
+
+Then a number or a command is expected.
+- the number 0 exits the help system
+- any other number goes to the correspondingly numbered
+  reference
+- the string `..' goes to the previous item; if there is
+  none, the help system is exited.
+- the string `.' shows the current help text again.
+- any other string is taken as a new topic, which is
+  displayed (if it exists).
+@HU-Prolog Online Help
+#hide/1
+This predicate expects an atom or a list of atoms as its argument.
+hide/1 marks the end of the scope of these atoms. The given atoms
+that were visible so far get a new name, and the atoms previously
+hidden with private/1 become visible again.
+@private/1
+#private/1
+The predicate private/1 expects either an atom or a list of atoms
+as its argument. These atoms are declared local. As in classical
+programming languages, a new declaration level is created.
+These declaration levels can be nested. If an atom with one of
+these names is now created (this always happens in read/1 and
+name/2), it is different from the atoms of the same name created
+before the call to private/1.
+@hide/1
+#interrupt/0
+If the predicate interrupt/0 is defined by the user, it is
+called every time the signal SIGINT is raised.
+#not/1
+
+Definition:
+
+    not(X) :- call(X) , ! , fail.
+    not(_).
+
+@call/1
+@!/0
+@fail/0
+@\+/1
+#\+/1
+
+Definition:
+
+    \+(X) :- call(X) , ! , fail.
+    \+(_).
+
+This predicate is equivalent to not/1 and exists in HU-Prolog
+only because some strange Prolog dialects and the emerging
+standard want it that way.
+
+@call/1
+@!/0
+@fail/0
+@not/1
+#ttyput/1
+:put/1
+#put/1
+put(N) expects as its argument either a number or a list of
+numbers. Each number is interpreted as an ASCII value, and the
+corresponding character is written to the current output
+stream.
+
+ttyput/1 works the same way, but always writes to 'stdout'
+
+Example:
+
+?- put(65).
+A
+yes
+?- put(""hello""). % ""hello"" = [104, 101, 108, 108, 111]
+hello
+yes
+#ttytab/1
+:tab/1
+#tab/1
+Definition:
+
+    tab(N) :- N =< 0,!.
+    tab(N) :-
+        put(32),        % a space
+        N1 is N -1,
+        tab(N1).
+
+ttytab/1 works the same way, but always writes to 'stdout'
+@put/1
+@is/2
+#ttynl/0
+:nl/0
+#nl/0
+nl writes the end-of-line marker(s) to the current
+output stream.
+
+nl :-
+    put(""\n"").
+
+ttynl/0 works like nl/0, but always writes to 'stdout'
+@put/1
+#->/2
+
+Definition:
+
+        :- op( 1050 , xfy , '->').
+        ( P -> Q ) :- P , ! , Q.
+
+@op/3
+#./2
+:consult/1
+#eoln/0
+
+eoln/0 is true if the next character of the current input
+stream is the end of line, or if eof/0 becomes true.
+@eof/0
+#error/2
+
+Most error messages that terminate the running program
+can be caught. The exceptions are error messages about
+memory problems of the interpreter.
+
+If clauses named error/2 are defined in the database, the
+predicate error/2 is called when an error occurs. As its
+first argument it receives the call in which the error
+occurred, as its second the error number.
+If error/2 succeeds, execution then continues normally.
+Otherwise backtracking is triggered.
+@interrupt/0
+@unknown/1
+#help/1
+help/1 calls this online help with the topic given as its
+argument.
+:help
+#is/2
+
+    Result is Expression
+
+evaluates the arithmetic expression `Expression' and unifies
+the result of this evaluation with `Result'.
+Example:
+
+    ?- X is 17 + 4.
+    X = 21.
+    yes
+
+@Arithmetic
+#listing/0
+Shows the contents of the Prolog database.
+
+@listing/1
+#listing/1
+listing( Predicate ) shows the definition of the given
+predicate. Note that predicates loaded via ensure/3 or in
+the .prologrc file are not shown.
+@ensure/3
+@listing/0
+#spy/1
+:Debugging
+#nospy/1
+:Debugging
+#trace/0
+:Debugging
+#trace/1
+:Debugging
+#notrace/0
+:Debugging
+#occur_check/1
+occur_check/1 controls the state of the occur check flag
+
+The occur check tests, when a variable X is bound to a term T,
+whether the variable X occurs in T. By the definition of
+unification, X and T are not unifiable in that case. Since this
+test is relatively time-consuming, it is usually not performed.
+
+        ?- occur_check(on).
+        ?- X = a(X).
+        no
+        ?- occur_check(off).
+        ?- X = a(X).
+        X = a(a(a(a(a(a( ...... ))))).
+        yes
+
+@Flags
+#op/3
+op/3 makes one or more new operators known to the interpreter.
+In a call `op(P , A , O )', P is the priority, A the
+associativity and O the name, or a list of names, of the
+operators to be defined.
+
+Numbers in the range 1 - 1200 (2000) are allowed for P. A higher
+priority *separates* more strongly (it does not bind more strongly).
+If 0 is given as the priority, the operator declaration is
+removed.
+
+The values `xf' and `yf' are allowed for A for postfix operators,
+`fx' and `fy' for prefix operators, and `xfx', `xfy' and `yfx'
+for infix operators.
+
+The operators currently defined in the system can be obtained
+with `current_op/3'.
+
+For the purpose of operators, consult a Prolog book.
+@current_op/3
+@Literature
+#ttyread/1
+:read/1
+#read/1
+read(X) reads a term from the current input stream and
+unifies it with `X'. At the end of the file the term `end'
+is returned.
+
+ttyread/1 works like read/1, but reads from 'stdin'
+@read/2
+#read/2
+read(Term, VarList) works like read/1, but additionally
+returns a list of the external variable names in the
+second argument.
+
+Example:
+        ?- read(Term,VarList).
+        hello(A).
+        Term = hello(_31)
+        VarList = [ 'A' = _31 ]
+        yes
+@read/1
+#repeat/0
+repeat/0 always succeeds (also on backtracking) and is thus
+used to implement infinite loops.
+
+Definition:
+
+        repeat.
+        repeat :- repeat.
+
+WARNING: Since HU-Prolog does no tail recursion optimization,
+         repeat/0 is implemented differently internally.
+         A user-defined predicate of the form:
+
+             r.
+             r :- r.
+
+         is semantically equivalent to repeat/0, but can
+         (e.g. in `` ?- r, fail. '') lead to memory
+         problems.
+
+@Literature
+@Flow Control
+#restore/1
+restore loads memory dumps created with save/1.
+For this the Prolog system is restarted.
+
+Definition:
+
+        restore(Dump_File_Name) :-
+                argv(PROLOG,0),
+                system([PROLOG,'-r',Dump_File_Name]),
+                halt.
+
+@argv/2
+@system/1
+@halt/0
+@Command Line Options
+@save/1
+#retract/1
+retract/1 removes the clause given as its argument from the
+database. The argument must at least determine the name and
+the arity of the clause head.
+On backtracking further clauses are removed -- but see the
+WARNING below for an important restriction when the argument
+is given explicitly as ``(Head :- Body)''.
+Example (argument as a bare head, without ``:-''):
+
+Let the database contain:
+        b(1).
+        b(2).
+        b(3).
+Then:
+        ?- retract(b(X)).
+        X = 1 ;
+        X = 2 ;
+        X = 3 ;
+        no
+
+WARNING: If the argument is given explicitly as
+         ``(Head :- Body)'', retract/1 can ONLY match
+         clauses with a real body (that is, rules), never
+         facts -- regardless of backtracking. Internally a
+         fact is stored without a body (not with the body
+         `true'), and retract/1 then compares only the bare
+         head, not ``Head :- true''. (clause/2 hides this
+         difference from its users and returns Body=true
+         for facts -- retract/1 does not.)
+         Example:
+
+         Let the database contain:
+                 a(1) :- fail.
+                 a(2).
+         Then:
+                 ?- retract(( a(X) :- Y )).
+                 X = 1
+                 Y = fail
+                 no          % a(2) is NOT found,
+                              % although it should match!
+
+         Workaround: either give the argument without ``:-''
+         (then it matches both facts and rules, see the
+         b/1 example above), or search separately for facts
+         (bare head) and rules (``Head :- Body'') as needed.
+@retractall/1
+@abolish/1
+@abolish/2
+@Database Operations
+#retractall/1
+Definition:
+        retractall( X ) :-
+            retract( X ),
+            fail.
+        retractall( _ ).
+
+@retract/1
+@abolish/1
+@abolish/2
+@Database Operations
+#save/1
+save(Filename) saves the current contents of the database
+in the file named `Filename'.
+This memory dump can later be loaded with restore/1, or
+directly when starting the Prolog system.
+
+On UNIX systems this memory dump is self-starting, that is,
+it can be run as a program.
+@restore/1
+@Command Line Options
+#ttyskip/1
+:skip/1
+#skip/1
+The argument of skip/1 must be an arithmetic expression that
+evaluates to an integer value.
+skip/1 reads characters from the current input stream until
+the ASCII value of a character read is unifiable with the value
+of the argument of skip/1, or the end of the file is reached.
+
+ttyskip/1 works the same way, but always reads from 'stdin'
+@ask/1
+@get0/1
+@get/1
+@unget/0
+#true/0
+Heh, this is *THE* Prolog predicate.
+
+Definition:
+
+        true.
+
+But that was obvious, wasn't it?
+If not, I recommend an introductory book on Prolog!
+@Literature
+#version/0
+version/0 shows the version number and some other
+information.
+#unget/0
+unget puts the last character read back into the current
+input stream. Only one character can be put back at a
+time.
+
+Usage:
+Skip all spaces in the current input stream:
+
+        skip_spaces :- repeat, get0(CH) , [CH] \= "" "", unget.
+
+The non-space character read is put back into the current
+input stream.
+#unknown/1
+If the predicate unknown/1 has been defined by the user, it
+is called whenever the Prolog system finds no clauses for a
+call that is about to be executed.
+
+unknown/1 receives the current call as its argument. This
+makes intelligent error handling possible, such as
+loading predicates dynamically.
+
+Example:
+
+        unknown(X) :-
+            load_unknown_predicate(X),
+            call(X).    % call X again
+
+@ensure/3
+#seek/2
+seek(File , Position) changes the position of the
+read/write pointer in the given file.
+
+The first argument of seek/2 must be the name of an already
+opened regular file (that is, not a window or a
+screen).
+
+If the second argument of seek/2 is a variable, it is
+unified with the current position of the read/write
+pointer.
+If the second argument is the atom end/0, the read/write
+pointer is positioned at the end of the file.
+If the second argument is a non-negative number, the
+read/write pointer is positioned relative to the start of the file.
+If the second argument is a negative number, the
+read/write pointer is positioned relative to the end of the file.
+@Stream Operations
+#timer/1
+timer/1 sets and queries a running timer. It measures the
+time used by the system in hundredths of a second.
+
+If the argument of timer/1 is a number, the timer is set
+to that value.
+
+If the argument of timer/1 is a variable, it is unified
+with the current value of the timer.
+
+Example:
+
+ :- timer(0), test, timer(N),
+    write('The call of test took '), write(N),
+    write('/100 seconds').
+
+@time/3
+@date/3
+@weekday/1
+#system/1
+system/1 calls another program.
+
+The argument of system/1 must be a list of atoms. These
+are put together into a call of an external program and
+passed to the C function system().
+
+Example:
+
+ :-system([ls,'-la']).
+
+calls the program 'ls' with the argument '-la'.
+
+BUG:
+        At the moment the same can be achieved with
+            :- system(['ls -la']).
+#toplevel/0
+HU-Prolog has a built-in toplevel, which
+
+1) prints a prompt (""?- "")
+2) reads a term
+3) calls this term
+4) prints the resulting variable bindings, and
+   asks the user whether more solutions are wanted.
+
+Since one sometimes wants to do something else, there is the
+predicate toplevel/0. If it is defined, it is called
+instead of the built-in toplevel.
+@prompt/0
+#prompt/0
+If the predicate prompt/0 is defined, it is called by the
+built-in toplevel. The prompt ""?- "" is then not
+printed.
+
+Example:
+
+    prompt :- put(""hello you> "").
+
+@toplevel/0
+#window/0
+window/0 is true exactly if the window system can be
+used.
+@Command Line Options
+#Term Handling
+@Term Classification
+@Term Analysis and Synthesis
+@Term Comparison
+@Analysis and Synthesis of Atoms
+#Term Classification
+The following predicates are used to classify
+terms.
+@atom/1
+@integer/1
+@real/1
+@number/1
+@atomic/1
+@var/1
+@nonvar/1
+@ground/1
+@compound/1
+@list/1
+@string/1
+#Term Analysis and Synthesis
+@=../2
+@functor/3
+@arg/3
+#Term Comparison
+@Unifiability
+@Identity
+@Lexicographic Order
+#Unifiability
+The predicate =/2 is true exactly if the two terms given as
+arguments are unifiable.
+
+The predicate \=/2 is its negation.
+
+Definition:
+
+        X = X.
+
+        X \= Y :-
+                not X = Y.
+#Identity
+:==/2
+#Lexicographic Order
+The predicates @</2, @=</2, @>/2, @>=/2, @=/2 and @\=/2 compare
+two terms by their lexicographic order. It is defined as
+follows:
+
+- Variables are smaller than all other terms and equal to each other
+- Numbers are smaller than all other non-variable terms and
+  are ordered among themselves by their numeric value
+- Structured terms are ordered by their principal functors and,
+  if these are equal, by their arguments according to their
+  lexicographic order.
+
+For example:
+
+        X @= Y          X @< 1          1 @< 2.5
+        a @< b          a(1) @< b       a @< a(1)
+
+#Analysis and Synthesis of Atoms
+@name/2
+@current_atom/1
+#warn/1
+warn/1 controls the warnings generated by the system.
+The following values are allowed as arguments of warn/1:
+1) the atom 'on' : all warnings are switched on.
+2) the atom 'off': all warnings are switched off
+3) a list of the atoms: 'op' , 'retract' , 'consult'
+   'listing', 'spy' and/or 'read'. This switches on the
+   warnings generated by the corresponding predicates.
+   All warnings not given in the list are switched
+   off.
+4) a variable: it is unified with the list of currently
+   active warnings.
+
+All warnings are written to the stream 'stdwarn'.
+@op/3
+@retract/1
+@consult/1
+@listing/1
+@spy/1
+@read/1
+@Predefined Streams
+#Predefined Streams
+HU-Prolog knows the following predefined streams:
+
+stdin : the standard input of the interpreter
+stdout: the standard output of the interpreter
+stderr: the standard error output of the interpreter. All
+        errors are reported here.
+stdwarn: normally the standard output of the interpreter.
+        All warnings are reported here.
+stdhelp: normally the standard output of the interpreter.
+        The dialog of the predicate help/0 takes place
+        here.
+
+#sys/1
+
+sys( Name / Arity ) is true exactly if the atom denoted by
+Name/Arity is defined as a 'system atom'. This means that
+any modification of predicates with this atom as their
+principal functor is normally forbidden.
+
+More precisely, changes are only allowed in 'system mode'.
+This is in effect while the 'system file' given by the
+command line option '-s' (or by default the file named
+.prologrc) is being processed.
+
+@sysmode/1
+@Command Line Options
+#wget0/1
+
+The predicate wget0/1 reads a character from the current input
+stream and unifies its ASCII value with the argument of wget0/1.
+(So identical to get0/1)
+
+The difference from get0/1 is the behavior of wget0/1 when
+the current input stream is a window.
+Input then happens without echo and without
+waiting for the end-of-line marker.
+
+@get0/1
+@window/0
+#isatty/1
+
+This predicate may be thrown out again !!
+
+isatty/1 is true if the output stream given as its argument
+is the screen (or another device).
+#sysmode/1
+
+sysmode(X) sets (with 'on' or 'off') the value of the
+'sysmode flag', or queries it (if the argument is a
+variable).
+
+The sysmode flag is normally active while the system file
+given by the command line option '-s' is being processed.
+Afterwards it is set to 'off'.
+
+This flag controls whether built-in predicates can be
+modified.
+
+That should not be done without a deeper understanding
+of Prolog.
+@sys/1
+@Command Line Options
+#Control
+@Flow Control
+@Global Control of System Behavior
+#Global Control of System Behavior
+@login/0
+@logout/0
+@toplevel/0
+@prompt/0
+@exit/1 , halt/0, end/0
+@abort/0 and restart/0
+@interrupt/0
+@error/2
+@abort/2
+@unknown/1
+@ancestors/1
+@sys/1
+@dict/1 and sdict/1
+#Programming Environment
+@Module Concept of HU-Prolog
+@Interface to the System Environment
+@Testing Support
+@System Flags and Options
+#Module Concept of HU-Prolog
+@private/1
+@hide/1
+@ensure/3
+#Interface to the System Environment
+@date/3
+@time/3
+@weekday/1
+@timer/1
+@getenv/2
+@putenv/2
+@system/1
+@argc/1
+@argv/2
+@stats/0
+@version/0
+#Testing Support
+:Debugging
+#System Flags and Options
+#login/0
+:login/0 and logout/0
+#logout/0
+:login/0 and logout/0
+#Stream Concept
+At any time HU-Prolog has exactly one current input stream
+and one current output stream. Streams as logical objects
+can be assigned to files, to the standard streams of the
+interpreter, or to windows.
+
+The assignment of a stream to a physical object is done with
+the predicate assign/2.
+
+@assign/2
+#Windows
+Working with windows is implementation-specific.
+
+It is important that the HU-Prolog system must be started with
+the special command line option '-x' to make working with
+windows possible at all. Furthermore, windows should be
+assigned to the standard streams with 'assign/2'.
+
+@Command Line Options
+@window/0
+@assign/2
+@Example .prologrc File for Working with Windows
+#Example .prologrc File for Working with Windows
+
+Assuming a 25 * 80 screen:
+
+?- window,
+    assign(tracewin,window(1,18,109,21,' Trace ',[])),
+    assign(errwin ,window(10,10,80,20,' Error ',[])),
+    assign(stdwin, window(1,2,109,15,' HU-Prolog ',[])),
+    assign(stdhelp,window(1,28,109,12,' HU-Prolog Help ',[])),
+    assign(stdtrace,tracewin),
+    assign(stderr,errwin),
+    assign(stdin, stdwin),
+    assign(stdout,stdwin)
+  ;true.
+
+@window/0
+@assign/2
+@Predefined Streams
+#Command Line Options
+HU-Prolog knows the following options:
+
+-[dD] :            not meant for the user. This option
+                   switches the debug flag on ($debug/1)
+-[lL] <filename> : sets the name of the log file. When the
+                   log flag is on, all input and output of
+                   the interpreter is recorded in this file.
+                   -l leaves the log flag 'off',
+                   -L switches it 'on'
+-[wW] :            switches the warn flag 'on'
+-[vV] :            -v suppresses some output of the
+                   interpreter. This allows HU-Prolog to
+                   be used as a filter in a pipe in
+                   principle.
+-[oO] :            switches the occur_check flag 'on'
+-[xX] :            enables working with windows
+-[sS] <filename> : sets the name of the system file. If not
+                   given, '.prologrc' or '~/.prologrc' is
+                   used. -S also prevents loading the
+                   global prologrc file.
+
+-[rR] <filename> : loads a memory dump created with save/1
+@Windows
+@Flags
+#sort/2
+:sort/2 and sort0/2
+#sort0/2
+:sort/2 and sort0/2
+#sort/2 and sort0/2
+
+These predicates sort a list of terms given as the first
+argument and unify the result with the second
+argument.
+Sorting is done according to the relation @</2
+
+Unlike sort/2, sort0/2 removes all duplicate
+entries.
+
+Example:
+
+?- sort(""abccba"",X).
+X = ""aabbcc""
+?- sort0(""abccbd"",X).
+X = ""abcd""
+
+WARNING: These predicates may be removed some day.
+
+@@</2
+#exit/1 , halt/0, end/0
+
+These predicates terminate the Prolog system.
+
+@halt/0
+@end/0
+@exit/1
+#Arithmetic Comparison Operators
+The predicates </2, =</2 , =:=/2 , =\=/2 , >=/2 and >/2
+first evaluate their arguments (using :=/2).
+The results of this evaluation must be numeric values.
+These are then compared and (depending on the result of the
+comparison) cause the predicate to succeed or
+fail.
+
+@is/2
+@:=/2
+#Flow Control
+@repeat/0
+@,/2
+@;/2
+@true/0
+@fail/0
+@->/2
+@call/1
+@not/1
+@!/0
+#Arithmetic and Functional Programming
+The arithmetic usual in Prolog has been generalized in
+HU-Prolog in several directions.
+- the operators known from C have been adopted, as far as
+  they are compatible with the basic concepts of Prolog.
+- the standard functions of the C math library have been
+  adopted.
+- functional evaluation of predicates and the use of
+  global, structured variables are supported.
+
+@Standard Functions and Operations
+@Global Variables and User-Defined Functions
+@is/2
+@:=/2
+@Arithmetic Comparison Operators
+#Standard Functions and Operations
+Any necessary conversion of the argument from int to real
+happens automatically.
+@0-ary Functions
+@1-ary Functions
+@2-ary Functions
+#0-ary Functions
+Name     | Type | Meaning
+---------+------+--------------------------------------------
+maxint   | int  | largest integer
+minint   |      | smallest integer
+---------+------+-------------------------------------------
+e        | real | 2.718281828...
+pi       |      | 3.1415.....
+---------+------+-------------------------------------------
+maxarity | int  | maximum functor arity
+maxdepth | int  | maximum recursion depth when processing terms
+
+@1-ary Functions
+@2-ary Functions
+#1-ary Functions
+Name      | Type         |  Meaning
+----------+--------------+---------------------------------
+-x        | int -> int   |  arithmetic negation
+          | real -> real |
+----------+--------------+---------------------------------
+/x        | int -> int   |  logical negation
+~x        |              |  bitwise negation
+----------+--------------+---------------------------------
+real(x)   | int -> real  |  type conversion
+----------+--------------+---------------------------------
+entier(x) | real -> int  |
+
+In addition there are the following 1-ary functions of type
+real -> real from the standard C library, adopted into
+HU-Prolog with the same meaning:
+
+exp, ln, log10, sqrt, sin, cos, tan, asin, acos, atan,
+floor and ceil
+@0-ary Functions
+@2-ary Functions
+#2-ary Functions
+Name    |    Type           | Meaning
+--------+-------------------+------------------------------
+B << N  | int*int -> int    | bitwise shift
+B >> N  |                   |
+A && B  |                   | logical conjunction
+A \\ B  |                   | logical disjunction (|| in C)
+A & B   |                   | bitwise conjunction
+A \ B   |                   | bitwise disjunction (| in C)
+--------+-------------------+------------------------------
+B ** E  | real*int -> real  | power function
+--------+-------------------+------------------------------
+A + B   | int*int -> int    |
+A - B   | real*real -> real |
+A * B   |                   |
+--------+-------------------+------------------------------
+A / B   | real*real -> real | real division
+--------+-------------------+------------------------------
+A // B  | int*int -> int    | integer division
+A mod B |                   | modulo (in C: A % B)
+@0-ary Functions
+@1-ary Functions
+#Arithmetic
+:Arithmetic and Functional Programming
+#login/0 and logout/0
+The predicates login/0 and logout/0 can be defined by the
+user, to be executed exactly once each.
+
+Before HU-Prolog switches to interactive mode, the
+predicate login/0 is executed exactly once.
+
+After HU-Prolog leaves interactive mode, the
+predicate logout/0 is executed exactly once.
+@Global Control of System Behavior
+#Global Variables and User-Defined Functions
+Global variables and user-defined functions are an
+extension of HU-Prolog that does not exist in this form in
+other dialects, but could be defined there.
+
+An (N+1)-ary predicate is treated as an N-ary
+function. The first argument of the predicate
+represents the result.
+
+Example:
+
+        fac(1 , 0).
+        fac(R , N) :-
+                N1 := N -1 ,
+                R := N * fac(N1).
+        ?- X := fac(10).
+        X = 3628800
+
+If the evaluation of the predicate fails, the calling term
+becomes the result of the evaluation:
+
+        X := hello(world).
+        WARNING: no clause for relation hello/2
+        X = hello(world).
+@:=/2
+@is/2
+#Debugging
+trace/1 switches trace mode for all predicates on or off,
+depending on its argument, or queries it.
+spy(P) and nospy(P) switch trace mode on or off selectively
+for the given predicate.
+
+trace :- trace(on).
+notrace :- trace(off).
+
+For more information please read the HU-Prolog user
+manual.
+#stats/0
+stats/0 gives statistics on the current use of the
+various memory areas of HU-Prolog.
+#Properties of the Local Installation
+
+Please look at the file '/usr/local/lib/huprolog/prologrc'.
+
+To prevent this file from being loaded, use the -S
+option when starting the system.
+@unknown/1
+@Command Line Options
+@ensure/3
+
+% --- end of file ---
