@@ -25,6 +25,11 @@
 - =../2 mit einelementiger Liste (X =.. [E]) meldet ARGE, wenn E
   kein Atom und keine Zahl ist.
 
+- OpenFile: sind alle Eintraege der Dateitabelle belegt, liefert
+  OpenFile ERRFILE; open/1, see/1 und tell/1 melden dann TOMANY.
+  Bisher schrieb OpenFile hinter das Ende von file_tab und der
+  Interpreter stuerzte ab.
+
 - DOCONSULT: tritt beim Lesen der Datei ein ERROR() auf (z.B. EOFE
   bei einer Datei, die mitten in einer Klausel endet), schlaegt
   consult/1 selbst mit diesem Fehler fehl.

@@ -94,7 +94,8 @@ GLOBAL file OpenFile(TERM filename, fmode mode)
     }
     /* file not open */
     for(f=FIRSTFILE;f <= LASTFILE && FNAME(f) != NIL_TERM; f++)
-    if(f > LASTFILE) 
+        ;
+    if(f > LASTFILE)
         return ERRFILE;
     if(isatom(filename)) /* an ordinary file */
     { 

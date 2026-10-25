@@ -43,6 +43,31 @@
    check_eq(open_does_not_change_current_output, After2, Before2).
 :- close('/tmp/hu_stream_test.pl').
 
+% --- too many open streams ---
+% The file table holds MAXFILES (Sources/files.h) streams. Opening one
+% more raises error 40 (TOMANY in Sources/types.h).
+codes_append([], L, L).
+codes_append([H|T], L, [H|R]) :- codes_append(T, L, R).
+
+many_file(N, F) :-
+    name(N, Digits),
+    codes_append("/tmp/hu_many_", Digits, Base),
+    codes_append(Base, ".pl", Codes),
+    name(F, Codes).
+
+open_many(N, Max) :- N > Max, !.
+open_many(N, Max) :-
+    many_file(N, F), open(F),
+    N1 is N + 1, open_many(N1, Max).
+
+close_many(N, Max) :- N > Max, !.
+close_many(N, Max) :-
+    many_file(N, F), ( close(F) -> true ; true ),
+    N1 is N + 1, close_many(N1, Max).
+
+:- check_error(open_too_many_streams_raises_error, open_many(1, 25), 40),
+   close_many(1, 25).
+
 % --- write known content, then read it back with see/1 + get0/1 +
 % read/1. This is the risky part: it must be the last thing in the
 % file, chained with summary/halt in one directive. ---
