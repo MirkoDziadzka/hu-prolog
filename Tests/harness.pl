@@ -71,6 +71,18 @@ collect_all(Goal, Template, List) :-
         '$drain_collected'(Rest), List = [X|Rest]
     ; List = [] ).
 
+% output_of(Goal, Text) -- Text is what Goal writes to the current
+% output, as a code list. Goal's output must not contain '"' or '\'.
+% '$harness_output' is read back via consult/1, so it can't be private.
+output_of(Goal, Text) :-
+    tell('/tmp/hu_output_of.pl'),
+    write(':- assertz(''$harness_output''("'),
+    call(Goal),
+    write('")).'), nl,
+    told,
+    consult('/tmp/hu_output_of.pl'),
+    retract('$harness_output'(Text)).
+
 summary :-
     P := test_pass_count, F := test_fail_count,
     write('SUMMARY passed='), write(P), write(' failed='), write(F), nl.

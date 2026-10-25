@@ -3,6 +3,24 @@
 
 :- consult('harness.pl').
 
+% Help sort/2:
+%   These predicates sort a list of terms given as the first
+%   argument and unify the result with the second
+%   argument.
+%   Sorting is done according to the relation @</2
+%
+%   Unlike sort/2, sort0/2 removes all duplicate
+%   entries.
+%
+%   Example:
+%
+%   ?- sort("abccba",X).
+%   X = "aabbcc"
+%   ?- sort0("abccbd",X).
+%   X = "abcd"
+%
+%   WARNING: These predicates may be removed some day.
+
 :- sort("abccba", X), check_eq(sort_manual_example, X, "aabbcc").
 :- sort0("abccbd", X), check_eq(sort0_manual_example_corrected, X, "abcd").
 :- sort([3,1,2], X), check_eq(sort_numbers, X, [1,2,3]).
