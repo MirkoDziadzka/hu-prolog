@@ -22,10 +22,9 @@
 - arg/3 meldet ARGE jetzt mit ERROR() statt ABORT(); der Fehler kann
   also mit error/2 abgefangen werden.
 
-- DOCONSULT: SYSPROCE (Klausel fuer ein Systempraedikat ausserhalb von
-  sysmode) wird jetzt mit ERROR() statt ABORT() gemeldet. consult/1
-  schlaegt dann fehl und setzt ERRORFLAG zurueck; das Programm laeuft
-  normal weiter.
+- DOCONSULT: tritt beim Lesen der Datei ein ERROR() auf (z.B. EOFE
+  bei einer Datei, die mitten in einer Klausel endet), schlaegt
+  consult/1 selbst mit diesem Fehler fehl.
 
 - help.txt korrigiert: Argumentreihenfolge von arg/3 ist
   arg(N, Term, SubTerm); Beispiel zu sort0/2; bei retract/1 eine

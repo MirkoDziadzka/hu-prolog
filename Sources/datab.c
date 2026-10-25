@@ -622,12 +622,6 @@ GLOBAL boolean DOCONSULT(TERM FILENAME, boolean reconsult, boolean library)
 
     if(CATCH_ERROR())
     {
-	/* an ERROR() raised while reading/asserting this file landed
-	** here instead of propagating to the caller's own catch point
-	** -- clear it so a stale ERRORFLAG doesn't falsely trip the
-	** next unrelated CATCH_ERROR() check, and report that this
-	** consult didn't finish */
-	ERRORFLAG = NOERROR;
 	res = false;
 	goto reset_error_label;
     }
@@ -678,7 +672,7 @@ GLOBAL boolean DOCONSULT(TERM FILENAME, boolean reconsult, boolean library)
             if(A  == ARROW_2) 
                 A=nameof(son(X));
             if((is_system(A) && !aSYSMODE) || class(A) != NORMP)
-                ERROR(SYSPROCE);
+                ABORT(SYSPROCE);
             A = copyatom(A);
             if(reconsult && !rc(A))
             { 
