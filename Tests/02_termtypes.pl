@@ -22,7 +22,7 @@
 :- check(number_pos_real, number(1.0)).
 :- check_not(number_neg_atom, number(foo)).
 
-% --- atomic/1 := atom or number ---
+% --- atomic/1 ---
 :- check(atomic_atom, atomic(foo)).
 :- check(atomic_int, atomic(1)).
 :- check(atomic_real, atomic(1.0)).
@@ -36,7 +36,7 @@
 :- check(nonvar_pos_bound, (X = 1, nonvar(X))).
 :- check_not(nonvar_neg_unbound, nonvar(_)).
 
-% --- compound/1 := not atomic, not var ---
+% --- compound/1 ---
 :- check(compound_pos, compound(foo(1))).
 :- check(compound_pos_list, compound([1,2])).
 :- check_not(compound_neg_atom, compound(foo)).
@@ -55,7 +55,7 @@
 :- check_not(list_neg_atom, list(foo)).
 :- check_not(list_neg_open, list([1|_])).
 
-% --- string/1 := list of char codes in [0..255] ---
+% --- string/1 ---
 :- check(string_pos_empty, string([])).
 :- check(string_pos_charlist, string("hello")).
 :- check_not(string_neg_atom, string(foo)).

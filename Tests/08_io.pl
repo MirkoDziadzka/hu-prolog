@@ -1,10 +1,8 @@
 % Output predicates: write/1, writeq/1, display/1, put/1, tab/1, nl/0.
 % Reference: Help/help.txt Ausgabeoperationen.
 %
-% write/writeq/display are verified via a safe tell+consult roundtrip
-% (see harness.pl / 06_control.pl for why raw see/seen is unsafe
-% mid-consult: it corrupts the outer consult's notion of "current
-% input stream" and silently truncates the rest of the file).
+% write/writeq/display are checked via a tell + consult roundtrip;
+% see/seen inside a consulted file truncates it (see 13_streams.pl).
 
 :- consult('harness.pl').
 
@@ -24,21 +22,16 @@ roundtrip(Goal, Term, Result) :-
 :- roundtrip(write, 1+2, R), check_eq(write_operator_roundtrips, R, 1+2).
 :- roundtrip(write, [1,2,3], R), check_eq(write_list_roundtrips, R, [1,2,3]).
 
-% --- writeq/1 : like write/1 but quotes atoms that need it, so the
-% output is always readable back to an identical term (manual claim) ---
+% --- writeq/1 ---
 :- roundtrip(writeq, 'needs quoting', R), check_eq(writeq_quoted_atom_roundtrips, R, 'needs quoting').
 :- roundtrip(writeq, 'it''s', R), check_eq(writeq_embedded_quote_roundtrips, R, 'it''s').
 :- roundtrip(writeq, foo(bar,'A B'), R), check_eq(writeq_mixed_roundtrips, R, foo(bar,'A B')).
 
-% --- display/1 : always fully-bracketed functor notation, ignores ops ---
+% --- display/1 ---
 :- roundtrip(display, a+b*c, R), check_eq(display_ignores_user_readability, R, a+b*c).
 
-% --- put/1, tab/1, nl/0 : these write raw bytes to the current output
-% stream and have no return value to assert on, so they're exercised
-% as smoke tests (must succeed without erroring). The raw bytes are
-% redirected to a scratch file via tell/told -- IMPORTANT: told must
-% run (restoring stdout) BEFORE any check/check_eq call, since those
-% write their PASS/FAIL line to whatever the current output stream is.
+% --- put/1, tab/1, nl/0 (output goes to a scratch file; told must
+% run before the next check, which writes to the current output) ---
 :- tell('/tmp/hu_put_smoke.pl'),
    ( put(65)   -> S1 = ok ; S1 = failed ),
    ( put("hi") -> S2 = ok ; S2 = failed ),

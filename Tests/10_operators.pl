@@ -5,8 +5,7 @@
 :- consult('harness.pl').
 
 % --- display/1 shows the fully-bracketed functor form (manual examples) ---
-% verified via the safe consult-roundtrip trick (tell + consult; raw
-% see/seen is unsafe mid-consult, see harness.pl / 06_control.pl).
+% (via tell + consult roundtrip, see 08_io.pl)
 roundtrip_display(Term, Result) :-
     tell('/tmp/hu_display_rt.pl'),
     write(':- assertz(''$disp_result''('),
@@ -17,18 +16,13 @@ roundtrip_display(Term, Result) :-
     consult('/tmp/hu_display_rt.pl'),
     retract('$disp_result'(Result)).
 
-% manual example: display(a + b * c) => +(a, *(b, c))
 :- roundtrip_display(a + b * c, R), check_eq(display_precedence_example1, R, '+'(a, '*'(b,c))).
-% manual example: display(a - b - c) => -(-(a, b), c)   [left-assoc yfx]
 :- roundtrip_display(a - b - c, R), check_eq(display_leftassoc_example, R, '-'('-'(a,b),c)).
-% manual example: display([a,b,c]) => .(a, .(b, .(c, [])))
 :- roundtrip_display([a,b,c], R), check_eq(display_list_example, R, '.'(a,'.'(b,'.'(c,[])))).
 
-% --- current_op/3 reports standard operators (section 5.1 table) ---
-% NOTE: the manual's table lists ":-" as "1200 xfy". Empirically this
-% build has BOTH current_op(1200, fx, ':-') (the directive/prefix
-% form, not mentioned in the table at all) and current_op(1200, xfx,
-% ':-') (the rule separator) -- xfx, not xfy as documented.
+% --- current_op/3 ---
+% The manual's operator table lists ':-' as 1200 xfy; this build has
+% 1200 fx and 1200 xfx.
 :- check(current_op_finds_rule_arrow, current_op(1200, xfx, ':-')).
 :- check(current_op_finds_directive_prefix, current_op(1200, fx, ':-')).
 :- check(current_op_finds_comma, current_op(1000, xfy, ',')).
@@ -43,8 +37,6 @@ roundtrip_display(Term, Result) :-
 :- X = (anton likes beer), check_eq(custom_op_parses, X, likes(anton,beer)).
 :- roundtrip_display(anton likes beer, R), check_eq(custom_op_display, R, likes(anton,beer)).
 
-% manual example (op/3 section): defining "von"/"und"/"ist" to parse a
-% small knowledge-representation sentence.
 :- op(100, xfx, von), op(50, xfy, und), op(700, xfx, ist).
 :- X = (heidi ist schwester von karl und anna),
    check_eq(custom_op_sentence_example, X, ist(heidi, von(schwester, und(karl,anna)))).

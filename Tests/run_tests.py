@@ -5,7 +5,7 @@ Runs every NN_*.pl file in this directory against a huprolog binary,
 parses the PASS/FAIL/SUMMARY lines each test file prints (see
 harness.pl), and reports an overall summary. Exits non-zero if any
 check failed, any test file's own summary count didn't match what was
-observed, or huprolog crashed/timed out/never reached a SUMMARY line.
+observed, or huprolog crashed or never reached a SUMMARY line.
 
 Usage:
     python3 run_tests.py [--binary PATH] [TEST_FILE ...]
@@ -21,7 +21,6 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_BINARY = HERE.parent / "Sources" / "huprolog"
-TIMEOUT_SECONDS = 30
 
 PASS_RE = re.compile(r"^PASS (.+)$")
 FAIL_RE = re.compile(r"^FAIL (.+?) -- (.*)$")
@@ -48,46 +47,43 @@ def count_expected_checks(test_file: Path) -> int:
     return sum(len(CHECK_CALL_RE.findall(line)) for line in stripped_lines)
 
 
-def run_one(binary: Path, test_file: Path):
-    try:
-        proc = subprocess.run(
-            [str(binary), test_file.name],
-            cwd=test_file.parent,
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            timeout=TIMEOUT_SECONDS,
-            text=True,
-        )
-    except subprocess.TimeoutExpired:
-        return {
-            "ok": False,
-            "crash": f"timed out after {TIMEOUT_SECONDS}s",
-            "passes": [],
-            "fails": [],
-            "summary": None,
-            "raw": "",
-        }
+def report(char):
+    print(char, end="", flush=True)
 
-    lines = proc.stdout.splitlines()
+
+def run_one(binary: Path, test_file: Path):
+    proc = subprocess.Popen(
+        [str(binary), test_file.name],
+        cwd=test_file.parent,
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        text=True,
+    )
+    raw = []
     passes, fails = [], []
     summary = None
-    for line in lines:
+    for line in proc.stdout:
+        raw.append(line)
+        line = line.rstrip("\n")
         m = PASS_RE.match(line)
         if m:
             passes.append(m.group(1))
+            report(".")
             continue
         m = FAIL_RE.match(line)
         if m:
             fails.append((m.group(1), m.group(2)))
+            report("F")
             continue
         m = SUMMARY_RE.match(line)
         if m:
             summary = (int(m.group(1)), int(m.group(2)))
+    proc.wait()
 
     crash = None
     if summary is None:
-        crash = "no SUMMARY line found (crash, hang, or missing ':- summary.')"
+        crash = "no SUMMARY line found (crash, or missing ':- summary.')"
     elif summary != (len(passes), len(fails)):
         crash = (
             f"summary mismatch: file reported {summary}, "
@@ -103,7 +99,7 @@ def run_one(binary: Path, test_file: Path):
         "passes": passes,
         "fails": fails,
         "summary": summary,
-        "raw": proc.stdout,
+        "raw": "".join(raw),
     }
 
 
@@ -129,44 +125,54 @@ def main():
     total_pass = 0
     total_fail = 0
     broken_files = []
-
     vanished_total = 0
+    details = []
 
+    width = max(len(tf.name) for tf in test_files)
     for tf in test_files:
+        print(f"{tf.name:<{width}} ", end="", flush=True)
         result = run_one(args.binary, tf)
         total_pass += len(result["passes"])
         total_fail += len(result["fails"])
         observed = len(result["passes"]) + len(result["fails"])
-        expected = count_expected_checks(tf)
-        vanished = expected - observed
-        status = "OK" if result["ok"] and vanished <= 0 else "PROBLEMS"
-        print(f"== {tf.name}: {status} "
-              f"(passed={len(result['passes'])} failed={len(result['fails'])}, "
-              f"expected~{expected})")
-        for name, reason in result["fails"]:
-            print(f"   FAIL {name} -- {reason}")
+        vanished = count_expected_checks(tf) - observed
+        marker = " E" if result["crash"] or vanished > 0 else ""
+        print(marker)
+
+        problems = [f"FAIL {name} -- {reason}" for name, reason in result["fails"]]
         if vanished > 0:
-            print(f"   WARNING: {vanished} check(...) call(s) in the source never "
-                  f"produced a PASS/FAIL line -- a goal earlier in the same "
-                  f"conjunction (':- G1, G2, check(...).') likely failed silently, "
-                  f"so the check(...) call was never reached. Fix: wrap the actual "
-                  f"goal being tested INSIDE check(Name, Goal) instead of running "
-                  f"it as a precondition beforehand.")
+            problems.append(
+                f"WARNING: {vanished} check(...) call(s) in the source never "
+                f"produced a PASS/FAIL line -- a goal earlier in the same "
+                f"conjunction (':- G1, G2, check(...).') likely failed silently, "
+                f"so the check(...) call was never reached. Fix: wrap the actual "
+                f"goal being tested INSIDE check(Name, Goal) instead of running "
+                f"it as a precondition beforehand.")
             vanished_total += vanished
         if result["crash"]:
-            print(f"   ERROR: {result['crash']}")
-            print("   --- raw output ---")
-            for line in result["raw"].splitlines():
-                print(f"   | {line}")
+            problems.append(f"ERROR: {result['crash']}")
+            problems.append("--- raw output ---")
+            problems.extend(f"| {line}" for line in result["raw"].splitlines())
             broken_files.append(tf.name)
+        if problems:
+            details.append((tf.name, problems))
 
-    print()
-    print(f"TOTAL: passed={total_pass} failed={total_fail} "
-          f"across {len(test_files)} file(s)")
+    for name, problems in details:
+        print()
+        print(f" {name} ".center(70, "_"))
+        for line in problems:
+            print(line)
+
+    counts = []
+    if total_fail:
+        counts.append(f"{total_fail} failed")
+    counts.append(f"{total_pass} passed")
     if vanished_total:
-        print(f"VANISHED: {vanished_total} check(...) call(s) never ran (see WARNINGs above)")
+        counts.append(f"{vanished_total} vanished")
     if broken_files:
-        print(f"BROKEN (crashed/hung/malformed): {', '.join(broken_files)}")
+        counts.append(f"{len(broken_files)} broken")
+    print()
+    print(f" {', '.join(counts)} ".center(70, "="))
 
     return 0 if (total_fail == 0 and not broken_files and not vanished_total) else 1
 

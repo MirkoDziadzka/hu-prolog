@@ -18,7 +18,7 @@
 :- X is -5, check_eq(is_unary_minus, X, -5).
 :- X is -(3+2), check_eq(is_unary_minus_expr, X, -5).
 
-% --- bitwise / logical (section: 2-stellige Funktionen) ---
+% --- bitwise / logical ---
 :- X is 1 << 4, check_eq(is_shift_left, X, 16).
 :- X is 256 >> 4, check_eq(is_shift_right, X, 16).
 :- X is 6 & 3, check_eq(is_bitand, X, 2).
@@ -57,13 +57,10 @@
 :- check(numeq_int_real, 2 =:= 2.0).
 :- check(numneq_true, 1 =\= 2).
 :- check_not(numneq_false, 2 =\= 2.0).
-% comparisons evaluate expressions on both sides (per manual)
 :- check(cmp_evaluates_both_sides, 2+2 =:= 1+3).
 
-% NOTE: the manual's "user-defined functions in arithmetic" extension
-% (e.g. "X := fac(10)") is specific to :=/2 -- is/2 does NOT support
-% calling user predicates as functions (raises UNDEFFUNCE / error 31).
-% See 11_globalvars.pl for the := version of this example.
+% is/2 does not call user-defined functions; :=/2 does, see
+% 11_globalvars.pl.
 :- check_error(is_rejects_user_function, (_ is undefined_user_func(1)), 31).
 
 % --- division/mod by zero (error 14) ---

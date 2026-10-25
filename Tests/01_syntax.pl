@@ -13,7 +13,6 @@
 :- check_eq(atom_quoted_equals_unquoted, foo, 'foo').
 :- check_not(atom_quoted_case_sensitive, ('Foo' == foo)).
 
-% quoted atom escapes ('' inside a quoted atom = one literal quote)
 :- name(A, [105,116,39,115]), check_eq(atom_escape_quote_vs_name, A, 'it''s').
 
 % --- numbers ---
@@ -37,7 +36,7 @@
 :- L = [a|[b|[c|[]]]], check_eq(list_cons_build, L, [a,b,c]).
 :- check(list_open_list_unifies, [1,2|_] = [1,2,3]).
 
-% --- strings (= lists of ASCII character codes) ---
+% --- strings ---
 :- check_eq(string_is_code_list, "abc", [97, 98, 99]).
 :- check_eq(string_empty_is_nil, "", []).
 

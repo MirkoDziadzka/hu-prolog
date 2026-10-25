@@ -16,9 +16,7 @@
 :- check(identical_atoms, a == a).
 :- check(identical_bound_vars, (X = 1, Y = 1, X == Y)).
 :- check_not(identical_unbound_vars_differ, (var(X), var(Y), X == Y)).
-% manual example: a(X) == a(X) is true (same term, shared variable)
 :- check(identical_same_shared_var, (T1 = a(X), T2 = a(X), T1 == T2)).
-% manual example: a(X) == a(Y) is false (different, unbound variables)
 :- check_not(identical_different_vars, a(X) == a(Y)).
 :- check(notidentical_pos, a \== b).
 :- check_not(notidentical_neg, a \== a).
@@ -26,9 +24,6 @@
 :- check(identity_does_not_unify, (var(X), var(Y), \+(X == Y), var(X), var(Y))).
 
 % --- lexicographic ordering: @</2 @=</2 @>/2 @>=/2 @=/2 @\=/2 ---
-% manual examples:
-%   X @= Y          X @< 1          1 @< 2.5
-%   a @< b          a(1) @< b       a @< a(1)
 :- check(order_var_eq_var, (var(X), var(Y), X @= Y)).
 :- check(order_var_lt_number, (var(X), X @< 1)).
 :- check(order_int_lt_real, 1 @< 2.5).

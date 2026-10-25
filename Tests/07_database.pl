@@ -16,22 +16,12 @@
 :- retract(fact1(z)), collect_all(fact1(X), X, L), check_eq(retract_removes_one, L, [a,b]).
 :- check_not(retract_fails_if_absent, retract(fact1(nonexistent))).
 
-% retract/1 DOES correctly backtrack through multiple matches when
-% given a bare head pattern (standard Clocksin-Mellish/ISO behavior,
-% and exactly what retractall/1 relies on -- it's bootstrap-defined in
-% Sources/datab.c as literally "retractall(X) :- retract(X), fail.").
 db_b(1). db_b(2). db_b(3).
 :- collect_all(retract(db_b(X)), X, L), check_eq(retract_backtracks_bare_pattern, L, [1,2,3]).
 
-% BUT: an explicit "(Head :- Body)" pattern can only ever match RULE
-% clauses, never FACTS -- regardless of backtracking. Root cause
-% (Sources/datab.c, GenTerm): a fact's body is stored internally as
-% the NIL_TERM sentinel, and GenTerm (retract/1's matcher) returns the
-% bare Head for that case -- it never synthesizes "Head :- true" the
-% way clause/2's DOCLAUSE does (see clause_fact_body_is_true below).
-% So "(Head :- Body)" structurally can't unify with a fact's bare-head
-% GenTerm result. This is a real, narrow implementation bug, not just
-% a doc issue -- see Help/help.txt's retract/1 entry for the writeup.
+% retract((Head :- Body)) never matches a fact: GenTerm
+% (Sources/datab.c) yields a fact as its bare head. See
+% Help/help.txt retract/1.
 db_a(1) :- fail.
 db_a(2).
 :- collect_all(retract((db_a(X) :- Y)), X-Y, L),
