@@ -22,6 +22,9 @@
 - arg/3 meldet ARGE jetzt mit ERROR() statt ABORT(); der Fehler kann
   also mit error/2 abgefangen werden.
 
+- =../2 mit einelementiger Liste (X =.. [E]) meldet ARGE, wenn E
+  kein Atom und keine Zahl ist.
+
 - DOCONSULT: tritt beim Lesen der Datei ein ERROR() auf (z.B. EOFE
   bei einer Datei, die mitten in einer Klausel endet), schlaegt
   consult/1 selbst mit diesem Fehler fehl.

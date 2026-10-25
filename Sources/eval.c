@@ -480,8 +480,13 @@ LOCAL boolean DOUNIV(void)
             T=arg2(T);
         if(name(T) != NIL_0 || ar < 0) 
             ARGERROR();
-        if(ar==0) 
-            return UNI(A0,son(A1));
+        if(ar==0)
+        {
+            T=arg1(A1);
+            if(!isatom(T) && !is_number(name(T)))
+                ARGERROR();
+            return UNI(A0,T);
+        }
         T=arg1(A1);
         CHECKATOM(T);
         Y=mkfunc(LOOKATOM(name(T),ar,true),(X = stackvar(ar)));
